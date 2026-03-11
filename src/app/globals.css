@@ -145,6 +145,22 @@ pre {
   background: var(--color-cell-bg);
 }
 
+/* ─── Tab Bar ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .tab-bar {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .tab-bar > div,
+  .tab-bar > button {
+    flex-shrink: 0 !important;
+  }
+}
+
 /* ─── Profile Dashboard Grid ─────────────────────────────────────────────── */
 .profile-dashboard {
   display: grid;
@@ -261,7 +277,8 @@ pre {
 }
 
 .detail-meta-label {
-  width: 110px;
+  width: 80px;
+  min-width: 80px;
   text-align: right;
 }
 
@@ -289,7 +306,8 @@ pre {
     border-bottom: 1px solid var(--color-gridline-heavy);
   }
   .detail-meta-label {
-    width: 90px;
+    width: 70px;
+    min-width: 70px;
   }
   .detail-nav-label {
     max-width: 140px;
@@ -317,8 +335,9 @@ pre {
     grid-template-columns: 1fr 1fr;
   }
   .detail-meta-label {
-    width: 80px;
-    font-size: 10px;
+    width: 60px;
+    min-width: 60px;
+    font-size: 9px;
   }
   .detail-nav-label {
     max-width: 100px;
@@ -337,7 +356,9 @@ pre {
     grid-template-columns: 1fr;
   }
   .detail-meta-label {
-    width: 70px;
+    width: 50px;
+    min-width: 50px;
+    font-size: 9px;
   }
   .detail-nav-label {
     display: none;

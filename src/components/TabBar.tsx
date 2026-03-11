@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import clsx from 'clsx';
 import { List, Map } from 'lucide-react';
 import type { ViewMode } from '@/components/ArchiveTab';
 
@@ -77,40 +76,48 @@ export default function TabBar({
     }
   };
 
+  // Fixed tabs (profile, archive) vs detail tabs
+  const fixedTabs = tabs.filter((t) => !t.closable);
+  const detailTabs = tabs.filter((t) => t.closable);
+
   return (
     <nav
       ref={navRef}
-      className="flex w-full bg-cell-hover"
+      className="tab-bar"
       style={{
+        display: 'flex',
+        width: '100%',
         height: 'var(--size-tab-height)',
+        minHeight: 'var(--size-tab-height)',
+        backgroundColor: 'var(--color-cell-hover)',
         borderBottom: '1px solid var(--color-gridline-heavy)',
+        overflow: 'hidden',
       }}
     >
-      {tabs.map((tab) => {
+      {/* Fixed tabs — never shrink */}
+      {fixedTabs.map((tab) => {
         const isActive = tab.id === activeTab;
         const isArchive = tab.id === 'archive';
 
         return (
           <div
             key={tab.id}
-            style={{ position: 'relative' }}
+            style={{ position: 'relative', flexShrink: 0 }}
             onMouseEnter={isArchive ? openDropdown : undefined}
             onMouseLeave={isArchive ? closeDropdown : undefined}
           >
             <button
-              draggable={tab.closable}
-              onDragStart={(e) => handleDragStart(e, tab)}
-              onDragEnd={(e) => handleDragEnd(e, tab)}
               onClick={() => onTabClick(tab.id)}
-              className={clsx(
-                'relative flex items-center gap-1.5 px-4',
-                'cursor-pointer select-none',
-                'transition-colors duration-100'
-              )}
               style={{
+                all: 'unset',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '0 16px',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '11px',
-                fontWeight: 500,
+                fontWeight: isActive ? 600 : 500,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 height: 'var(--size-tab-height)',
@@ -127,36 +134,11 @@ export default function TabBar({
                 borderBottom: isActive
                   ? '1px solid var(--color-cell-bg)'
                   : '1px solid var(--color-gridline-heavy)',
-                borderLeft: 'none',
-                borderRadius: 0,
-                outline: 'none',
+                whiteSpace: 'nowrap',
+                boxSizing: 'border-box',
               }}
             >
-              <span>{tab.label}</span>
-              {tab.closable && onTabClose && (
-                <span
-                  role="button"
-                  tabIndex={0}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onTabClose(tab.id);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.stopPropagation();
-                      onTabClose(tab.id);
-                    }
-                  }}
-                  className="ml-1 hover:text-dark-blue"
-                  style={{
-                    fontSize: '14px',
-                    lineHeight: 1,
-                    opacity: 0.6,
-                  }}
-                >
-                  &times;
-                </span>
-              )}
+              {tab.label}
             </button>
 
             {/* Archive view mode dropdown */}
@@ -239,6 +221,103 @@ export default function TabBar({
           </div>
         );
       })}
+
+      {/* Detail tabs — dynamic, shrink to fit */}
+      {detailTabs.length > 0 && (
+        <div
+          style={{
+            display: 'flex',
+            flex: 1,
+            minWidth: 0,
+            overflow: 'hidden',
+          }}
+        >
+          {detailTabs.map((tab) => {
+            const isActive = tab.id === activeTab;
+
+            return (
+              <button
+                key={tab.id}
+                draggable
+                onDragStart={(e) => handleDragStart(e, tab)}
+                onDragEnd={(e) => handleDragEnd(e, tab)}
+                onClick={() => onTabClick(tab.id)}
+                style={{
+                  all: 'unset',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '0 12px',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: isActive ? '11px' : '10px',
+                  fontWeight: isActive ? 600 : 400,
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  height: 'var(--size-tab-height)',
+                  backgroundColor: isActive
+                    ? 'var(--color-cell-bg)'
+                    : 'var(--color-cell-hover)',
+                  color: isActive
+                    ? 'var(--color-dark-blue)'
+                    : 'var(--color-primary-blue)',
+                  borderTop: isActive
+                    ? '2px solid var(--color-primary-blue)'
+                    : '2px solid transparent',
+                  borderRight: '1px solid var(--color-gridline)',
+                  borderBottom: isActive
+                    ? '1px solid var(--color-cell-bg)'
+                    : '1px solid var(--color-gridline-heavy)',
+                  // Active tab gets more space, inactive ones shrink
+                  flex: isActive ? '0 1 auto' : '0 1 140px',
+                  maxWidth: isActive ? '220px' : '140px',
+                  minWidth: isActive ? '100px' : '60px',
+                  overflow: 'hidden',
+                  boxSizing: 'border-box',
+                  transition: 'flex 0.08s linear, max-width 0.08s linear',
+                }}
+              >
+                <span
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    flex: 1,
+                    minWidth: 0,
+                  }}
+                >
+                  {tab.label}
+                </span>
+                {onTabClose && (
+                  <span
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onTabClose(tab.id);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.stopPropagation();
+                        onTabClose(tab.id);
+                      }
+                    }}
+                    style={{
+                      fontSize: '14px',
+                      lineHeight: 1,
+                      opacity: isActive ? 0.6 : 0.3,
+                      flexShrink: 0,
+                      transition: 'opacity 0.1s ease',
+                    }}
+                  >
+                    &times;
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </nav>
   );
 }

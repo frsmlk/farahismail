@@ -274,12 +274,9 @@ export default function DetailTab({
           {[
             { label: 'CLIENT', value: entry.client },
             { label: 'LOCATION', value: entry.location },
-            {
-              label: 'COLLABORATORS',
-              value: entry.collaborators?.join(', '),
-            },
+            { label: 'COLLAB', value: entry.collaborators?.join(', ') },
             { label: 'TOOLS', value: entry.tools?.join(', ') },
-            { label: 'ORGANIZATION', value: entry.organization },
+            { label: 'ORG', value: entry.organization },
             { label: 'ROLE', value: entry.role },
             { label: 'STATUS', value: entry.status?.toUpperCase() },
           ].map((field) => (
@@ -287,21 +284,24 @@ export default function DetailTab({
               key={field.label}
               style={{
                 display: 'flex',
-                padding: '6px 16px',
+                alignItems: 'baseline',
+                padding: '5px 12px',
                 borderBottom: '1px solid var(--color-gridline)',
-                gap: '12px',
+                gap: '10px',
+                minHeight: '28px',
               }}
             >
               <div
                 className="detail-meta-label"
                 style={{
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
+                  fontSize: '10px',
                   letterSpacing: '0.06em',
                   textTransform: 'uppercase',
                   color: 'var(--color-primary-blue)',
                   opacity: 0.5,
                   flexShrink: 0,
+                  textAlign: 'right',
                 }}
               >
                 {field.label}
@@ -309,8 +309,13 @@ export default function DetailTab({
               <div
                 style={{
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '13px',
+                  fontSize: '12px',
                   color: 'var(--color-dark-blue)',
+                  flex: 1,
+                  minWidth: 0,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {field.value ?? '—'}
