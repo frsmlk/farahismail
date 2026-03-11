@@ -17,7 +17,7 @@ export const tokens = {
   },
   fonts: {
     mono: "'IBM Plex Mono', monospace",
-    serif: "'Playfair Display', Georgia, serif",
+    serif: "'Aguzzo', Georgia, serif",
   },
   sizes: {
     cellHeight: '40px',

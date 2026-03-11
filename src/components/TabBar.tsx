@@ -91,7 +91,7 @@ export default function TabBar({
         minHeight: 'var(--size-tab-height)',
         backgroundColor: 'var(--color-cell-hover)',
         borderBottom: '1px solid var(--color-gridline-heavy)',
-        overflow: 'hidden',
+        overflow: 'visible',
       }}
     >
       {/* Fixed tabs — never shrink */}

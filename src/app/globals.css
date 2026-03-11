@@ -2,9 +2,25 @@
 @import "@fontsource/ibm-plex-mono/400.css";
 @import "@fontsource/ibm-plex-mono/500.css";
 @import "@fontsource/ibm-plex-mono/600.css";
-@import "@fontsource/playfair-display/400.css";
-@import "@fontsource/playfair-display/600.css";
-@import "@fontsource/playfair-display/700.css";
+
+/* ─── Aguzzo Variable Font ──────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Aguzzo';
+  src: url('/fonts/AguzzoVF-TRIAL.woff2') format('woff2'),
+       url('/fonts/AguzzoVF-TRIAL.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aguzzo';
+  src: url('/fonts/AguzzoItalicVF-TRIAL.woff2') format('woff2'),
+       url('/fonts/AguzzoItalicVF-TRIAL.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
 
 /* ─── Design Token Custom Properties ─────────────────────────────────────── */
 :root {
@@ -24,7 +40,7 @@
   --color-grid-border: #1e3a5f;
 
   --font-mono: "IBM Plex Mono", monospace;
-  --font-serif: "Playfair Display", Georgia, serif;
+  --font-serif: "Aguzzo", Georgia, serif;
 
   --size-cell-height: 40px;
   --size-cell-padding: 8px 12px;
@@ -51,7 +67,7 @@
   --color-grid-border: #1e3a5f;
 
   --font-mono: "IBM Plex Mono", monospace;
-  --font-serif: "Playfair Display", Georgia, serif;
+  --font-serif: "Aguzzo", Georgia, serif;
   --font-sans: "IBM Plex Mono", monospace;
 }
 
