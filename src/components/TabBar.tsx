@@ -162,6 +162,7 @@ export default function TabBar({
             {/* Archive view mode dropdown */}
             {isArchive && onArchiveViewModeChange && (
               <div
+                className="archive-view-dropdown"
                 onMouseEnter={openDropdown}
                 onMouseLeave={closeDropdown}
                 style={{

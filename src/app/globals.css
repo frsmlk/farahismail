@@ -190,6 +190,21 @@ pre {
   .panel-inquiry {
     grid-column: 1 / -1;
   }
+
+  /* Compact profile panels on mobile */
+  .panel-identity { order: 1; }
+  .panel-statement { order: 2; }
+  .panel-stats { order: 3; }
+  .panel-disciplines { order: 4; }
+  .panel-recent { order: 5; }
+  .panel-activity { order: 6; }
+  .panel-contact { order: 7; }
+  .panel-inquiry { order: 8; }
+
+  /* Hide archive map view dropdown on mobile */
+  .archive-view-dropdown {
+    display: none !important;
+  }
 }
 
 /* ─── Practice Bar Animation ─────────────────────────────────────────────── */

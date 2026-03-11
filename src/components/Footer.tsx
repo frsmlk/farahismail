@@ -15,8 +15,9 @@ export default function Footer({
     <footer
       className="flex w-full items-center justify-between px-4 bg-cell-bg text-primary-blue"
       style={{
-        height: '28px',
-        minHeight: '28px',
+        height: 'calc(28px + env(safe-area-inset-bottom, 0px))',
+        minHeight: 'calc(28px + env(safe-area-inset-bottom, 0px))',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
         borderTop: '1px solid var(--color-gridline-heavy)',
         fontFamily: 'var(--font-mono)',
         fontSize: '11px',
