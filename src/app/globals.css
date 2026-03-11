@@ -1,26 +1,384 @@
 @import "tailwindcss";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/ibm-plex-mono/600.css";
+@import "@fontsource/playfair-display/400.css";
+@import "@fontsource/playfair-display/600.css";
+@import "@fontsource/playfair-display/700.css";
 
+/* ─── Design Token Custom Properties ─────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-primary-blue: #2c5f8a;
+  --color-dark-blue: #132744;
+  --color-mid-blue: #1e3a5f;
+  --color-light-blue: #4a8ab5;
+  --color-lighter-blue: #7bb3d4;
+  --color-faint-blue: #a8d4ef;
+  --color-ghost-blue: #d4eaf5;
+  --color-background: #f5f0e8;
+  --color-cell-bg: #faf7f2;
+  --color-cell-hover: #eee9df;
+  --color-cell-active: #e3ddd1;
+  --color-gridline: rgba(44, 95, 138, 0.2);
+  --color-gridline-heavy: rgba(44, 95, 138, 0.4);
+  --color-grid-border: #1e3a5f;
+
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-serif: "Playfair Display", Georgia, serif;
+
+  --size-cell-height: 40px;
+  --size-cell-padding: 8px 12px;
+  --size-header-height: 56px;
+  --size-tab-height: 36px;
+  --size-row-number-width: 48px;
 }
 
+/* ─── Tailwind v4 Theme Extension ─────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary-blue: #2c5f8a;
+  --color-dark-blue: #132744;
+  --color-mid-blue: #1e3a5f;
+  --color-light-blue: #4a8ab5;
+  --color-lighter-blue: #7bb3d4;
+  --color-faint-blue: #a8d4ef;
+  --color-ghost-blue: #d4eaf5;
+  --color-background: #f5f0e8;
+  --color-cell-bg: #faf7f2;
+  --color-cell-hover: #eee9df;
+  --color-cell-active: #e3ddd1;
+  --color-gridline: rgba(44, 95, 138, 0.2);
+  --color-gridline-heavy: rgba(44, 95, 138, 0.4);
+  --color-grid-border: #1e3a5f;
+
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "IBM Plex Mono", monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─── Base / Reset ────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Blueprint Grid Background ───────────────────────────────────────────── */
+body {
+  background-color: #ffffff;
+  color: var(--color-dark-blue);
+  font-family: var(--font-mono);
+}
+
+/* ─── Typography ──────────────────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  color: var(--color-dark-blue);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+p,
+li,
+span,
+label,
+input,
+textarea,
+select,
+button {
+  font-family: var(--font-mono);
+}
+
+a {
+  color: var(--color-primary-blue);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--color-light-blue);
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+/* ─── Custom Scrollbars ───────────────────────────────────────────────────── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-blue) var(--color-cell-bg);
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--color-cell-bg);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary-blue);
+  border-radius: 3px;
+  border: 1px solid var(--color-cell-bg);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-mid-blue);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--color-cell-bg);
+}
+
+/* ─── Profile Dashboard Grid ─────────────────────────────────────────────── */
+.profile-dashboard {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  border-left: 1px solid var(--color-gridline-heavy);
+}
+
+.profile-dashboard > div {
+  border-right: 1px solid var(--color-gridline-heavy);
+  border-bottom: 1px solid var(--color-gridline-heavy);
+}
+
+.panel-identity { grid-column: 1 / 3; }
+.panel-statement { grid-column: 3 / 7; }
+.panel-stats { grid-column: 1 / 7; }
+.panel-disciplines { grid-column: 1 / 3; }
+.panel-recent { grid-column: 3 / 5; }
+.panel-activity { grid-column: 5 / 7; }
+.panel-contact { grid-column: 1 / 3; }
+.panel-inquiry { grid-column: 3 / 7; }
+
+@media (max-width: 1024px) {
+  .panel-identity { grid-column: 1 / 4; }
+  .panel-statement { grid-column: 4 / 7; }
+  .panel-disciplines { grid-column: 1 / 7; }
+  .panel-recent { grid-column: 1 / 4; }
+  .panel-activity { grid-column: 4 / 7; }
+  .panel-contact { grid-column: 1 / 7; }
+  .panel-inquiry { grid-column: 1 / 7; }
+}
+
+@media (max-width: 768px) {
+  .profile-dashboard {
+    grid-template-columns: 1fr;
+  }
+  .panel-identity,
+  .panel-statement,
+  .panel-stats,
+  .panel-disciplines,
+  .panel-recent,
+  .panel-activity,
+  .panel-contact,
+  .panel-inquiry {
+    grid-column: 1 / -1;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── Profile Form Inputs ────────────────────────────────────────────────── */
+.profile-form input::placeholder,
+.profile-form textarea::placeholder {
+  color: var(--color-primary-blue);
+  opacity: 0.3;
+  font-style: italic;
+}
+
+.profile-form input:disabled,
+.profile-form textarea:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes sending-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ─── Detail Tab Responsive ──────────────────────────────────────────────── */
+.detail-header {
+  padding: 20px 24px 16px;
+}
+
+.detail-title {
+  font-size: 24px;
+}
+
+.detail-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.detail-body-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
+.detail-media-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.detail-meta-label {
+  width: 110px;
+  text-align: right;
+}
+
+.detail-breadcrumb {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.detail-nav-label {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Tablet — ≤ 1024px */
+@media (max-width: 1024px) {
+  .detail-body-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .detail-body-grid > .detail-col-meta {
+    grid-column: 1 / -1;
+    border-right: none !important;
+    border-bottom: 1px solid var(--color-gridline-heavy);
+  }
+  .detail-meta-label {
+    width: 90px;
+  }
+  .detail-nav-label {
+    max-width: 140px;
+  }
+}
+
+/* Mobile — ≤ 768px */
+@media (max-width: 768px) {
+  .detail-header {
+    padding: 16px 16px 12px;
+  }
+  .detail-title {
+    font-size: 20px;
+  }
+  .detail-meta-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .detail-body-grid {
+    grid-template-columns: 1fr;
+  }
+  .detail-body-grid > div {
+    border-right: none !important;
+  }
+  .detail-media-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .detail-meta-label {
+    width: 80px;
+    font-size: 10px;
+  }
+  .detail-nav-label {
+    max-width: 100px;
+  }
+}
+
+/* Small mobile — ≤ 480px */
+@media (max-width: 480px) {
+  .detail-header {
+    padding: 12px 12px 10px;
+  }
+  .detail-title {
+    font-size: 18px;
+  }
+  .detail-media-grid {
+    grid-template-columns: 1fr;
+  }
+  .detail-meta-label {
+    width: 70px;
+  }
+  .detail-nav-label {
+    display: none;
+  }
+}
+
+/* ─── Mapbox Overrides ───────────────────────────────────────────────────── */
+.mapboxgl-ctrl-group {
+  border-radius: 0 !important;
+  border: 1px solid var(--color-gridline-heavy) !important;
+  box-shadow: none !important;
+}
+
+.mapboxgl-ctrl-group button {
+  border-radius: 0 !important;
+  border-bottom: 1px solid var(--color-gridline) !important;
+}
+
+.mapboxgl-ctrl-group button:last-child {
+  border-bottom: none !important;
+}
+
+.mapboxgl-ctrl-attrib {
+  font-family: var(--font-mono) !important;
+  font-size: 9px !important;
+}
+
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}
+
+/* ─── Map View ───────────────────────────────────────────────────────────── */
+.map-popup {
+  animation: popup-fade-in 0.15s ease;
+}
+
+@keyframes popup-fade-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 12px));
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .map-sidebar {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 25;
+    box-shadow: 2px 0 8px rgba(19, 39, 68, 0.15);
+  }
+}
+
+/* ─── Component Animations ───────────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
 }

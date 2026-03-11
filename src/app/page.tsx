@@ -1,65 +1,209 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+import Header from '@/components/Header';
+import TabBar from '@/components/TabBar';
+import type { TabItem } from '@/components/TabBar';
+import type { ViewMode } from '@/components/ArchiveTab';
+import Footer from '@/components/Footer';
+import GridContainer from '@/components/GridContainer';
+import ProfileTab from '@/components/ProfileTab';
+import ArchiveTab from '@/components/ArchiveTab';
+import DetailTab from '@/components/DetailTab';
+import VoiceNotePlayer from '@/components/VoiceNotePlayer';
+import type { VoiceNote } from '@/components/VoiceNotePlayer';
+import FloatingWindow from '@/components/FloatingWindow';
+import { archiveEntries } from '@/lib/seed-data';
+
+type TabId = 'profile' | 'archive' | string;
+
+function parseHash(hash: string): TabId {
+  const cleaned = hash.replace(/^#/, '');
+  if (!cleaned) return 'profile';
+  if (cleaned === 'profile' || cleaned === 'archive') return cleaned;
+  if (cleaned.startsWith('detail/')) return cleaned;
+  return 'profile';
+}
+
+function getSlugLabel(tabId: string): string {
+  if (!tabId.startsWith('detail/')) return tabId;
+  const slug = tabId.replace('detail/', '');
+  const entry = archiveEntries.find((e) => e.slug === slug);
+  if (entry) return entry.title;
+  return slug
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+}
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState<TabId>('profile');
+  const [detailTabs, setDetailTabs] = useState<string[]>([]);
+  const [floatingTabs, setFloatingTabs] = useState<string[]>([]);
+  const [activeVoiceNote, setActiveVoiceNote] = useState<VoiceNote | null>(null);
+  const [archiveViewMode, setArchiveViewMode] = useState<ViewMode>('list');
+  const [filterStatus, setFilterStatus] = useState('NO FILTER');
+
+  const navigateTo = useCallback(
+    (tabId: string) => {
+      window.location.hash = tabId;
+      setActiveTab(tabId);
+
+      if (tabId.startsWith('detail/')) {
+        setDetailTabs((prev) => prev.includes(tabId) ? prev : [...prev, tabId]);
+      }
+    },
+    []
+  );
+
+  const closeDetailTab = useCallback(
+    (tabId: string) => {
+      setDetailTabs((prev) => prev.filter((t) => t !== tabId));
+      setFloatingTabs((prev) => prev.filter((t) => t !== tabId));
+      if (activeTab === tabId) {
+        navigateTo('archive');
+      }
+    },
+    [activeTab, navigateTo]
+  );
+
+  const detachTab = useCallback(
+    (tabId: string) => {
+      setFloatingTabs((prev) => prev.includes(tabId) ? prev : [...prev, tabId]);
+      // If it was the active docked tab, switch to archive
+      if (activeTab === tabId) {
+        navigateTo('archive');
+      }
+    },
+    [activeTab, navigateTo]
+  );
+
+  const dockTab = useCallback(
+    (tabId: string) => {
+      setFloatingTabs((prev) => prev.filter((t) => t !== tabId));
+      navigateTo(tabId);
+    },
+    [navigateTo]
+  );
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const tabId = parseHash(window.location.hash);
+      setActiveTab(tabId);
+      if (tabId.startsWith('detail/')) {
+        setDetailTabs((prev) => prev.includes(tabId) ? prev : [...prev, tabId]);
+      }
+    };
+
+    handleHashChange();
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Docked tabs = detail tabs that are NOT floating
+  const dockedDetailTabs = detailTabs.filter((t) => !floatingTabs.includes(t));
+
+  const tabs: TabItem[] = [
+    { id: 'profile', label: 'Profile', closable: false },
+    { id: 'archive', label: 'Archive', closable: false },
+    ...dockedDetailTabs.map((id) => ({
+      id,
+      label: getSlugLabel(id),
+      closable: true,
+    })),
+  ];
+
+  const rowCount =
+    activeTab === 'archive'
+      ? archiveEntries.length
+      : activeTab === 'profile'
+        ? 1
+        : 1;
+
+  // Only show docked tab content (not floating ones)
+  const showDockedDetail =
+    activeTab.startsWith('detail/') && !floatingTabs.includes(activeTab);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <>
+      <Header onNavigate={navigateTo} />
+      <TabBar
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabClick={navigateTo}
+        onTabClose={closeDetailTab}
+        onTabDetach={detachTab}
+        archiveViewMode={archiveViewMode}
+        onArchiveViewModeChange={setArchiveViewMode}
+      />
+
+      {/* Tab content area */}
+      <div className="flex-1 flex flex-col min-h-0">
+        <GridContainer showRowNumbers={false} rowCount={rowCount}>
+          {activeTab === 'profile' && <ProfileTab onNavigate={navigateTo} />}
+
+          {activeTab === 'archive' && (
+            <ArchiveTab
+              viewMode={archiveViewMode}
+              onRowClick={(slug) => navigateTo(`detail/${slug}`)}
+              onOpenFloating={(slug) => {
+                const tabId = `detail/${slug}`;
+                setDetailTabs((prev) => prev.includes(tabId) ? prev : [...prev, tabId]);
+                setFloatingTabs((prev) => prev.includes(tabId) ? prev : [...prev, tabId]);
+              }}
+              onFilterStatusChange={setFilterStatus}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          )}
+
+          {showDockedDetail && (
+            <DetailTab
+              slug={activeTab.replace('detail/', '')}
+              entries={archiveEntries}
+              onClose={() => closeDetailTab(activeTab)}
+              onNavigate={(newSlug) => navigateTo(`detail/${newSlug}`)}
+              onPlayVoiceNote={(note) => setActiveVoiceNote(note)}
+            />
+          )}
+        </GridContainer>
+      </div>
+
+      <Footer
+        activeTab={activeTab}
+        rowCount={rowCount}
+        filterStatus={activeTab === 'archive' ? filterStatus : undefined}
+      />
+
+      {/* Floating windows */}
+      {floatingTabs.map((tabId, i) => {
+        const slug = tabId.replace('detail/', '');
+        return (
+          <FloatingWindow
+            key={tabId}
+            id={tabId}
+            title={getSlugLabel(tabId)}
+            initialX={120 + i * 30}
+            initialY={80 + i * 30}
+            onClose={() => closeDetailTab(tabId)}
+            onDock={() => dockTab(tabId)}
           >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <DetailTab
+              slug={slug}
+              entries={archiveEntries}
+              onClose={() => closeDetailTab(tabId)}
+              onNavigate={(newSlug) => {
+                closeDetailTab(tabId);
+                navigateTo(`detail/${newSlug}`);
+              }}
+              onPlayVoiceNote={(note) => setActiveVoiceNote(note)}
+              isFloating
+            />
+          </FloatingWindow>
+        );
+      })}
+
+      <VoiceNotePlayer note={activeVoiceNote} onClose={() => setActiveVoiceNote(null)} />
+    </>
   );
 }
