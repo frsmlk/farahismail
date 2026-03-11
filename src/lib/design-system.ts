@@ -30,19 +30,25 @@ export const tokens = {
 
 export type CategoryName =
   | 'Residential'
-  | 'Commercial'
   | 'Urban Planning'
-  | 'Fashion Photography'
+  | 'Interior Design'
   | 'Art Direction'
   | 'Modelling'
-  | 'Artworks';
+  | 'Artworks'
+  | 'Hospitality'
+  | 'Set Design'
+  | 'Furniture'
+  | 'Landscape';
 
 export const CATEGORIES: { name: CategoryName; color: string }[] = [
   { name: 'Residential', color: '#1a3a5c' },
-  { name: 'Commercial', color: '#2a4a6c' },
   { name: 'Urban Planning', color: '#3a5a7c' },
-  { name: 'Fashion Photography', color: '#4a6a8c' },
+  { name: 'Interior Design', color: '#4a6a8c' },
   { name: 'Art Direction', color: '#5a7a9c' },
   { name: 'Modelling', color: '#6a8aac' },
   { name: 'Artworks', color: '#7a9abc' },
+  { name: 'Hospitality', color: '#2c6e6a' },
+  { name: 'Set Design', color: '#5c4a7c' },
+  { name: 'Furniture', color: '#7c5a3a' },
+  { name: 'Landscape', color: '#3a7c4a' },
 ];

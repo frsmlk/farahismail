@@ -2,45 +2,25 @@
 
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { profile, archiveEntries, status } from '@/lib/seed-data';
-import type { CategoryName } from '@/lib/types';
 
 /* ─── Helpers ──────────────────────────────────────────────────────────────── */
 
 function getDisciplineSummary(): {
   discipline: string;
-  yearsActive: string;
   entries: number;
 }[] {
-  const disciplines: CategoryName[] = [
-    'Residential',
-    'Commercial',
-    'Urban Planning',
-    'Fashion Photography',
-    'Art Direction',
-    'Modelling',
-    'Artworks',
+  return [
+    { discipline: 'Art Direction', entries: 18 },
+    { discipline: 'Residential', entries: 16 },
+    { discipline: 'Interior Design', entries: 12 },
+    { discipline: 'Modelling', entries: 11 },
+    { discipline: 'Landscape', entries: 9 },
+    { discipline: 'Hospitality', entries: 8 },
+    { discipline: 'Urban Planning', entries: 6 },
+    { discipline: 'Artworks', entries: 5 },
+    { discipline: 'Set Design', entries: 4 },
+    { discipline: 'Furniture', entries: 3 },
   ];
-
-  return disciplines
-    .map((cat) => {
-      const items = archiveEntries.filter(
-        (e) => e.category === cat && e.entryType === 'project'
-      );
-      if (items.length === 0) return null;
-
-      const years = items.map((e) => e.year);
-      const minYear = Math.min(...years);
-      const maxYear = Math.max(...years);
-      const yearsActive =
-        minYear === maxYear ? `${minYear}` : `${minYear}\u2013${maxYear}`;
-
-      return {
-        discipline: cat,
-        yearsActive,
-        entries: items.length,
-      };
-    })
-    .filter(Boolean) as { discipline: string; yearsActive: string; entries: number }[];
 }
 
 interface ActivityItem {
@@ -114,6 +94,12 @@ interface ProfileTabProps {
 }
 
 export default function ProfileTab({ onNavigate }: ProfileTabProps) {
+  /* ── Practice panel state ── */
+  const [showAllDisciplines, setShowAllDisciplines] = useState(false);
+
+  /* ── Website copy state ── */
+  const [websiteCopied, setWebsiteCopied] = useState(false);
+
   /* ── Form state ── */
   const [formName, setFormName] = useState('');
   const [formEmail, setFormEmail] = useState('');
@@ -198,13 +184,13 @@ export default function ProfileTab({ onNavigate }: ProfileTabProps) {
   /* ── Form helpers ── */
   const inquiryTitle =
     formStatus === 'sent'
-      ? 'MESSAGE SENT \u2713'
+      ? 'Received \u2014 I\u2019ll be in touch'
       : formStatus === 'error'
         ? 'DELIVERY FAILED'
         : 'INQUIRY';
   const inquiryColor =
     formStatus === 'sent'
-      ? '#22c55e'
+      ? 'var(--color-light-blue)'
       : formStatus === 'error'
         ? '#ef4444'
         : undefined;
@@ -256,7 +242,7 @@ export default function ProfileTab({ onNavigate }: ProfileTabProps) {
         className="panel-identity"
         style={{ display: 'flex', flexDirection: 'column' }}
       >
-        <PanelHeader title="Identification" cellRef="A1:B6" />
+        <PanelHeader title="Card" cellRef="A1:B6" />
         <div
           style={{
             flex: 1,
@@ -348,63 +334,42 @@ export default function ProfileTab({ onNavigate }: ProfileTabProps) {
               marginBottom: '8px',
             }}
           >
-            {profile.nationality} · {profile.location}
+            {profile.location}
           </div>
 
-          {/* Online status */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
-            <span
-              style={{
-                position: 'relative',
-                display: 'inline-flex',
-                width: '8px',
-                height: '8px',
-              }}
-            >
-              {status.isOnline && (
-                <span
-                  style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backgroundColor: '#22c55e',
-                    animation: 'pulse-dot 2s ease-in-out infinite',
-                  }}
-                />
-              )}
-              <span
-                style={{
-                  position: 'relative',
-                  display: 'inline-flex',
-                  width: '8px',
-                  height: '8px',
-                  backgroundColor: status.isOnline ? '#22c55e' : '#9ca3af',
-                }}
-              />
-            </span>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '11px',
-                letterSpacing: '0.04em',
-                color: status.isOnline ? '#22c55e' : '#9ca3af',
-                textTransform: 'uppercase',
-              }}
-            >
-              {status.isOnline ? 'Online' : 'Away'}
-            </span>
-            {status.isOnline && (
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '10px',
-                  color: 'var(--color-primary-blue)',
-                  opacity: 0.5,
-                }}
-              >
-                · {status.currentActivity}
-              </span>
-            )}
-          </div>
+          {/* Contact button */}
+          <button
+            onClick={() => {
+              const inquiryPanel = document.querySelector('.panel-inquiry');
+              if (inquiryPanel) {
+                inquiryPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                const firstInput = inquiryPanel.querySelector('input');
+                if (firstInput) setTimeout(() => firstInput.focus(), 400);
+              }
+            }}
+            style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '11px',
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: '#f5f0e8',
+              backgroundColor: 'var(--color-primary-blue)',
+              border: '1px solid var(--color-gridline-heavy)',
+              padding: '7px 20px',
+              width: 'fit-content',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--color-dark-blue)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--color-primary-blue)';
+            }}
+          >
+            CONTACT
+          </button>
         </div>
       </div>
 
@@ -413,7 +378,7 @@ export default function ProfileTab({ onNavigate }: ProfileTabProps) {
         className="panel-statement"
         style={{ display: 'flex', flexDirection: 'column' }}
       >
-        <PanelHeader title="Statement" cellRef="C1:F6" />
+        <PanelHeader title="About" cellRef="C1:F6" />
         <div
           style={{
             flex: 1,
@@ -475,67 +440,130 @@ export default function ProfileTab({ onNavigate }: ProfileTabProps) {
         className="panel-disciplines"
         style={{ display: 'flex', flexDirection: 'column' }}
       >
-        <PanelHeader title="Disciplines" cellRef="A8:B14" />
+        <PanelHeader title="Practice" cellRef="A8:B14" />
         <div style={{ flex: 1, padding: '4px 0' }}>
-          {disciplineSummary.map((d, i) => (
-            <div
-              key={d.discipline}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '6px 12px',
-                gap: '10px',
-                borderBottom: i < disciplineSummary.length - 1 ? BORDER : 'none',
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  letterSpacing: '0.04em',
-                  textTransform: 'uppercase',
-                  color: 'var(--color-dark-blue)',
-                  width: '130px',
-                  minWidth: '130px',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {d.discipline}
-              </span>
-              <div
-                style={{
-                  flex: 1,
-                  height: '4px',
-                  backgroundColor: 'var(--color-gridline)',
-                  position: 'relative',
-                }}
-              >
-                <div
-                  style={{
-                    height: '100%',
-                    width: `${(d.entries / maxEntries) * 100}%`,
-                    backgroundColor: 'var(--color-primary-blue)',
-                    transition: 'width 0.3s ease',
-                  }}
-                />
-              </div>
-              <span
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  color: 'var(--color-primary-blue)',
-                  width: '16px',
-                  textAlign: 'right',
-                  fontVariantNumeric: 'tabular-nums',
-                  flexShrink: 0,
-                }}
-              >
-                {d.entries}
-              </span>
-            </div>
-          ))}
+          {(() => {
+            const sorted = [...disciplineSummary].sort((a, b) => b.entries - a.entries);
+            const top = sorted.slice(0, 4);
+            const rest = sorted.slice(4);
+            const visible = showAllDisciplines ? sorted : top;
+            const othersCount = rest.reduce((sum, d) => sum + d.entries, 0);
+
+            return (
+              <>
+                {visible.map((d, i) => {
+                  const isLast = showAllDisciplines
+                    ? i === visible.length - 1
+                    : rest.length === 0 && i === visible.length - 1;
+                  return (
+                  <div
+                    key={d.discipline}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '6px 12px',
+                      gap: '10px',
+                      borderBottom: isLast ? 'none' : BORDER,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        color: 'var(--color-dark-blue)',
+                        width: '130px',
+                        minWidth: '130px',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {d.discipline}
+                    </span>
+                    <div
+                      style={{
+                        flex: 1,
+                        height: '4px',
+                        backgroundColor: 'var(--color-gridline)',
+                        position: 'relative',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <div
+                        className="practice-bar"
+                        style={{
+                          height: '100%',
+                          width: `${(d.entries / maxEntries) * 100}%`,
+                          backgroundColor: 'var(--color-primary-blue)',
+                        }}
+                      />
+                    </div>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        color: 'var(--color-primary-blue)',
+                        width: '16px',
+                        textAlign: 'right',
+                        fontVariantNumeric: 'tabular-nums',
+                        flexShrink: 0,
+                      }}
+                    >
+                      {d.entries}
+                    </span>
+                  </div>
+                  );
+                })}
+                {rest.length > 0 && !showAllDisciplines && (
+                  <div
+                    onClick={() => setShowAllDisciplines(true)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '6px 12px',
+                      gap: '10px',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.1s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = 'var(--color-cell-hover)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '11px',
+                        letterSpacing: '0.04em',
+                        textTransform: 'uppercase',
+                        color: 'var(--color-primary-blue)',
+                        opacity: 0.5,
+                        width: '130px',
+                        minWidth: '130px',
+                      }}
+                    >
+                      Others ({rest.length})
+                    </span>
+                    <span
+                      style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: '10px',
+                        color: 'var(--color-primary-blue)',
+                        opacity: 0.35,
+                        letterSpacing: '0.04em',
+                      }}
+                    >
+                      +{othersCount} entries
+                    </span>
+                  </div>
+                )}
+              </>
+            );
+          })()}
         </div>
       </div>
 
@@ -745,14 +773,15 @@ export default function ProfileTab({ onNavigate }: ProfileTabProps) {
               href: `https://instagram.com/${profile.instagram.replace('@', '')}`,
             },
             {
-              label: 'LINKEDIN',
-              value: profile.linkedin,
-              href: `https://linkedin.com/in/${profile.linkedin}`,
+              label: 'X',
+              value: '@kingfrh',
+              href: 'https://x.com/kingfrh',
             },
             {
               label: 'WEBSITE',
               value: profile.website,
-              href: profile.website,
+              href: `https://${profile.website}`,
+              copyToClipboard: true,
             },
           ].map((link, i) => (
             <div
@@ -780,25 +809,46 @@ export default function ProfileTab({ onNavigate }: ProfileTabProps) {
               >
                 {link.label}
               </span>
-              <a
-                href={link.href}
-                target={
-                  link.href.startsWith('mailto') ? undefined : '_blank'
-                }
-                rel={
-                  link.href.startsWith('mailto')
-                    ? undefined
-                    : 'noopener noreferrer'
-                }
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '12px',
-                  color: 'var(--color-primary-blue)',
-                  textDecoration: 'none',
-                }}
-              >
-                {link.value}
-              </a>
+              {'copyToClipboard' in link && link.copyToClipboard ? (
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(link.href).then(() => {
+                      setWebsiteCopied(true);
+                      setTimeout(() => setWebsiteCopied(false), 1500);
+                    });
+                  }}
+                  style={{
+                    all: 'unset',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '12px',
+                    color: websiteCopied ? 'var(--color-light-blue)' : 'var(--color-primary-blue)',
+                    cursor: 'pointer',
+                    transition: 'color 0.15s ease',
+                  }}
+                >
+                  {websiteCopied ? 'Website copied to clipboard' : link.value}
+                </button>
+              ) : (
+                <a
+                  href={link.href}
+                  target={
+                    link.href.startsWith('mailto') ? undefined : '_blank'
+                  }
+                  rel={
+                    link.href.startsWith('mailto')
+                      ? undefined
+                      : 'noopener noreferrer'
+                  }
+                  style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '12px',
+                    color: 'var(--color-primary-blue)',
+                    textDecoration: 'none',
+                  }}
+                >
+                  {link.value}
+                </a>
+              )}
             </div>
           ))}
         </div>

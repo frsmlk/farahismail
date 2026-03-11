@@ -2,12 +2,15 @@ export type EntryType = 'project' | 'job' | 'education' | 'milestone';
 
 export type CategoryName =
   | 'Residential'
-  | 'Commercial'
   | 'Urban Planning'
-  | 'Fashion Photography'
+  | 'Interior Design'
   | 'Art Direction'
   | 'Modelling'
-  | 'Artworks';
+  | 'Artworks'
+  | 'Hospitality'
+  | 'Set Design'
+  | 'Furniture'
+  | 'Landscape';
 
 export interface Profile {
   fullName: string;

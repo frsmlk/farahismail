@@ -5,12 +5,15 @@ import type { FilterState, CategoryName } from '@/lib/types';
 
 const ALL_CATEGORIES: CategoryName[] = [
   'Residential',
-  'Commercial',
   'Urban Planning',
-  'Fashion Photography',
+  'Interior Design',
   'Art Direction',
   'Modelling',
   'Artworks',
+  'Hospitality',
+  'Set Design',
+  'Furniture',
+  'Landscape',
 ];
 
 interface FilterBarProps {

@@ -41,7 +41,7 @@ export default function Header({ onNavigate }: HeaderProps) {
               marginTop: '4px',
             }}
           >
-            ARCHITECT &middot; PHOTOGRAPHER &middot; ART DIRECTOR
+            ARCHITECT &middot; INTERIOR DESIGNER &middot; ART DIRECTOR
           </span>
         </div>
 

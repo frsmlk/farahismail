@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import type { ArchiveEntry } from '@/lib/types';
 import { X, Play, Link, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { VoiceNote } from '@/components/VoiceNotePlayer';
@@ -54,7 +54,7 @@ export default function DetailTab({
   onPlayVoiceNote,
   isFloating,
 }: DetailTabProps) {
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
 
   const copyShareLink = useCallback(() => {
@@ -599,7 +599,7 @@ export default function DetailTab({
             {media.map((item) => (
               <div key={item.index}>
                 <div
-                  onClick={() => setLightboxImage(item.url)}
+                  onClick={() => setLightboxIndex(item.index)}
                   style={{
                     position: 'relative',
                     border: '1px solid var(--color-primary-blue)',
@@ -835,60 +835,309 @@ export default function DetailTab({
         </div>
       )}
 
-      {/* ─── LIGHTBOX ─── */}
-      {lightboxImage && (
+      {/* ─── LIGHTBOX VIEWER ─── */}
+      {lightboxIndex !== null && (
+        <LightboxViewer
+          media={media}
+          currentIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onNavigate={setLightboxIndex}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ─── LIGHTBOX VIEWER COMPONENT ─── */
+
+interface LightboxMedia {
+  index: number;
+  url: string;
+  caption: string;
+  fileType: string;
+}
+
+function LightboxViewer({
+  media,
+  currentIndex,
+  onClose,
+  onNavigate,
+}: {
+  media: LightboxMedia[];
+  currentIndex: number;
+  onClose: () => void;
+  onNavigate: (index: number) => void;
+}) {
+  const current = media[currentIndex];
+  const hasPrev = currentIndex > 0;
+  const hasNext = currentIndex < media.length - 1;
+
+  const goPrev = useCallback(() => {
+    if (currentIndex > 0) onNavigate(currentIndex - 1);
+  }, [currentIndex, onNavigate]);
+
+  const goNext = useCallback(() => {
+    if (currentIndex < media.length - 1) onNavigate(currentIndex + 1);
+  }, [currentIndex, media.length, onNavigate]);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') goPrev();
+      if (e.key === 'ArrowRight') goNext();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [onClose, goPrev, goNext]);
+
+  const navButtonStyle: React.CSSProperties = {
+    all: 'unset',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '40px',
+    height: '40px',
+    border: '1px solid rgba(245, 240, 232, 0.3)',
+    color: '#f5f0e8',
+    transition: 'background-color 0.15s, border-color 0.15s',
+    flexShrink: 0,
+  };
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        backgroundColor: 'rgba(19, 39, 68, 0.92)',
+        display: 'flex',
+        flexDirection: 'column',
+        zIndex: 1000,
+      }}
+    >
+      {/* Top bar */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '12px 20px',
+          borderBottom: '1px solid rgba(245, 240, 232, 0.1)',
+          flexShrink: 0,
+        }}
+      >
         <div
-          onClick={() => setLightboxImage(null)}
           style={{
-            position: 'fixed',
-            inset: 0,
-            backgroundColor: 'rgba(19, 39, 68, 0.85)',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '11px',
+            letterSpacing: '0.06em',
+            color: '#f5f0e8',
+            opacity: 0.6,
+          }}
+        >
+          {String(currentIndex + 1).padStart(2, '0')} / {String(media.length).padStart(2, '0')}
+        </div>
+        <div
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '11px',
+            letterSpacing: '0.04em',
+            color: '#f5f0e8',
+            textAlign: 'center',
+          }}
+        >
+          <span>{current.caption}</span>
+          <span style={{ opacity: 0.4, margin: '0 8px' }}>·</span>
+          <span style={{ opacity: 0.5, fontSize: '10px', letterSpacing: '0.06em' }}>
+            {current.fileType}
+          </span>
+        </div>
+        <button
+          onClick={onClose}
+          style={{
+            all: 'unset',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '10px',
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            color: '#f5f0e8',
+            opacity: 0.7,
+            padding: '4px 8px',
+            border: '1px solid rgba(245, 240, 232, 0.2)',
+          }}
+        >
+          <X size={14} />
+          CLOSE
+        </button>
+      </div>
+
+      {/* Main viewer area */}
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '20px',
+          padding: '20px',
+          minHeight: 0,
+        }}
+      >
+        {/* Prev button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); goPrev(); }}
+          disabled={!hasPrev}
+          style={{
+            ...navButtonStyle,
+            opacity: hasPrev ? 1 : 0.15,
+            cursor: hasPrev ? 'pointer' : 'default',
+          }}
+          onMouseEnter={(e) => {
+            if (hasPrev) e.currentTarget.style.backgroundColor = 'rgba(245, 240, 232, 0.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
+          }}
+        >
+          <ChevronLeft size={20} />
+        </button>
+
+        {/* Image */}
+        <div
+          style={{
+            position: 'relative',
+            maxWidth: 'calc(80vw - 140px)',
+            maxHeight: 'calc(80vh - 120px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 1000,
-            cursor: 'pointer',
           }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={current.url}
+            alt={current.caption}
+            style={{
+              maxWidth: '100%',
+              maxHeight: 'calc(80vh - 120px)',
+              border: '1px solid rgba(245, 240, 232, 0.2)',
+              display: 'block',
+            }}
+          />
+          {/* Frame number badge */}
           <div
             style={{
-              position: 'relative',
-              maxWidth: '80vw',
-              maxHeight: '80vh',
+              position: 'absolute',
+              bottom: '12px',
+              left: '12px',
+              backgroundColor: 'rgba(19, 39, 68, 0.8)',
+              border: '1px solid rgba(245, 240, 232, 0.2)',
+              color: '#f5f0e8',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '10px',
+              padding: '3px 8px',
+              letterSpacing: '0.06em',
             }}
           >
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxImage(null);
-              }}
-              style={{
-                position: 'absolute',
-                top: '-32px',
-                right: '0',
-                background: 'none',
-                border: 'none',
-                color: '#f5f0e8',
-                cursor: 'pointer',
-                padding: '4px',
-              }}
-            >
-              <X size={20} />
-            </button>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={lightboxImage}
-              alt="Enlarged view"
-              style={{
-                maxWidth: '80vw',
-                maxHeight: '80vh',
-                border: '1px solid var(--color-primary-blue)',
-                display: 'block',
-              }}
-            />
+            {String(currentIndex + 1).padStart(2, '0')}
           </div>
         </div>
-      )}
+
+        {/* Next button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); goNext(); }}
+          disabled={!hasNext}
+          style={{
+            ...navButtonStyle,
+            opacity: hasNext ? 1 : 0.15,
+            cursor: hasNext ? 'pointer' : 'default',
+          }}
+          onMouseEnter={(e) => {
+            if (hasNext) e.currentTarget.style.backgroundColor = 'rgba(245, 240, 232, 0.1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent';
+          }}
+        >
+          <ChevronRight size={20} />
+        </button>
+      </div>
+
+      {/* Bottom bar — dot indicators + thumbnail strip */}
+      <div
+        style={{
+          borderTop: '1px solid rgba(245, 240, 232, 0.1)',
+          padding: '12px 20px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '10px',
+          flexShrink: 0,
+        }}
+      >
+        {/* Dot indicators */}
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          {media.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => onNavigate(i)}
+              style={{
+                all: 'unset',
+                cursor: 'pointer',
+                width: i === currentIndex ? '20px' : '6px',
+                height: '6px',
+                backgroundColor: i === currentIndex ? '#f5f0e8' : 'rgba(245, 240, 232, 0.3)',
+                transition: 'all 0.2s ease',
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Thumbnail strip */}
+        <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+          {media.map((item, i) => (
+            <button
+              key={item.index}
+              onClick={() => onNavigate(i)}
+              style={{
+                all: 'unset',
+                cursor: 'pointer',
+                width: '48px',
+                height: '32px',
+                border: i === currentIndex
+                  ? '2px solid #f5f0e8'
+                  : '1px solid rgba(245, 240, 232, 0.15)',
+                opacity: i === currentIndex ? 1 : 0.5,
+                overflow: 'hidden',
+                transition: 'opacity 0.15s, border-color 0.15s',
+                flexShrink: 0,
+              }}
+              onMouseEnter={(e) => {
+                if (i !== currentIndex) e.currentTarget.style.opacity = '0.8';
+              }}
+              onMouseLeave={(e) => {
+                if (i !== currentIndex) e.currentTarget.style.opacity = '0.5';
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={item.url}
+                alt={item.caption}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+              />
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -13,7 +13,7 @@ export default function OnlineStatus({ isOnline, lastSeen, onNavigate }: OnlineS
   const [showCard, setShowCard] = useState(false);
 
   const label = isOnline
-    ? 'FARAH IS ONLINE'
+    ? 'ACTIVE WORK'
     : lastSeen
       ? `LAST SEEN ${formatLastSeen(lastSeen)}`
       : 'OFFLINE';
@@ -34,7 +34,7 @@ export default function OnlineStatus({ isOnline, lastSeen, onNavigate }: OnlineS
             <span
               className="absolute inline-flex h-full w-full"
               style={{
-                backgroundColor: '#22c55e',
+                backgroundColor: 'var(--color-light-blue)',
                 animation: 'pulse-dot 2s ease-in-out infinite',
               }}
             />
@@ -42,7 +42,7 @@ export default function OnlineStatus({ isOnline, lastSeen, onNavigate }: OnlineS
           <span
             className="relative inline-flex h-[8px] w-[8px]"
             style={{
-              backgroundColor: isOnline ? '#22c55e' : '#9ca3af',
+              backgroundColor: isOnline ? 'var(--color-light-blue)' : '#9ca3af',
             }}
           />
         </span>
