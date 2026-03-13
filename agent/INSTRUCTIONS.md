@@ -87,6 +87,41 @@ Attach media. Fields: `url`, `caption` (optional), `mediaType`, `sortOrder` (opt
 
 Media types: `photo`, `sketch`, `render`, `document`
 
+### File Upload
+
+#### POST /api/upload
+Upload a file (photo, voice note, sketch, document) and get back a permanent URL. Then use `add_media` to attach it to an entry.
+
+**Option 1 — Multipart form data** (for direct file uploads):
+```
+POST /api/upload
+Content-Type: multipart/form-data
+Authorization: Bearer pokitoipon
+
+file: <binary>
+folder: photos  (optional — organizes into subfolders)
+```
+
+**Option 2 — JSON with base64** (for agents that can't do multipart):
+```json
+POST /api/upload
+{
+  "data": "<base64-encoded file>",
+  "filename": "site-visit.jpg",
+  "mimeType": "image/jpeg",
+  "folder": "photos"
+}
+```
+
+Returns: `{ "url": "https://...", "pathname": "...", "contentType": "...", "size": 12345 }`
+
+**Workflow for photos/voice notes:**
+1. Upload the file → get the URL
+2. Call `add_media` with the URL to attach it to an entry
+3. Optionally add a timeline update of type `photo` describing the image
+
+Suggested folders: `photos`, `sketches`, `renders`, `documents`, `voice-notes`
+
 ### Profile
 
 #### GET /api/profile

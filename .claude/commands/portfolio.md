@@ -26,6 +26,7 @@ curl -s -H "Authorization: Bearer pokitoipon" "${BASE_URL:-http://localhost:3000
 | Get updates | GET | /api/entries/{slug}/updates |
 | Add media | POST | /api/entries/{slug}/media |
 | Get media | GET | /api/entries/{slug}/media |
+| Upload file | POST | /api/upload |
 | Get profile | GET | /api/profile |
 | Update profile | PATCH | /api/profile |
 
@@ -44,3 +45,4 @@ curl -s -H "Authorization: Bearer pokitoipon" "${BASE_URL:-http://localhost:3000
 - Entry types: project, job, education, milestone.
 - Status: complete, ongoing, paused.
 - Generate slugs from titles: lowercase, hyphens, no special chars.
+- **File uploads**: POST /api/upload (multipart or JSON with base64). Get the URL back, then POST /api/entries/{slug}/media to attach it.

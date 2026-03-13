@@ -154,6 +154,18 @@
       }
     },
     {
+      "name": "upload_file",
+      "description": "Upload a file (photo, voice note, sketch, document) and get back a permanent URL. Use this before add_media — upload first, then attach to an entry. Supports multipart form data or JSON with base64-encoded data. Suggested folders: 'photos', 'sketches', 'renders', 'documents', 'voice-notes'.",
+      "method": "POST",
+      "path": "/api/upload",
+      "parameters": {
+        "data": { "type": "string", "required": true, "description": "Base64-encoded file content" },
+        "filename": { "type": "string", "required": true, "description": "Filename with extension (e.g. 'site-visit.jpg')" },
+        "mimeType": { "type": "string", "required": true, "description": "MIME type (e.g. 'image/jpeg', 'audio/mp4', 'application/pdf')" },
+        "folder": { "type": "string", "description": "Subfolder to organize files (e.g. 'photos', 'voice-notes')" }
+      }
+    },
+    {
       "name": "get_profile",
       "description": "Get Farah's profile and online status.",
       "method": "GET",

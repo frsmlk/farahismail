@@ -16,6 +16,7 @@
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/playfair-display": "^5.2.8",
     "@neondatabase/serverless": "^1.0.2",
+    "@vercel/blob": "^2.3.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.1",
     "lucide-react": "^0.577.0",
