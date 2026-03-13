@@ -1,15 +1,32 @@
 import { getAllEntries, getProfile } from '@/lib/db/queries';
-import { archiveEntries as seedEntries, profile as seedProfile, status as seedStatus } from '@/lib/seed-data';
 import HomeClient from './HomeClient';
+import type { Profile, Status } from '@/lib/types';
+
+const defaultProfile: Profile = {
+  fullName: 'Farah Ismail',
+  headline: '',
+  bio: '',
+  roles: [],
+  email: '',
+  website: '',
+  instagram: '',
+  linkedin: '',
+  location: '',
+  nationality: '',
+  basedIn: '',
+};
+
+const defaultStatus: Status = {
+  isOnline: false,
+  currentActivity: '',
+  lastSeen: '',
+};
 
 export default async function Home() {
-  // Fetch from DB, fall back to seed data if empty
-  const [dbEntries, dbProfile] = await Promise.all([
+  const [entries, dbProfile] = await Promise.all([
     getAllEntries().catch(() => []),
     getProfile().catch(() => null),
   ]);
-
-  const archiveEntries = dbEntries.length > 0 ? dbEntries : seedEntries;
 
   const profile = dbProfile
     ? {
@@ -25,7 +42,7 @@ export default async function Home() {
         nationality: dbProfile.nationality,
         basedIn: dbProfile.basedIn,
       }
-    : seedProfile;
+    : defaultProfile;
 
   const status = dbProfile
     ? {
@@ -33,11 +50,11 @@ export default async function Home() {
         currentActivity: dbProfile.currentActivity,
         lastSeen: dbProfile.lastSeen,
       }
-    : seedStatus;
+    : defaultStatus;
 
   return (
     <HomeClient
-      archiveEntries={archiveEntries}
+      archiveEntries={entries}
       profile={profile}
       status={status}
     />
