@@ -9,9 +9,11 @@ interface HeaderProps {
   lastSeen: string;
   currentActivity?: string;
   archiveEntries?: ArchiveEntry[];
+  fullName?: string;
+  roles?: string[];
 }
 
-export default function Header({ onNavigate, isOnline, lastSeen, currentActivity, archiveEntries }: HeaderProps) {
+export default function Header({ onNavigate, isOnline, lastSeen, currentActivity, archiveEntries, fullName, roles }: HeaderProps) {
   return (
     <header
       className="w-full bg-cell-bg"
@@ -33,7 +35,9 @@ export default function Header({ onNavigate, isOnline, lastSeen, currentActivity
               margin: 0,
             }}
           >
-            FARAH
+            {fullName
+              ? fullName.split(' ').map((w) => w[0]).join('.').toUpperCase() + '.'
+              : 'F.A.'}
           </h1>
           <span
             className="text-primary-blue"
@@ -45,7 +49,9 @@ export default function Header({ onNavigate, isOnline, lastSeen, currentActivity
               marginTop: '4px',
             }}
           >
-            ARCHITECT &middot; INTERIOR DESIGNER &middot; ART DIRECTOR
+            {roles && roles.length > 0
+              ? roles.map((r) => r.toUpperCase()).join(' \u00B7 ')
+              : ''}
           </span>
         </div>
 

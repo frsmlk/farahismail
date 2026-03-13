@@ -57,7 +57,19 @@ export default function VoiceNotePlayer({ note, onClose }: VoiceNotePlayerProps)
     setIsPlaying(false);
   }, []);
 
-  // Reset when note changes
+  const updateProgress = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    setElapsed(audio.currentTime);
+    if (audio.duration && isFinite(audio.duration)) {
+      setProgress((audio.currentTime / audio.duration) * 100);
+    }
+    if (!audio.paused) {
+      rafRef.current = requestAnimationFrame(updateProgress);
+    }
+  }, []);
+
+  // Reset and auto-play when note changes
   useEffect(() => {
     stopPlayback();
     setProgress(0);
@@ -71,6 +83,11 @@ export default function VoiceNotePlayer({ note, onClose }: VoiceNotePlayerProps)
       audio.addEventListener('loadedmetadata', () => {
         if (isFinite(audio.duration)) setDuration(audio.duration);
       });
+      audio.addEventListener('canplaythrough', () => {
+        audio.play();
+        setIsPlaying(true);
+        rafRef.current = requestAnimationFrame(updateProgress);
+      }, { once: true });
       audio.addEventListener('ended', () => {
         setIsPlaying(false);
         setProgress(100);
@@ -88,19 +105,7 @@ export default function VoiceNotePlayer({ note, onClose }: VoiceNotePlayerProps)
       }
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [note, stopPlayback]);
-
-  const updateProgress = useCallback(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    setElapsed(audio.currentTime);
-    if (audio.duration && isFinite(audio.duration)) {
-      setProgress((audio.currentTime / audio.duration) * 100);
-    }
-    if (!audio.paused) {
-      rafRef.current = requestAnimationFrame(updateProgress);
-    }
-  }, []);
+  }, [note, stopPlayback, updateProgress]);
 
   const togglePlay = () => {
     if (!note || !audioRef.current) return;

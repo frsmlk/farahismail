@@ -5,22 +5,17 @@ import type { Profile, Status, ArchiveEntry } from '@/lib/types';
 
 /* ─── Helpers ──────────────────────────────────────────────────────────────── */
 
-function getDisciplineSummary(): {
+function getDisciplineSummary(entries: ArchiveEntry[]): {
   discipline: string;
   entries: number;
 }[] {
-  return [
-    { discipline: 'Art Direction', entries: 18 },
-    { discipline: 'Residential', entries: 16 },
-    { discipline: 'Interior Design', entries: 12 },
-    { discipline: 'Modelling', entries: 11 },
-    { discipline: 'Landscape', entries: 9 },
-    { discipline: 'Hospitality', entries: 8 },
-    { discipline: 'Urban Planning', entries: 6 },
-    { discipline: 'Artworks', entries: 5 },
-    { discipline: 'Set Design', entries: 4 },
-    { discipline: 'Furniture', entries: 3 },
-  ];
+  const counts = new Map<string, number>();
+  for (const e of entries) {
+    counts.set(e.category, (counts.get(e.category) ?? 0) + 1);
+  }
+  return Array.from(counts.entries())
+    .map(([discipline, count]) => ({ discipline, entries: count }))
+    .sort((a, b) => b.entries - a.entries);
 }
 
 interface ActivityItem {
@@ -120,16 +115,16 @@ export default function ProfileTab({ onNavigate, profile, status, archiveEntries
 
   const handleSubmit = useCallback(() => {
     if (!formName.trim() || !formEmail.trim() || !formMessage.trim()) return;
-    setFormStatus('sending');
-    setTimeout(() => {
-      setFormStatus('sent');
-      setFormName('');
-      setFormEmail('');
-      setFormSubject('');
-      setFormMessage('');
-      statusTimer.current = setTimeout(() => setFormStatus('idle'), 3000);
-    }, 1200);
-  }, [formName, formEmail, formMessage]);
+    const subject = encodeURIComponent(formSubject.trim() || `Inquiry from ${formName.trim()}`);
+    const body = encodeURIComponent(`From: ${formName.trim()} <${formEmail.trim()}>\n\n${formMessage.trim()}`);
+    window.open(`mailto:${profile.email}?subject=${subject}&body=${body}`, '_self');
+    setFormStatus('sent');
+    setFormName('');
+    setFormEmail('');
+    setFormSubject('');
+    setFormMessage('');
+    statusTimer.current = setTimeout(() => setFormStatus('idle'), 3000);
+  }, [formName, formEmail, formSubject, formMessage, profile.email]);
 
   const handleClear = useCallback(() => {
     setFormName('');
@@ -147,7 +142,7 @@ export default function ProfileTab({ onNavigate, profile, status, archiveEntries
     formMessage.trim() !== '';
 
   /* ── Computed data ── */
-  const disciplineSummary = useMemo(() => getDisciplineSummary(), []);
+  const disciplineSummary = useMemo(() => getDisciplineSummary(archiveEntries), [archiveEntries]);
   const maxEntries = useMemo(
     () => Math.max(...disciplineSummary.map((d) => d.entries)),
     [disciplineSummary]
@@ -158,7 +153,7 @@ export default function ProfileTab({ onNavigate, profile, status, archiveEntries
       .filter((e) => e.entryType === 'project')
       .sort((a, b) => b.year - a.year)
       .slice(0, 5);
-  }, []);
+  }, [archiveEntries]);
 
   const activityFeed = useMemo((): ActivityItem[] => {
     const all: ActivityItem[] = [];
@@ -174,7 +169,7 @@ export default function ProfileTab({ onNavigate, profile, status, archiveEntries
       }
     }
     return all.sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
-  }, []);
+  }, [archiveEntries]);
 
   /* ── Stats ── */
   const totalEntries = archiveEntries.filter(
@@ -257,32 +252,22 @@ export default function ProfileTab({ onNavigate, profile, status, archiveEntries
         >
           {/* Name */}
           <div style={{ marginBottom: '20px' }}>
-            <h1
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: '38px',
-                fontWeight: 700,
-                color: 'var(--color-dark-blue)',
-                lineHeight: 0.95,
-                letterSpacing: '-0.02em',
-                margin: 0,
-              }}
-            >
-              FARAH
-            </h1>
-            <h1
-              style={{
-                fontFamily: 'var(--font-serif)',
-                fontSize: '38px',
-                fontWeight: 700,
-                color: 'var(--color-dark-blue)',
-                lineHeight: 0.95,
-                letterSpacing: '-0.02em',
-                margin: 0,
-              }}
-            >
-              ISMAIL
-            </h1>
+            {profile.fullName.split(' ').map((word) => (
+              <h1
+                key={word}
+                style={{
+                  fontFamily: 'var(--font-serif)',
+                  fontSize: '38px',
+                  fontWeight: 700,
+                  color: 'var(--color-dark-blue)',
+                  lineHeight: 0.95,
+                  letterSpacing: '-0.02em',
+                  margin: 0,
+                }}
+              >
+                {word.toUpperCase()}
+              </h1>
+            ))}
           </div>
 
           {/* Roles */}
@@ -774,11 +759,6 @@ export default function ProfileTab({ onNavigate, profile, status, archiveEntries
               label: 'INSTAGRAM',
               value: profile.instagram,
               href: `https://instagram.com/${profile.instagram.replace('@', '')}`,
-            },
-            {
-              label: 'X',
-              value: '@kingfrh',
-              href: 'https://x.com/kingfrh',
             },
             {
               label: 'WEBSITE',

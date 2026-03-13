@@ -156,7 +156,7 @@ export default function HomeClient({ archiveEntries: initialEntries, profile: in
 
   return (
     <>
-      <Header onNavigate={navigateTo} isOnline={status.isOnline} lastSeen={status.lastSeen} currentActivity={status.currentActivity} archiveEntries={entries} />
+      <Header onNavigate={navigateTo} isOnline={status.isOnline} lastSeen={status.lastSeen} currentActivity={status.currentActivity} archiveEntries={entries} fullName={profile.fullName} roles={profile.roles} />
       <TabBar
         tabs={tabs}
         activeTab={activeTab}

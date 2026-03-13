@@ -676,9 +676,6 @@ export default function DetailTab({
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {voiceNotes.map((vn) => {
-              const mins = Math.floor(vn.duration / 60);
-              const secs = vn.duration % 60;
-              const timeStr = `${mins}:${String(secs).padStart(2, '0')}`;
 
               return (
                 <button
@@ -734,9 +731,10 @@ export default function DetailTab({
                       color: 'var(--color-primary-blue)',
                       opacity: 0.6,
                       fontVariantNumeric: 'tabular-nums',
+                      letterSpacing: '0.04em',
                     }}
                   >
-                    {timeStr}
+                    PLAY
                   </span>
                 </button>
               );
