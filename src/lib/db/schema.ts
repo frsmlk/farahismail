@@ -47,6 +47,7 @@ export const mediaTypeEnum = pgEnum('media_type', [
   'photo',
   'render',
   'document',
+  'audio',
 ]);
 
 // ─── Profiles ────────────────────────────────────────────────────────────────

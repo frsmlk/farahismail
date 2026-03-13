@@ -62,7 +62,7 @@ export interface MediaItem {
   id: number;
   url: string;
   caption?: string;
-  mediaType: 'sketch' | 'photo' | 'render' | 'document';
+  mediaType: 'sketch' | 'photo' | 'render' | 'document' | 'audio';
   sortOrder: number;
 }
 

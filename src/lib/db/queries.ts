@@ -200,6 +200,13 @@ export async function addUpdate(
     .returning();
 }
 
+export async function updateUpdate(
+  id: number,
+  data: Partial<{ date: string; text: string; type: 'note' | 'milestone' | 'photo' | 'thought' }>,
+) {
+  return db.update(timelineUpdates).set(data).where(eq(timelineUpdates.id, id)).returning();
+}
+
 export async function deleteUpdate(id: number) {
   return db.delete(timelineUpdates).where(eq(timelineUpdates.id, id)).returning();
 }
@@ -224,7 +231,7 @@ export async function getMediaForEntry(slug: string) {
 
 export async function addMedia(
   slug: string,
-  data: { url: string; caption?: string; mediaType: 'sketch' | 'photo' | 'render' | 'document'; sortOrder?: number },
+  data: { url: string; caption?: string; mediaType: 'sketch' | 'photo' | 'render' | 'document' | 'audio'; sortOrder?: number },
 ) {
   const entry = await db
     .select({ id: archiveEntries.id })
@@ -246,6 +253,28 @@ export async function addMedia(
     .returning();
 }
 
+export async function updateMedia(
+  id: number,
+  data: Partial<{ url: string; caption: string; mediaType: 'sketch' | 'photo' | 'render' | 'document' | 'audio'; sortOrder: number }>,
+) {
+  return db.update(mediaItems).set(data).where(eq(mediaItems.id, id)).returning();
+}
+
+export async function reorderMedia(items: { id: number; sortOrder: number }[]) {
+  const results = await Promise.all(
+    items.map((item) =>
+      db.update(mediaItems).set({ sortOrder: item.sortOrder }).where(eq(mediaItems.id, item.id)).returning()
+    ),
+  );
+  return results.flat();
+}
+
 export async function deleteMedia(id: number) {
   return db.delete(mediaItems).where(eq(mediaItems.id, id)).returning();
+}
+
+export async function createProfile(
+  data: typeof profiles.$inferInsert,
+) {
+  return db.insert(profiles).values(data).returning();
 }

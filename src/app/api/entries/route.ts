@@ -2,9 +2,38 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireApiKey } from '@/lib/api-auth';
 import { getAllEntries, createEntry } from '@/lib/db/queries';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const entries = await getAllEntries();
-  return NextResponse.json(entries);
+
+  const params = req.nextUrl.searchParams;
+  const status = params.get('status');
+  const category = params.get('category');
+  const entryType = params.get('entryType');
+  const limit = parseInt(params.get('limit') || '0', 10);
+  const offset = parseInt(params.get('offset') || '0', 10);
+
+  let filtered = entries;
+
+  if (status) {
+    filtered = filtered.filter((e) => e.status === status);
+  }
+  if (category) {
+    filtered = filtered.filter((e) => e.category === category);
+  }
+  if (entryType) {
+    filtered = filtered.filter((e) => e.entryType === entryType);
+  }
+
+  const total = filtered.length;
+
+  if (offset > 0) {
+    filtered = filtered.slice(offset);
+  }
+  if (limit > 0) {
+    filtered = filtered.slice(0, limit);
+  }
+
+  return NextResponse.json({ entries: filtered, total, limit, offset });
 }
 
 export async function POST(req: NextRequest) {
