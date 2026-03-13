@@ -2,7 +2,6 @@
 
 import { useReducer, useMemo, useEffect } from 'react';
 import type { FilterState, CategoryName, SortField, ArchiveEntry } from '@/lib/types';
-import { archiveEntries } from '@/lib/seed-data';
 import FilterBar from '@/components/FilterBar';
 import SpreadsheetTable from '@/components/SpreadsheetTable';
 import MapView from '@/components/MapView';
@@ -103,9 +102,10 @@ interface ArchiveTabProps {
   onOpenFloating?: (slug: string) => void;
   viewMode: ViewMode;
   onFilterStatusChange?: (status: string) => void;
+  archiveEntries: ArchiveEntry[];
 }
 
-export default function ArchiveTab({ onRowClick, onOpenFloating, viewMode, onFilterStatusChange }: ArchiveTabProps) {
+export default function ArchiveTab({ onRowClick, onOpenFloating, viewMode, onFilterStatusChange, archiveEntries }: ArchiveTabProps) {
   const [filterState, dispatch] = useReducer(filterReducer, initialState);
 
   const filtered = useMemo(

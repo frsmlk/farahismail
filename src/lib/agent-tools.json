@@ -1,0 +1,185 @@
+{
+  "name": "kontekstkl",
+  "description": "Portfolio management API for Farah Ismail — architect, interior designer, art director, and model based in Kuala Lumpur. Use these tools to read, create, update, and manage her portfolio entries, timeline updates, media, and profile.",
+  "base_url": "${BASE_URL}",
+  "auth": {
+    "type": "bearer",
+    "header": "Authorization",
+    "env_var": "API_KEY"
+  },
+  "tools": [
+    {
+      "name": "get_context",
+      "description": "Call this FIRST in every session. Returns a full snapshot: all portfolio entries (summary), profile info, 10 most recent timeline updates, and aggregate stats. Use this to orient yourself before taking any action.",
+      "method": "GET",
+      "path": "/api/agent/context",
+      "parameters": {}
+    },
+    {
+      "name": "search",
+      "description": "Fuzzy search across all entries, tags, locations, clients, and timeline updates. Use this when Farah mentions a project by partial name, location, or keyword — e.g. 'the Langkawi project', 'that hotel thing', 'Penang work'. Returns matching entries and updates ranked by relevance.",
+      "method": "GET",
+      "path": "/api/search",
+      "parameters": {
+        "q": {
+          "type": "string",
+          "required": true,
+          "description": "Search query — can be a project name, location, tag, client, or keyword"
+        }
+      }
+    },
+    {
+      "name": "list_entries",
+      "description": "List all portfolio entries with full details including timeline updates and media. Use get_context for a lighter summary, or this when you need complete entry data.",
+      "method": "GET",
+      "path": "/api/entries"
+    },
+    {
+      "name": "get_entry",
+      "description": "Get a single portfolio entry by its slug, including all timeline updates and media. Use search first if you don't know the exact slug.",
+      "method": "GET",
+      "path": "/api/entries/{slug}",
+      "parameters": {
+        "slug": {
+          "type": "string",
+          "required": true,
+          "in": "path",
+          "description": "URL slug of the entry (e.g. 'rumah-langkawi-retreat')"
+        }
+      }
+    },
+    {
+      "name": "create_entry",
+      "description": "Create a new portfolio entry. Generate a URL-safe slug from the title. Ask Farah to confirm category and entry type if unclear.",
+      "method": "POST",
+      "path": "/api/entries",
+      "parameters": {
+        "title": { "type": "string", "required": true, "description": "Project/entry title" },
+        "slug": { "type": "string", "required": true, "description": "URL-safe slug (lowercase, hyphens)" },
+        "year": { "type": "number", "required": true, "description": "Start year" },
+        "endYear": { "type": "number", "description": "End year (for jobs/education)" },
+        "entryType": { "type": "string", "required": true, "enum": ["project", "job", "education", "milestone"], "description": "Type of entry" },
+        "category": { "type": "string", "required": true, "enum": ["Residential", "Urban Planning", "Interior Design", "Art Direction", "Modelling", "Artworks", "Hospitality", "Set Design", "Furniture", "Landscape"], "description": "Category" },
+        "typology": { "type": "string", "description": "Specific typology (e.g. 'Private Residence', 'Editorial', 'Solo Exhibition')" },
+        "organization": { "type": "string", "description": "Organization (for jobs)" },
+        "role": { "type": "string", "description": "Role held" },
+        "location": { "type": "string", "description": "Location (city, region)" },
+        "duration": { "type": "string", "description": "Duration as text (e.g. '14 months', '2018–2021')" },
+        "description": { "type": "string", "required": true, "description": "Full description of the entry" },
+        "notes": { "type": "string", "description": "Private notes" },
+        "client": { "type": "string", "description": "Client name" },
+        "collaborators": { "type": "array", "items": "string", "description": "List of collaborator names" },
+        "tools": { "type": "array", "items": "string", "description": "Tools/software used" },
+        "tags": { "type": "array", "items": "string", "required": true, "description": "Tags for categorization and search" },
+        "status": { "type": "string", "required": true, "enum": ["complete", "ongoing", "paused"], "description": "Project status" },
+        "coordinates": { "type": "array", "items": "number", "description": "[longitude, latitude] for map placement" },
+        "thumbnailUrl": { "type": "string", "description": "URL to thumbnail image" }
+      }
+    },
+    {
+      "name": "update_entry",
+      "description": "Update fields on an existing portfolio entry. Only include fields that are changing. Use search to find the slug if needed.",
+      "method": "PATCH",
+      "path": "/api/entries/{slug}",
+      "parameters": {
+        "slug": { "type": "string", "required": true, "in": "path", "description": "URL slug of the entry to update" },
+        "title": { "type": "string" },
+        "year": { "type": "number" },
+        "endYear": { "type": "number" },
+        "category": { "type": "string", "enum": ["Residential", "Urban Planning", "Interior Design", "Art Direction", "Modelling", "Artworks", "Hospitality", "Set Design", "Furniture", "Landscape"] },
+        "typology": { "type": "string" },
+        "location": { "type": "string" },
+        "duration": { "type": "string" },
+        "description": { "type": "string" },
+        "notes": { "type": "string" },
+        "client": { "type": "string" },
+        "collaborators": { "type": "array", "items": "string" },
+        "tools": { "type": "array", "items": "string" },
+        "tags": { "type": "array", "items": "string" },
+        "status": { "type": "string", "enum": ["complete", "ongoing", "paused"] },
+        "coordinates": { "type": "array", "items": "number" },
+        "thumbnailUrl": { "type": "string" }
+      }
+    },
+    {
+      "name": "delete_entry",
+      "description": "Permanently delete a portfolio entry and all its timeline updates and media. Always confirm with Farah before deleting.",
+      "method": "DELETE",
+      "path": "/api/entries/{slug}",
+      "parameters": {
+        "slug": { "type": "string", "required": true, "in": "path" }
+      }
+    },
+    {
+      "name": "add_update",
+      "description": "Add a timeline update to a portfolio entry. This is the primary way Farah logs progress — site visit notes, milestones reached, thoughts, photo descriptions. Use today's date unless Farah specifies otherwise. Infer the type from context: 'milestone' for completions/achievements, 'photo' for image-related, 'thought' for reflections/ideas, 'note' for everything else.",
+      "method": "POST",
+      "path": "/api/entries/{slug}/updates",
+      "parameters": {
+        "slug": { "type": "string", "required": true, "in": "path", "description": "Entry slug" },
+        "date": { "type": "string", "required": true, "description": "ISO date string (YYYY-MM-DD)" },
+        "text": { "type": "string", "required": true, "description": "The update text — write in Farah's voice (first person, reflective, specific)" },
+        "type": { "type": "string", "required": true, "enum": ["note", "milestone", "photo", "thought"], "description": "Update type" }
+      }
+    },
+    {
+      "name": "get_updates",
+      "description": "Get all timeline updates for a specific entry, ordered by date (newest first).",
+      "method": "GET",
+      "path": "/api/entries/{slug}/updates",
+      "parameters": {
+        "slug": { "type": "string", "required": true, "in": "path" }
+      }
+    },
+    {
+      "name": "add_media",
+      "description": "Attach a media item (photo, sketch, render, document) to a portfolio entry. The URL should point to an already-uploaded file (e.g. Vercel Blob). Infer mediaType from context: 'photo' for photographs, 'sketch' for drawings/hand sketches, 'render' for 3D/CGI, 'document' for PDFs/plans.",
+      "method": "POST",
+      "path": "/api/entries/{slug}/media",
+      "parameters": {
+        "slug": { "type": "string", "required": true, "in": "path" },
+        "url": { "type": "string", "required": true, "description": "URL to the media file" },
+        "caption": { "type": "string", "description": "Caption/description for the media" },
+        "mediaType": { "type": "string", "required": true, "enum": ["sketch", "photo", "render", "document"] },
+        "sortOrder": { "type": "number", "description": "Display order (0 = first)" }
+      }
+    },
+    {
+      "name": "get_media",
+      "description": "Get all media items for a specific entry, ordered by sort order.",
+      "method": "GET",
+      "path": "/api/entries/{slug}/media",
+      "parameters": {
+        "slug": { "type": "string", "required": true, "in": "path" }
+      }
+    },
+    {
+      "name": "get_profile",
+      "description": "Get Farah's profile and online status.",
+      "method": "GET",
+      "path": "/api/profile"
+    },
+    {
+      "name": "update_profile",
+      "description": "Update Farah's profile info or online status. Use this to set online/offline status, update current activity, or change any profile field.",
+      "method": "PATCH",
+      "path": "/api/profile",
+      "parameters": {
+        "fullName": { "type": "string" },
+        "headline": { "type": "string" },
+        "bio": { "type": "string" },
+        "roles": { "type": "array", "items": "string" },
+        "email": { "type": "string" },
+        "website": { "type": "string" },
+        "instagram": { "type": "string" },
+        "linkedin": { "type": "string" },
+        "location": { "type": "string" },
+        "nationality": { "type": "string" },
+        "basedIn": { "type": "string" },
+        "isOnline": { "type": "boolean", "description": "Set online/offline status" },
+        "currentActivity": { "type": "string", "description": "What Farah is currently working on (shown on the site)" },
+        "lastSeen": { "type": "string", "description": "ISO datetime string" }
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
-import { profile, archiveEntries, status } from '@/lib/seed-data';
+import type { Profile, Status, ArchiveEntry } from '@/lib/types';
 
 /* ─── Helpers ──────────────────────────────────────────────────────────────── */
 
@@ -91,9 +91,12 @@ type FormStatus = 'idle' | 'sending' | 'sent' | 'error';
 
 interface ProfileTabProps {
   onNavigate?: (tabId: string) => void;
+  profile: Profile;
+  status: Status;
+  archiveEntries: ArchiveEntry[];
 }
 
-export default function ProfileTab({ onNavigate }: ProfileTabProps) {
+export default function ProfileTab({ onNavigate, profile, status, archiveEntries }: ProfileTabProps) {
   /* ── Practice panel state ── */
   const [showAllDisciplines, setShowAllDisciplines] = useState(false);
 

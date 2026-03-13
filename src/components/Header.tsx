@@ -1,13 +1,14 @@
 'use client';
 
 import OnlineStatus from '@/components/OnlineStatus';
-import { status } from '@/lib/seed-data';
 
 interface HeaderProps {
   onNavigate?: (tabId: string) => void;
+  isOnline: boolean;
+  lastSeen: string;
 }
 
-export default function Header({ onNavigate }: HeaderProps) {
+export default function Header({ onNavigate, isOnline, lastSeen }: HeaderProps) {
   return (
     <header
       className="w-full bg-cell-bg"
@@ -47,8 +48,8 @@ export default function Header({ onNavigate }: HeaderProps) {
 
         {/* Right side — Online status */}
         <OnlineStatus
-          isOnline={status.isOnline}
-          lastSeen={status.lastSeen}
+          isOnline={isOnline}
+          lastSeen={lastSeen}
           onNavigate={onNavigate}
         />
       </div>
