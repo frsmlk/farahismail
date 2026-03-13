@@ -200,6 +200,10 @@ export async function addUpdate(
     .returning();
 }
 
+export async function deleteUpdate(id: number) {
+  return db.delete(timelineUpdates).where(eq(timelineUpdates.id, id)).returning();
+}
+
 // ─── Media Items ─────────────────────────────────────────────────────────────
 
 export async function getMediaForEntry(slug: string) {
@@ -240,4 +244,8 @@ export async function addMedia(
       sortOrder: data.sortOrder ?? 0,
     })
     .returning();
+}
+
+export async function deleteMedia(id: number) {
+  return db.delete(mediaItems).where(eq(mediaItems.id, id)).returning();
 }
