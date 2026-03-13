@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireApiKey } from '@/lib/api-auth';
-import { getAllEntries, createEntry } from '@/lib/db/queries';
+import { getAllEntries, createEntry, emitEvent } from '@/lib/db/queries';
 
 export async function GET(req: NextRequest) {
   const entries = await getAllEntries();
@@ -49,5 +49,6 @@ export async function POST(req: NextRequest) {
     lat: coordinates?.[1] ?? null,
   });
 
+  await emitEvent('entry.created', { slug: row[0].slug, title: row[0].title });
   return NextResponse.json(row[0], { status: 201 });
 }

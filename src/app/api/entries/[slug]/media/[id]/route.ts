@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireApiKey } from '@/lib/api-auth';
-import { updateMedia, deleteMedia } from '@/lib/db/queries';
+import { updateMedia, deleteMedia, emitEvent } from '@/lib/db/queries';
 
 export async function PATCH(
   req: NextRequest,
@@ -9,13 +9,14 @@ export async function PATCH(
   const authError = requireApiKey(req);
   if (authError) return authError;
 
-  const { id } = await params;
+  const { slug, id } = await params;
   const mediaId = parseInt(id, 10);
   if (isNaN(mediaId)) return NextResponse.json({ error: 'Invalid media ID' }, { status: 400 });
 
   const body = await req.json();
   const rows = await updateMedia(mediaId, body);
   if (rows.length === 0) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  await emitEvent('media.updated', { slug, mediaId });
   return NextResponse.json(rows[0]);
 }
 
@@ -26,11 +27,12 @@ export async function DELETE(
   const authError = requireApiKey(req);
   if (authError) return authError;
 
-  const { id } = await params;
+  const { slug, id } = await params;
   const mediaId = parseInt(id, 10);
   if (isNaN(mediaId)) return NextResponse.json({ error: 'Invalid media ID' }, { status: 400 });
 
   const rows = await deleteMedia(mediaId);
   if (rows.length === 0) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  await emitEvent('media.deleted', { slug, mediaId });
   return NextResponse.json({ deleted: true });
 }

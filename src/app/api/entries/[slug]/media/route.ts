@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireApiKey } from '@/lib/api-auth';
-import { getMediaForEntry, addMedia } from '@/lib/db/queries';
+import { getMediaForEntry, addMedia, emitEvent } from '@/lib/db/queries';
 
 export async function GET(
   _req: NextRequest,
@@ -23,5 +23,6 @@ export async function POST(
   const result = await addMedia(slug, body);
 
   if (!result) return NextResponse.json({ error: 'Entry not found' }, { status: 404 });
+  await emitEvent('media.created', { slug, mediaId: result[0].id });
   return NextResponse.json(result[0], { status: 201 });
 }

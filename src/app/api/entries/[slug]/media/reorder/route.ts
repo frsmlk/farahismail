@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireApiKey } from '@/lib/api-auth';
-import { reorderMedia } from '@/lib/db/queries';
+import { reorderMedia, emitEvent } from '@/lib/db/queries';
 
 export async function POST(req: NextRequest) {
   const authError = requireApiKey(req);
@@ -17,5 +17,6 @@ export async function POST(req: NextRequest) {
   }
 
   const results = await reorderMedia(items);
+  await emitEvent('media.reordered', { count: items.length });
   return NextResponse.json(results);
 }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireApiKey } from '@/lib/api-auth';
-import { getEntryBySlug, updateEntry, deleteEntry } from '@/lib/db/queries';
+import { getEntryBySlug, updateEntry, deleteEntry, emitEvent } from '@/lib/db/queries';
 
 export async function GET(
   _req: NextRequest,
@@ -31,6 +31,7 @@ export async function PATCH(
 
   const rows = await updateEntry(slug, data);
   if (rows.length === 0) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  await emitEvent('entry.updated', { slug });
   return NextResponse.json(rows[0]);
 }
 
@@ -44,5 +45,6 @@ export async function DELETE(
   const { slug } = await params;
   const rows = await deleteEntry(slug);
   if (rows.length === 0) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  await emitEvent('entry.deleted', { slug });
   return NextResponse.json({ deleted: true });
 }

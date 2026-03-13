@@ -1,14 +1,17 @@
 'use client';
 
 import OnlineStatus from '@/components/OnlineStatus';
+import type { ArchiveEntry } from '@/lib/types';
 
 interface HeaderProps {
   onNavigate?: (tabId: string) => void;
   isOnline: boolean;
   lastSeen: string;
+  currentActivity?: string;
+  archiveEntries?: ArchiveEntry[];
 }
 
-export default function Header({ onNavigate, isOnline, lastSeen }: HeaderProps) {
+export default function Header({ onNavigate, isOnline, lastSeen, currentActivity, archiveEntries }: HeaderProps) {
   return (
     <header
       className="w-full bg-cell-bg"
@@ -50,6 +53,8 @@ export default function Header({ onNavigate, isOnline, lastSeen }: HeaderProps) 
         <OnlineStatus
           isOnline={isOnline}
           lastSeen={lastSeen}
+          currentActivity={currentActivity}
+          archiveEntries={archiveEntries}
           onNavigate={onNavigate}
         />
       </div>

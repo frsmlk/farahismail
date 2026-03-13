@@ -14,6 +14,7 @@ import VoiceNotePlayer from '@/components/VoiceNotePlayer';
 import type { VoiceNote } from '@/components/VoiceNotePlayer';
 import FloatingWindow from '@/components/FloatingWindow';
 import type { ArchiveEntry, Profile, Status } from '@/lib/types';
+import { useSSE } from '@/lib/useSSE';
 
 type TabId = 'profile' | 'archive' | string;
 
@@ -31,7 +32,10 @@ interface HomeClientProps {
   status: Status;
 }
 
-export default function HomeClient({ archiveEntries, profile, status }: HomeClientProps) {
+export default function HomeClient({ archiveEntries: initialEntries, profile: initialProfile, status: initialStatus }: HomeClientProps) {
+  const [entries, setEntries] = useState<ArchiveEntry[]>(initialEntries);
+  const [profile, setProfile] = useState<Profile>(initialProfile);
+  const [status, setStatus] = useState<Status>(initialStatus);
   const [activeTab, setActiveTab] = useState<TabId>('profile');
   const [detailTabs, setDetailTabs] = useState<string[]>([]);
   const [floatingTabs, setFloatingTabs] = useState<string[]>([]);
@@ -39,10 +43,31 @@ export default function HomeClient({ archiveEntries, profile, status }: HomeClie
   const [archiveViewMode, setArchiveViewMode] = useState<ViewMode>('list');
   const [filterStatus, setFilterStatus] = useState('NO FILTER');
 
+  const refreshData = useCallback(async () => {
+    try {
+      const [entriesRes, profileRes] = await Promise.all([
+        fetch('/api/entries').then((r) => r.json()),
+        fetch('/api/profile').then((r) => r.ok ? r.json() : null),
+      ]);
+      if (entriesRes.entries) setEntries(entriesRes.entries);
+      if (profileRes) {
+        const { isOnline, currentActivity, lastSeen, ...prof } = profileRes;
+        setProfile(prof);
+        setStatus({ isOnline: isOnline ?? false, currentActivity: currentActivity ?? '', lastSeen: lastSeen ?? '' });
+      }
+    } catch {
+      // Silently ignore — will retry on next event
+    }
+  }, []);
+
+  useSSE(useCallback(() => {
+    refreshData();
+  }, [refreshData]));
+
   function getSlugLabel(tabId: string): string {
     if (!tabId.startsWith('detail/')) return tabId;
     const slug = tabId.replace('detail/', '');
-    const entry = archiveEntries.find((e) => e.slug === slug);
+    const entry = entries.find((e) => e.slug === slug);
     if (entry) return entry.title;
     return slug
       .split('-')
@@ -121,7 +146,7 @@ export default function HomeClient({ archiveEntries, profile, status }: HomeClie
 
   const rowCount =
     activeTab === 'archive'
-      ? archiveEntries.length
+      ? entries.length
       : activeTab === 'profile'
         ? 1
         : 1;
@@ -131,7 +156,7 @@ export default function HomeClient({ archiveEntries, profile, status }: HomeClie
 
   return (
     <>
-      <Header onNavigate={navigateTo} isOnline={status.isOnline} lastSeen={status.lastSeen} />
+      <Header onNavigate={navigateTo} isOnline={status.isOnline} lastSeen={status.lastSeen} currentActivity={status.currentActivity} archiveEntries={entries} />
       <TabBar
         tabs={tabs}
         activeTab={activeTab}
@@ -149,7 +174,7 @@ export default function HomeClient({ archiveEntries, profile, status }: HomeClie
               onNavigate={navigateTo}
               profile={profile}
               status={status}
-              archiveEntries={archiveEntries}
+              archiveEntries={entries}
             />
           )}
 
@@ -163,14 +188,14 @@ export default function HomeClient({ archiveEntries, profile, status }: HomeClie
                 setFloatingTabs((prev) => prev.includes(tabId) ? prev : [...prev, tabId]);
               }}
               onFilterStatusChange={setFilterStatus}
-              archiveEntries={archiveEntries}
+              archiveEntries={entries}
             />
           )}
 
           {showDockedDetail && (
             <DetailTab
               slug={activeTab.replace('detail/', '')}
-              entries={archiveEntries}
+              entries={entries}
               onClose={() => closeDetailTab(activeTab)}
               onNavigate={(newSlug) => navigateTo(`detail/${newSlug}`)}
               onPlayVoiceNote={(note) => setActiveVoiceNote(note)}
@@ -199,7 +224,7 @@ export default function HomeClient({ archiveEntries, profile, status }: HomeClie
           >
             <DetailTab
               slug={slug}
-              entries={archiveEntries}
+              entries={entries}
               onClose={() => closeDetailTab(tabId)}
               onNavigate={(newSlug) => {
                 closeDetailTab(tabId);

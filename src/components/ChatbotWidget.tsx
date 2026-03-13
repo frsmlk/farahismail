@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Send } from 'lucide-react';
-import { status } from '@/lib/seed-data';
 
 interface Message {
   id: number;
@@ -24,7 +23,11 @@ const WELCOME_MESSAGE: Message = {
     "Hello — I'm Jane, Farah's assistant. I can tell you what Farah is currently working on, or answer questions about her portfolio.",
 };
 
-export default function ChatbotWidget() {
+interface ChatbotWidgetProps {
+  currentActivity?: string;
+}
+
+export default function ChatbotWidget({ currentActivity = '' }: ChatbotWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [inputValue, setInputValue] = useState('');
@@ -212,7 +215,7 @@ export default function ChatbotWidget() {
             marginTop: '4px',
           }}
         >
-          Currently: {status.currentActivity}
+          Currently: {currentActivity}
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { requireApiKey } from '@/lib/api-auth';
-import { getProfile, createProfile, updateProfile } from '@/lib/db/queries';
+import { getProfile, createProfile, updateProfile, emitEvent } from '@/lib/db/queries';
 
 export async function GET() {
   const profile = await getProfile();
@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
   const rows = await createProfile(body);
+  await emitEvent('profile.created', {});
   return NextResponse.json(rows[0], { status: 201 });
 }
 
@@ -28,5 +29,6 @@ export async function PATCH(req: NextRequest) {
 
   const body = await req.json();
   const rows = await updateProfile(body);
+  await emitEvent('profile.updated', {});
   return NextResponse.json(rows[0]);
 }

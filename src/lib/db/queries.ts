@@ -1,10 +1,11 @@
-import { eq, desc, asc, ilike, inArray, gte, lte, sql } from 'drizzle-orm';
+import { eq, desc, asc, ilike, inArray, gte, lte, sql, gt } from 'drizzle-orm';
 import { db } from './index';
 import {
   profiles,
   archiveEntries,
   timelineUpdates,
   mediaItems,
+  sseEvents,
 } from './schema';
 import type { ArchiveEntry, Profile, Status, TimelineUpdate, MediaItem } from '@/lib/types';
 
@@ -277,4 +278,26 @@ export async function createProfile(
   data: typeof profiles.$inferInsert,
 ) {
   return db.insert(profiles).values(data).returning();
+}
+
+// ─── SSE Events ─────────────────────────────────────────────────────────────
+
+export async function emitEvent(type: string, payload: Record<string, unknown> = {}) {
+  await db.insert(sseEvents).values({ type, payload });
+  // Clean up events older than 1 hour
+  await db
+    .delete(sseEvents)
+    .where(
+      lte(sseEvents.createdAt, new Date(Date.now() - 60 * 60 * 1000)),
+    )
+    .execute()
+    .catch(() => {});
+}
+
+export async function getEventsSince(lastId: number) {
+  return db
+    .select()
+    .from(sseEvents)
+    .where(gt(sseEvents.id, lastId))
+    .orderBy(asc(sseEvents.id));
 }

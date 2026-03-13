@@ -7,6 +7,7 @@ import {
   timestamp,
   real,
   pgEnum,
+  jsonb,
 } from 'drizzle-orm/pg-core';
 
 export const entryTypeEnum = pgEnum('entry_type', [
@@ -120,4 +121,13 @@ export const mediaItems = pgTable('media_items', {
   caption: text('caption'),
   mediaType: mediaTypeEnum('media_type').notNull(),
   sortOrder: integer('sort_order').notNull().default(0),
+});
+
+// ─── SSE Events ─────────────────────────────────────────────────────────────
+
+export const sseEvents = pgTable('sse_events', {
+  id: serial('id').primaryKey(),
+  type: text('type').notNull(),
+  payload: jsonb('payload').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });

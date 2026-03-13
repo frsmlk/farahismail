@@ -15,36 +15,6 @@ interface DetailTabProps {
   isFloating?: boolean;
 }
 
-const MEDIA_TYPES: ('SKETCH' | 'PHOTO' | 'RENDER')[] = [
-  'SKETCH',
-  'PHOTO',
-  'RENDER',
-  'PHOTO',
-  'RENDER',
-  'SKETCH',
-];
-
-const VOICE_NOTES = [
-  { label: 'Site visit notes', duration: 47 },
-  { label: 'Design thoughts', duration: 123 },
-];
-
-function generatePlaceholderMedia(entryId: number) {
-  return Array.from({ length: 5 }, (_, i) => ({
-    index: i,
-    url: `https://picsum.photos/300/200?random=${entryId * 10 + i}`,
-    caption: `Documentation ${String(i + 1).padStart(2, '0')}`,
-    fileType: MEDIA_TYPES[i % MEDIA_TYPES.length],
-  }));
-}
-
-function generateVoiceNotes(entryId: number): { id: string; label: string; duration: number }[] {
-  return VOICE_NOTES.map((v, i) => ({
-    id: `vn-${entryId}-${i}`,
-    label: v.label,
-    duration: v.duration,
-  }));
-}
 
 export default function DetailTab({
   slug,
@@ -75,12 +45,29 @@ export default function DetailTab({
     entryIndex < entries.length - 1 ? entries[entryIndex + 1] : null;
 
   const media = useMemo(
-    () => (entry ? generatePlaceholderMedia(entry.id) : []),
+    () =>
+      (entry?.media ?? [])
+        .filter((m) => m.mediaType !== 'audio')
+        .sort((a, b) => a.sortOrder - b.sortOrder)
+        .map((m, i) => ({
+          index: i,
+          url: m.url,
+          caption: m.caption ?? `Media ${String(i + 1).padStart(2, '0')}`,
+          fileType: m.mediaType.toUpperCase(),
+        })),
     [entry]
   );
 
   const voiceNotes = useMemo(
-    () => (entry ? generateVoiceNotes(entry.id) : []),
+    () =>
+      (entry?.media ?? [])
+        .filter((m) => m.mediaType === 'audio')
+        .map((m) => ({
+          id: `vn-${m.id}`,
+          label: m.caption ?? 'Voice note',
+          duration: 0,
+          url: m.url,
+        })),
     [entry]
   );
 
@@ -587,6 +574,8 @@ export default function DetailTab({
 
         {/* Column 3 — MEDIA GALLERY */}
         <div style={{ padding: '16px' }}>
+          {media.length > 0 && (
+          <>
           <div
             style={{
               fontFamily: 'var(--font-mono)',
@@ -665,8 +654,12 @@ export default function DetailTab({
               </div>
             ))}
           </div>
+          </>
+          )}
 
           {/* Voice Notes */}
+          {voiceNotes.length > 0 && (
+          <>
           <div
             style={{
               fontFamily: 'var(--font-mono)',
@@ -749,6 +742,22 @@ export default function DetailTab({
               );
             })}
           </div>
+          </>
+          )}
+
+          {media.length === 0 && voiceNotes.length === 0 && (
+            <div
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '12px',
+                color: 'var(--color-primary-blue)',
+                opacity: 0.4,
+                padding: '20px 0',
+              }}
+            >
+              No media yet
+            </div>
+          )}
 
           {/* Mini Map */}
           {entry.coordinates && (

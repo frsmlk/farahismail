@@ -1,15 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { status, archiveEntries } from '@/lib/seed-data';
+import type { ArchiveEntry } from '@/lib/types';
 
 interface OnlineStatusProps {
   isOnline: boolean;
   lastSeen?: string;
+  currentActivity?: string;
+  archiveEntries?: ArchiveEntry[];
   onNavigate?: (tabId: string) => void;
 }
 
-export default function OnlineStatus({ isOnline, lastSeen, onNavigate }: OnlineStatusProps) {
+export default function OnlineStatus({ isOnline, lastSeen, currentActivity, archiveEntries = [], onNavigate }: OnlineStatusProps) {
   const [showCard, setShowCard] = useState(false);
 
   const label = isOnline
@@ -137,7 +139,7 @@ export default function OnlineStatus({ isOnline, lastSeen, onNavigate }: OnlineS
               gap: '4px',
             }}
           >
-            {status.currentActivity}
+            {currentActivity ?? ''}
           </div>
         </div>
       )}
