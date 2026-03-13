@@ -7,6 +7,7 @@ export interface VoiceNote {
   id: string;
   label: string;
   duration: number; // seconds
+  url?: string;
 }
 
 interface VoiceNotePlayerProps {
@@ -36,7 +37,9 @@ export default function VoiceNotePlayer({ note, onClose }: VoiceNotePlayerProps)
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [elapsed, setElapsed] = useState(0);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   const waveform = useMemo(
     () => (note ? generateWaveform(note.id, BAR_COUNT) : []),
@@ -44,47 +47,70 @@ export default function VoiceNotePlayer({ note, onClose }: VoiceNotePlayerProps)
   );
 
   const stopPlayback = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
     }
     setIsPlaying(false);
   }, []);
 
+  // Reset when note changes
   useEffect(() => {
     stopPlayback();
     setProgress(0);
     setElapsed(0);
+    setDuration(0);
+
+    if (note?.url) {
+      const audio = new Audio(note.url);
+      audioRef.current = audio;
+
+      audio.addEventListener('loadedmetadata', () => {
+        if (isFinite(audio.duration)) setDuration(audio.duration);
+      });
+      audio.addEventListener('ended', () => {
+        setIsPlaying(false);
+        setProgress(100);
+        setElapsed(audio.duration);
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      });
+    } else {
+      audioRef.current = null;
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, [note, stopPlayback]);
 
-  useEffect(() => {
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
+  const updateProgress = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    setElapsed(audio.currentTime);
+    if (audio.duration && isFinite(audio.duration)) {
+      setProgress((audio.currentTime / audio.duration) * 100);
+    }
+    if (!audio.paused) {
+      rafRef.current = requestAnimationFrame(updateProgress);
+    }
   }, []);
 
   const togglePlay = () => {
-    if (!note) return;
+    if (!note || !audioRef.current) return;
 
     if (isPlaying) {
       stopPlayback();
     } else {
+      audioRef.current.play();
       setIsPlaying(true);
-      const startTime = Date.now() - elapsed * 1000;
-
-      intervalRef.current = setInterval(() => {
-        const now = Date.now();
-        const elapsedSec = (now - startTime) / 1000;
-
-        if (elapsedSec >= note.duration) {
-          stopPlayback();
-          setProgress(100);
-          setElapsed(note.duration);
-        } else {
-          setElapsed(elapsedSec);
-          setProgress((elapsedSec / note.duration) * 100);
-        }
-      }, 50);
+      rafRef.current = requestAnimationFrame(updateProgress);
     }
   };
 
@@ -96,7 +122,7 @@ export default function VoiceNotePlayer({ note, onClose }: VoiceNotePlayerProps)
 
   if (!note) return null;
 
-  // Which bar index the playhead is at
+  const displayDuration = duration > 0 ? duration : note.duration;
   const playheadBar = Math.floor((progress / 100) * BAR_COUNT);
 
   return (
@@ -221,7 +247,7 @@ export default function VoiceNotePlayer({ note, onClose }: VoiceNotePlayerProps)
         }}
       >
         <span>{formatTime(elapsed)}</span>
-        <span>{formatTime(note.duration)}</span>
+        <span>{formatTime(displayDuration)}</span>
       </div>
     </div>
   );
