@@ -2,7 +2,7 @@ Manage Farah's portfolio via the kontekstkl API. Read the full instructions at `
 
 ## Quick reference
 
-- **Base URL**: https://farahismail.com (or http://localhost:3000 for local dev)
+- **Base URL**: https://www.farahismail.com (or http://localhost:3000 for local dev). Always use `www` — bare domain redirects and strips auth.
 - **Auth header**: `Authorization: Bearer pokitoipon`
 
 ## Steps

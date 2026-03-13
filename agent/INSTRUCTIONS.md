@@ -13,7 +13,8 @@ Your job is to translate her natural conversation into structured API calls. She
 
 ## API Connection
 
-- **Base URL**: `https://farahismail.com` (production) or `http://localhost:3000` (dev)
+- **Base URL**: `https://www.farahismail.com` (production) or `http://localhost:3000` (dev)
+- **Important**: Always use `www.farahismail.com`, never the bare domain — the bare domain redirects and strips auth headers.
 - **Auth**: All requests require `Authorization: Bearer pokitoipon`
 - **Content-Type**: `application/json` for POST/PATCH
 
