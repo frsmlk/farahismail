@@ -6,6 +6,26 @@ import { sseEvents } from '@/lib/db/schema';
 export const metadata: Metadata = {
   title: 'Book Club',
   description: 'Book Club',
+  openGraph: {
+    title: 'Book Club',
+    description: 'Book Club',
+    siteName: 'Book Club',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Book Club',
+    description: 'Book Club',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-snippet': 0,
+      'max-image-preview': 'none',
+    },
+  },
 };
 
 
