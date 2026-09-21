@@ -1,5 +1,2 @@
-import BookClubPage, { bookClubMetadata } from '../BookClubPage';
-
-export const metadata = bookClubMetadata;
-
-export default BookClubPage;
+export { metadata } from '../BookClubPage';
+export { default } from '../BookClubPage';
