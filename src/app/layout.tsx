@@ -8,9 +8,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'FARAH ISMAIL',
-  description:
-    'Portfolio archive of Farah Ismail — architect, fashion photographer, art director, and model based in Kuala Lumpur.',
+  title: 'Book Club',
+  description: 'Book Club',
 };
 
 export default function RootLayout({
@@ -20,15 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        <div
-          id="app-shell"
-          className="flex flex-col"
-          style={{ height: '100dvh', overflow: 'hidden' }}
-        >
-          {children}
-        </div>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

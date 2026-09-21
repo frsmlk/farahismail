@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Legacy portfolio UI kept in repo but no longer used by the Book Club site.
+    "src/app/HomeClient.tsx",
+    "src/components/**",
+    "src/lib/useSSE.ts",
+    "src/lib/db/queries.ts",
   ]),
 ]);
 
