@@ -39,6 +39,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="robots" content="index, follow, max-snippet:0, max-image-preview:none" />
+        <meta name="googlebot" content="index, follow, nosnippet, max-snippet:0, max-image-preview:none" />
+      </head>
       <body>{children}</body>
     </html>
   );
