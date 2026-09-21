@@ -1,9 +1,39 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import { db } from '@/lib/db';
+import { sseEvents } from '@/lib/db/schema';
 
 export const metadata: Metadata = {
   title: 'Book Club',
   description: 'Book Club',
 };
+
+
+async function submitBorrowRequest(formData: FormData) {
+  'use server';
+
+  const bookTitle = String(formData.get('bookTitle') ?? '').trim();
+  const name = String(formData.get('name') ?? '').trim();
+  const address = String(formData.get('address') ?? '').trim();
+  const phone = String(formData.get('phone') ?? '').trim();
+
+  if (!bookTitle || !name || !address || !phone) {
+    redirect(`/?borrow=${encodeURIComponent(bookTitle)}&error=missing#borrow-form`);
+  }
+
+  await db.insert(sseEvents).values({
+    type: 'borrow_request',
+    payload: {
+      bookTitle,
+      name,
+      address,
+      phone,
+      submittedAt: new Date().toISOString(),
+    },
+  });
+
+  redirect('/?borrow=submitted#borrow-form');
+}
 
 const lentBooks = [
   ['Novel', 'The Vegetarian', 'Han Kang', 'Lent to Shyafika S.'],
@@ -33,19 +63,35 @@ const availableBooks = [
   ['Manga', 'Blame!', 'Tsutomu Nihei', 'Available'],
 ];
 
-function Row({ item }: { item: string[] }) {
+function Row({ item, borrowable = false }: { item: string[]; borrowable?: boolean }) {
   const [type, title, author, status] = item;
   return (
     <article className="bcListItem">
       <div className="bcType">{type}</div>
       <div className="bcTitle">{title}</div>
       <div className="bcAuthor">{author}</div>
-      <div className="bcStatus">{status}</div>
+      <div className="bcStatus">
+        {borrowable ? (
+          <a className="bcBorrowStatus" href={`?borrow=${encodeURIComponent(title)}#borrow-form`} aria-label={`Borrow ${title}`}>
+            <span className="bcAvailableText">{status}</span>
+            <span className="bcBorrowText">Borrow</span>
+          </a>
+        ) : status}
+      </div>
     </article>
   );
 }
 
-export default function BookClubPage() {
+type BookClubPageProps = {
+  searchParams?: Promise<{ borrow?: string; error?: string }> | { borrow?: string; error?: string };
+};
+
+export default async function BookClubPage({ searchParams }: BookClubPageProps) {
+  const params = searchParams ? await Promise.resolve(searchParams) : {};
+  const borrowTitle = params.borrow && params.borrow !== 'submitted' ? params.borrow : '';
+  const submitted = params.borrow === 'submitted';
+  const missing = params.error === 'missing';
+
   return (
     <main className="bcSite">
       <header className="bcHero">
@@ -91,9 +137,48 @@ export default function BookClubPage() {
       <section className="bcSection" id="available">
         <div className="bcSectionHead"><h2>Available</h2></div>
         <div className="bcList">
-          {availableBooks.map((book) => <Row key={book[1]} item={book} />)}
+          {availableBooks.map((book) => <Row key={book[1]} item={book} borrowable />)}
         </div>
       </section>
+
+      <section className="bcSection" id="borrow-form">
+        <div className="bcSectionHead"><h2>Borrow</h2></div>
+        <form className="bcBorrowForm" action={submitBorrowRequest}>
+          {submitted ? <p className="bcFormMessage">Borrow request received.</p> : null}
+          {missing ? <p className="bcFormMessage">Please fill in name, address, and phone.</p> : null}
+          <label>
+            <span>Book</span>
+            <input name="bookTitle" defaultValue={borrowTitle} readOnly={Boolean(borrowTitle)} placeholder="Book title" required />
+          </label>
+          <label>
+            <span>Name</span>
+            <input name="name" placeholder="Name" required />
+          </label>
+          <label>
+            <span>Address</span>
+            <input name="address" placeholder="Address" required />
+          </label>
+          <label>
+            <span>Phone</span>
+            <input name="phone" placeholder="Phone" required />
+          </label>
+          <button type="submit">Submit</button>
+        </form>
+      </section>
+
+      <style>{`
+        .bcBorrowStatus { position: relative; display: inline-block; min-width: 70px; }
+        .bcBorrowText { display: none; text-decoration: underline; }
+        .bcBorrowStatus:hover .bcAvailableText { display: none; }
+        .bcBorrowStatus:hover .bcBorrowText { display: inline; }
+        .bcBorrowForm { display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 20px; align-items: end; padding: 22px; border-bottom: 1px solid var(--bc-line); }
+        .bcBorrowForm label { display: grid; gap: 8px; font-family: Arial, Helvetica, sans-serif; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; }
+        .bcBorrowForm input { width: 100%; border: 1px solid var(--bc-line); border-radius: 0; background: transparent; padding: 10px; font: 12pt Arial, Helvetica, sans-serif; color: #000000; }
+        .bcBorrowForm button { border: 1px solid var(--bc-line); background: transparent; padding: 10px 14px; font: 8pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; }
+        .bcBorrowForm button:hover { background: rgba(0, 0, 0, 0.06); }
+        .bcFormMessage { grid-column: 1 / -1; margin: 0; font: 12pt Arial, Helvetica, sans-serif; }
+        @media (max-width: 900px) { .bcBorrowForm { grid-template-columns: 1fr; padding-left: 16px; padding-right: 16px; } }
+      `}</style>
 
       <footer className="bcFooter">
         <div>Book Club</div>
