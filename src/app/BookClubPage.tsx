@@ -276,7 +276,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 </label>
                 <div className="bcDateDue" aria-hidden="true">
                   <span>Date Due</span>
-                  <strong>45 DAYS</strong>
+                  <strong>45 Days</strong>
                 </div>
               </div>
               <button type="submit">Submit Request</button>
@@ -296,9 +296,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcCardClose { position: absolute; top: 10px; right: 14px; z-index: 2; color: #1b1712; font: 10pt Arial, Helvetica, sans-serif; line-height: 1; text-decoration: none; }
         .bcBorrowForm { position: relative; display: grid; gap: 0; padding: 0; border: 1px solid #16130f; background: #f3e7c4; background-image: radial-gradient(circle at 20% 12%, rgba(110, 82, 43, 0.13) 0 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.2), rgba(133, 96, 45, 0.07)); background-size: 12px 12px, 100% 100%; font-family: 'Courier New', Courier, monospace; }
         .bcCardHeader { border-bottom: 1px solid #16130f; }
-        .bcCardHeader p { margin: 0; padding: 14px 16px; font: 10pt 'Times New Roman', Times, serif; text-transform: uppercase; letter-spacing: 0.08em; }
+        .bcCardHeader p { margin: 0; padding: 14px 16px; font: 10pt 'Times New Roman', Times, serif; letter-spacing: 0.04em; }
         .bcCardRow { display: grid; grid-template-columns: 150px 1fr; min-height: 58px; border-bottom: 1px solid #16130f; }
-        .bcCardRow span, .bcDateDue span { padding: 12px 16px; border-right: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
+        .bcCardRow span, .bcDateDue span { padding: 12px 16px; border-right: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; }
         .bcCardRow input { width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; padding: 12px 16px; font: 10pt 'Courier New', Courier, monospace; color: #1b1712; outline: none; }
         .bcCardRow input:focus { background: rgba(255, 255, 255, 0.25); }
         .bcCardRow input[readonly] { cursor: default; }
@@ -307,7 +307,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcDateDue { display: grid; grid-template-rows: auto 1fr; border-left: 1px solid #16130f; text-align: center; }
         .bcDateDue span { border-right: 0; border-bottom: 1px solid #16130f; }
         .bcDateDue strong { display: grid; place-items: center; min-height: 57px; font-size: 10pt; letter-spacing: 0.08em; }
-        .bcBorrowForm button { justify-self: stretch; border: 0; background: transparent; padding: 16px; font: 10pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; }
+        .bcBorrowForm button { justify-self: stretch; border: 0; background: transparent; padding: 16px; font: 10pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; cursor: pointer; }
         .bcBorrowForm button:hover { background: rgba(27, 23, 18, 0.08); }
         .bcFormMessage { margin: 0; padding: 12px 16px; border-bottom: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; }
         @media (max-width: 640px) {
