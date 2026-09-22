@@ -250,10 +250,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div className="bcBorrowModal" id="borrow-card" role="dialog" aria-modal="true" aria-labelledby="borrow-card-title">
           <Link className="bcBorrowBackdrop" href="/" aria-label="Close borrow form" />
           <div className="bcLibraryCard">
-            <div className="bcCardTopline">
-              <span>Book Index</span>
-              <Link href="/" aria-label="Close borrow form">×</Link>
-            </div>
+            <Link className="bcCardClose" href="/" aria-label="Close borrow form">×</Link>
             <form className="bcBorrowForm" action={submitBorrowRequest}>
               <div className="bcCardHeader">
                 <p>Library Card</p>
@@ -266,7 +263,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <input name="bookTitle" defaultValue={borrowTitle} readOnly={Boolean(borrowTitle)} placeholder="Book title" required />
               </label>
               <label className="bcCardRow">
-                <span>Borrower&apos;s Name</span>
+                <span>Name</span>
                 <input name="name" placeholder="Name" required />
               </label>
               <label className="bcCardRow">
@@ -297,26 +294,25 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBorrowModal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 18px; }
         .bcBorrowBackdrop { position: absolute; inset: 0; background: rgba(40, 34, 28, 0.28); backdrop-filter: blur(3px); }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
-        .bcCardTopline { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border: 1px solid #16130f; border-bottom: 0; background: #efe2ba; font: 12pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
-        .bcCardTopline a { color: #1b1712; font: 15pt Arial, Helvetica, sans-serif; line-height: 1; text-decoration: none; }
+        .bcCardClose { position: absolute; top: 10px; right: 14px; z-index: 2; color: #1b1712; font: 10pt Arial, Helvetica, sans-serif; line-height: 1; text-decoration: none; }
         .bcBorrowForm { position: relative; display: grid; gap: 0; padding: 0; border: 1px solid #16130f; background: #f3e7c4; background-image: radial-gradient(circle at 20% 12%, rgba(110, 82, 43, 0.13) 0 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.2), rgba(133, 96, 45, 0.07)); background-size: 12px 12px, 100% 100%; font-family: 'Courier New', Courier, monospace; }
         .bcCardHeader { display: grid; grid-template-columns: 150px 1fr; border-bottom: 1px solid #16130f; }
         .bcCardHeader p, .bcCardHeader h2 { margin: 0; padding: 14px 16px; }
-        .bcCardHeader p { border-right: 1px solid #16130f; font: 12pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
-        .bcCardHeader h2 { font-family: Arial, Helvetica, sans-serif; font-size: 15pt; line-height: 1; font-weight: 400; letter-spacing: -0.02em; white-space: nowrap; }
+        .bcCardHeader p { border-right: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
+        .bcCardHeader h2 { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: 1; font-weight: 400; letter-spacing: -0.02em; white-space: nowrap; }
         .bcCardRow { display: grid; grid-template-columns: 150px 1fr; min-height: 58px; border-bottom: 1px solid #16130f; }
-        .bcCardRow span, .bcDateDue span { padding: 12px 16px; border-right: 1px solid #16130f; font: 12pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
-        .bcCardRow input { width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; padding: 12px 16px; font: 14pt 'Courier New', Courier, monospace; color: #1b1712; outline: none; }
+        .bcCardRow span, .bcDateDue span { padding: 12px 16px; border-right: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
+        .bcCardRow input { width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; padding: 12px 16px; font: 10pt 'Courier New', Courier, monospace; color: #1b1712; outline: none; }
         .bcCardRow input:focus { background: rgba(255, 255, 255, 0.25); }
         .bcCardRow input[readonly] { cursor: default; }
         .bcCardGrid { display: grid; grid-template-columns: 1fr 170px; border-bottom: 1px solid #16130f; }
         .bcCardGrid .bcCardRow { border-bottom: 0; }
         .bcDateDue { display: grid; grid-template-rows: auto 1fr; border-left: 1px solid #16130f; text-align: center; }
         .bcDateDue span { border-right: 0; border-bottom: 1px solid #16130f; }
-        .bcDateDue strong { display: grid; place-items: center; min-height: 57px; font-size: 15pt; letter-spacing: 0.08em; }
-        .bcBorrowForm button { justify-self: stretch; border: 0; background: transparent; padding: 16px; font: 12pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; }
+        .bcDateDue strong { display: grid; place-items: center; min-height: 57px; font-size: 10pt; letter-spacing: 0.08em; }
+        .bcBorrowForm button { justify-self: stretch; border: 0; background: transparent; padding: 16px; font: 10pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; }
         .bcBorrowForm button:hover { background: rgba(27, 23, 18, 0.08); }
-        .bcFormMessage { margin: 0; padding: 12px 16px; border-bottom: 1px solid #16130f; font: 12pt Arial, Helvetica, sans-serif; }
+        .bcFormMessage { margin: 0; padding: 12px 16px; border-bottom: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; }
         @media (max-width: 640px) {
           .bcCardHeader, .bcCardRow, .bcCardGrid { grid-template-columns: 1fr; }
           .bcCardHeader p, .bcCardRow span, .bcDateDue span { border-right: 0; border-bottom: 1px solid #16130f; }
