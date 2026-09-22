@@ -253,8 +253,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link className="bcCardClose" href="/" aria-label="Close borrow form">×</Link>
             <form className="bcBorrowForm" action={submitBorrowRequest}>
               <div className="bcCardHeader">
-                <p>Library Card</p>
-                <h2 id="borrow-card-title">Book Index</h2>
+                <p id="borrow-card-title">Book Index Library Card</p>
               </div>
               {submitted ? <p className="bcFormMessage">Borrow request received.</p> : null}
               {missing ? <p className="bcFormMessage">Please fill in name, address, and phone.</p> : null}
@@ -296,10 +295,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
         .bcCardClose { position: absolute; top: 10px; right: 14px; z-index: 2; color: #1b1712; font: 10pt Arial, Helvetica, sans-serif; line-height: 1; text-decoration: none; }
         .bcBorrowForm { position: relative; display: grid; gap: 0; padding: 0; border: 1px solid #16130f; background: #f3e7c4; background-image: radial-gradient(circle at 20% 12%, rgba(110, 82, 43, 0.13) 0 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.2), rgba(133, 96, 45, 0.07)); background-size: 12px 12px, 100% 100%; font-family: 'Courier New', Courier, monospace; }
-        .bcCardHeader { display: grid; grid-template-columns: 150px 1fr; border-bottom: 1px solid #16130f; }
-        .bcCardHeader p, .bcCardHeader h2 { margin: 0; padding: 14px 16px; }
-        .bcCardHeader p { border-right: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
-        .bcCardHeader h2 { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: 1; font-weight: 400; letter-spacing: -0.02em; white-space: nowrap; }
+        .bcCardHeader { border-bottom: 1px solid #16130f; }
+        .bcCardHeader p { margin: 0; padding: 14px 16px; font: 10pt 'Times New Roman', Times, serif; text-transform: uppercase; letter-spacing: 0.08em; }
         .bcCardRow { display: grid; grid-template-columns: 150px 1fr; min-height: 58px; border-bottom: 1px solid #16130f; }
         .bcCardRow span, .bcDateDue span { padding: 12px 16px; border-right: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
         .bcCardRow input { width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; padding: 12px 16px; font: 10pt 'Courier New', Courier, monospace; color: #1b1712; outline: none; }
@@ -314,8 +311,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBorrowForm button:hover { background: rgba(27, 23, 18, 0.08); }
         .bcFormMessage { margin: 0; padding: 12px 16px; border-bottom: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; }
         @media (max-width: 640px) {
-          .bcCardHeader, .bcCardRow, .bcCardGrid { grid-template-columns: 1fr; }
-          .bcCardHeader p, .bcCardRow span, .bcDateDue span { border-right: 0; border-bottom: 1px solid #16130f; }
+          .bcCardRow, .bcCardGrid { grid-template-columns: 1fr; }
+          .bcCardRow span, .bcDateDue span { border-right: 0; border-bottom: 1px solid #16130f; }
           .bcDateDue { display: none; }
         }
       `}</style>
