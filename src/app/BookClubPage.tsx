@@ -173,7 +173,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <form className="bcBorrowForm" action={submitBorrowRequest}>
               <div className="bcCardHeader">
                 <p>Library Card</p>
-                <h2 id="borrow-card-title">Borrow Request</h2>
+                <h2 id="borrow-card-title">Book Index</h2>
               </div>
               {submitted ? <p className="bcFormMessage">Borrow request received.</p> : null}
               {missing ? <p className="bcFormMessage">Please fill in name, address, and phone.</p> : null}
