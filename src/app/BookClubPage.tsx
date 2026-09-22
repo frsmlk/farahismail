@@ -313,7 +313,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <div className="bcCardValue">{lentBook[1]}</div>
               </div>
               <div className="bcCardRow">
-                <span>Name</span>
+                <span>Lent to</span>
                 <div className="bcCardValue">{lentName}</div>
               </div>
             </div>
