@@ -156,7 +156,7 @@ const availableBooks = [
   ['Book', 'You Glow in the Dark', 'Liliana Colanzi', 'Available'],
   ['Book', 'Soups, Salads, Sandwiches', 'Matty Matheson', 'Available'],
   ['Magazine', 'Penang Monthly: September Issue', 'Penang Institute', 'Available'],
-  ['Magazine', 'Noai Issue 4: Absurd Rituals', 'Noai', 'Available'],
+  ['Magazine', 'Noia Magazine Issue 4: Absurd Rituals', 'Noai', 'Available'],
   ['Zine', 'Nyampah', 'Emte', 'Available'],
   ['Book', 'Cyberfeminism Index', 'Mindy Seu', 'Available'],
   ['Book', 'Ornament and Crime', 'Adolf Loos', 'Available'],
