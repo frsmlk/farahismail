@@ -123,14 +123,14 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         </div>
       </header>
 
-      <section className="bcSection" id="playing-now">
-        <div className="bcSectionHead"><h2>Playing Now</h2></div>
+      <section className="bcSection" id="playlist">
+        <div className="bcSectionHead"><h2>Playlist</h2></div>
         <div className="bcList">
           <article className="bcListItem">
-            <div className="bcType">Song</div>
-            <a className="bcTitle" href="https://open.spotify.com/track/1zNXF2svmdlNxfS5XeNUgr?si=a40c6b9f5e83483c" target="_blank" rel="noopener noreferrer">Don&apos;t Know Why</a>
-            <div className="bcAuthor">Norah Jones</div>
-            <div className="bcStatus">Playing now</div>
+            <div className="bcType">Playlist</div>
+            <a className="bcTitle" href="https://open.spotify.com/playlist/64pIJTT6N8h2lDk3uUg9g2?si=r81ZHn4UQq2zamqJecAiLQ&utm_source=copy-link&pi=kcZrELpMREKPI" target="_blank" rel="noopener noreferrer">Fun Pop</a>
+            <div className="bcAuthor">Spotify</div>
+            <div className="bcStatus">Playlist</div>
           </article>
         </div>
       </section>
