@@ -4,17 +4,17 @@ import { db } from '@/lib/db';
 import { sseEvents } from '@/lib/db/schema';
 
 export const metadata: Metadata = {
-  title: 'Book Club',
-  description: 'Book Club',
+  title: 'Book Index',
+  description: 'Book Index',
   openGraph: {
-    title: 'Book Club',
-    description: 'Book Club',
-    siteName: 'Book Club',
+    title: 'Book Index',
+    description: 'Book Index',
+    siteName: 'Book Index',
   },
   twitter: {
     card: 'summary',
-    title: 'Book Club',
-    description: 'Book Club',
+    title: 'Book Index',
+    description: 'Book Index',
   },
   robots: {
     index: true,
@@ -116,7 +116,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
     <main className="bcSite">
       <header className="bcHero">
         <div>
-          <h1>Book Club</h1>
+          <h1>Book Index</h1>
           <p className="bcIntroText">
             This is a small, growing archive of books from my library, open to be read if you&apos;re in Kuala Lumpur. The list is still being filled in, but everything marked available is welcome to be borrowed.
           </p>
@@ -201,7 +201,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       `}</style>
 
       <footer className="bcFooter">
-        <div>Book Club</div>
+        <div>Book Index</div>
         <div><a href="https://farahainismail.substack.com" target="_blank" rel="noopener noreferrer">@farahainismail</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">@kingfrh</a></div>
       </footer>
     </main>

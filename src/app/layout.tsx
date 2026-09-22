@@ -8,17 +8,17 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Book Club',
-  description: 'Book Club',
+  title: 'Book Index',
+  description: 'Book Index',
   openGraph: {
-    title: 'Book Club',
-    description: 'Book Club',
-    siteName: 'Book Club',
+    title: 'Book Index',
+    description: 'Book Index',
+    siteName: 'Book Index',
   },
   twitter: {
     card: 'summary',
-    title: 'Book Club',
-    description: 'Book Club',
+    title: 'Book Index',
+    description: 'Book Index',
   },
   robots: {
     index: true,
