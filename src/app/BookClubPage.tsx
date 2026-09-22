@@ -217,9 +217,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcCardTopline a { color: #1b1712; font: 18pt Arial, Helvetica, sans-serif; line-height: 1; text-decoration: none; }
         .bcBorrowForm { position: relative; display: grid; gap: 0; padding: 0; border: 1px solid #16130f; background: #f3e7c4; background-image: radial-gradient(circle at 20% 12%, rgba(110, 82, 43, 0.13) 0 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.2), rgba(133, 96, 45, 0.07)); background-size: 12px 12px, 100% 100%; font-family: 'Courier New', Courier, monospace; }
         .bcCardHeader { display: grid; grid-template-columns: 150px 1fr; border-bottom: 1px solid #16130f; }
-        .bcCardHeader p, .bcCardHeader h2 { margin: 0; padding: 14px 16px; text-transform: uppercase; letter-spacing: 0.08em; }
-        .bcCardHeader p { border-right: 1px solid #16130f; font-size: 9pt; }
-        .bcCardHeader h2 { font-size: clamp(20pt, 7vw, 44pt); line-height: 0.95; font-weight: 700; }
+        .bcCardHeader p, .bcCardHeader h2 { margin: 0; padding: 14px 16px; }
+        .bcCardHeader p { border-right: 1px solid #16130f; font: 9pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
+        .bcCardHeader h2 { font-family: Arial, Helvetica, sans-serif; font-size: clamp(34pt, 9vw, 72pt); line-height: 0.9; font-weight: 400; letter-spacing: -0.06em; white-space: nowrap; }
         .bcCardRow { display: grid; grid-template-columns: 150px 1fr; min-height: 58px; border-bottom: 1px solid #16130f; }
         .bcCardRow span, .bcDateDue span { padding: 12px 16px; border-right: 1px solid #16130f; font: 8pt Arial, Helvetica, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
         .bcCardRow input { width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; padding: 12px 16px; font: 14pt 'Courier New', Courier, monospace; color: #1b1712; outline: none; }
