@@ -203,7 +203,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div>
           <h1>Book Index</h1>
           <p className="bcIntroText">
-            This is a small, growing archive of books from my library, open to be read if you&apos;re in Kuala Lumpur. The index grows in time, everything marked available is welcome to be borrowed at no cost. I will occasionally have guests to host their curations for the index.
+            Book Index is a small, growing archive of books of various titles, open to readers in Kuala Lumpur. The index grows over time, and everything marked available is welcome to be borrowed at no cost. Book Index will occasionally have guests host their curations.
           </p>
         </div>
       </header>
