@@ -58,11 +58,11 @@ async function submitBorrowRequest(formData: FormData) {
 const lentBooks = [
   ['Novel', 'The Vegetarian', 'Han Kang', 'Lent to Shyafika S.'],
   ['Essays', 'In the Garden: Essays on Nature and Growing', 'Daunt Books, ed.', 'Lent to Irdina N.'],
-  ['Novel', 'The Curious Incident of the Dog in the Night-Time', 'Mark Haddon', 'Lent to John D.'],
   ['Book', 'Common Treasures Vol 2. Housing, Planning and Construction', 'Amica Dall, Giles Smith, James Binning & Sara Pereira', 'Lent by Adam R.'],
 ];
 
 const availableBooks = [
+  ['Novel', 'The Curious Incident of the Dog in the Night-Time', 'Mark Haddon', 'Available'],
   ['Essay', 'The Book of Tea', 'Okakura Kakuzō', 'Available'],
   ['Magazine', 'POP Magazine: September Issue', 'POP Magazine', 'Available'],
   ['Book', 'The Spirit of Cities', 'Daniel A. Bell & Avner de-Shalit', 'Available'],
