@@ -279,7 +279,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                   <strong>45 Days</strong>
                 </div>
               </div>
-              <button type="submit">Submit Request</button>
+              <button type="submit">Confirm Details</button>
             </form>
           </div>
         </div>
