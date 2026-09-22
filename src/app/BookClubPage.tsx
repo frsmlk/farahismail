@@ -196,7 +196,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 </label>
                 <div className="bcDateDue" aria-hidden="true">
                   <span>Date Due</span>
-                  <strong>OPEN</strong>
+                  <strong>45 DAYS</strong>
                 </div>
               </div>
               <button type="submit">Submit Request</button>
