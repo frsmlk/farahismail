@@ -59,10 +59,11 @@ const lentBooks = [
   ['Novel', 'The Vegetarian', 'Han Kang', 'Lent to Shyafika S.'],
   ['Essays', 'In the Garden: Essays on Nature and Growing', 'Daunt Books, ed.', 'Lent to Irdina N.'],
   ['Novel', 'The Curious Incident of the Dog in the Night-Time', 'Mark Haddon', 'Lent to John D.'],
-  ['Essay', 'The Book of Tea', 'Okakura Kakuzō', 'Lent to ??'],
+  ['Book', 'Common Treasures Vol 2. Housing, Planning and Construction', 'Amica Dall, Giles Smith, James Binning & Sara Pereira', 'Lent by Adam R.'],
 ];
 
 const availableBooks = [
+  ['Essay', 'The Book of Tea', 'Okakura Kakuzō', 'Available'],
   ['Magazine', 'POP Magazine: September Issue', 'POP Magazine', 'Available'],
   ['Book', 'The Spirit of Cities', 'Daniel A. Bell & Avner de-Shalit', 'Available'],
   ['Book', 'Design in Conservative Times', 'Joannette van der Veer', 'Available'],
@@ -71,7 +72,6 @@ const availableBooks = [
   ['Book', 'Soups, Salads, Sandwiches', 'Matty Matheson', 'Available'],
   ['Magazine', 'Penang Monthly: September Issue', 'Penang Institute', 'Available'],
   ['Magazine', 'Noai Issue 4: Absurd Rituals', 'Noai', 'Available'],
-  ['Book', 'Common Treasures Vol 2. Housing, Planning and Construction', 'Amica Dall, Giles Smith, James Binning & Sara Pereira', 'Available'],
   ['Zine', 'Nyampah', 'Emte', 'Available'],
   ['Book', 'Cyberfeminism Index', 'Mindy Seu', 'Available'],
   ['Book', 'Ornament and Crime', 'Adolf Loos', 'Available'],
