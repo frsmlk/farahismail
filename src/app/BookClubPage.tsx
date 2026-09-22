@@ -39,7 +39,17 @@ type BorrowRequestPayload = {
   submittedAt: string;
 };
 
-async function notifyBorrowRequest(payload: BorrowRequestPayload) {
+function formatBorrowRequestMessage(payload: BorrowRequestPayload) {
+  return [
+    'New Book Index borrow request',
+    `Book: ${payload.bookTitle}`,
+    `Name: ${payload.name}`,
+    `Phone: ${payload.phone}`,
+    `Address: ${payload.address}`,
+  ].join('\n');
+}
+
+async function notifyBorrowRequestWebhook(payload: BorrowRequestPayload) {
   const webhookUrl = process.env.BOOK_CLUB_BORROW_WEBHOOK_URL;
   if (!webhookUrl) return;
 
@@ -65,6 +75,38 @@ async function notifyBorrowRequest(payload: BorrowRequestPayload) {
   } catch {
     console.error('Borrow request webhook failed.');
   }
+}
+
+async function notifyBorrowRequestTelegram(payload: BorrowRequestPayload) {
+  const botToken = process.env.BOOK_CLUB_TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.BOOK_CLUB_TELEGRAM_CHAT_ID;
+  if (!botToken || !chatId) return;
+
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: formatBorrowRequestMessage(payload),
+        disable_web_page_preview: true,
+      }),
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      console.error('Borrow request Telegram notification failed.');
+    }
+  } catch {
+    console.error('Borrow request Telegram notification failed.');
+  }
+}
+
+async function notifyBorrowRequest(payload: BorrowRequestPayload) {
+  await Promise.all([
+    notifyBorrowRequestWebhook(payload),
+    notifyBorrowRequestTelegram(payload),
+  ]);
 }
 
 async function submitBorrowRequest(formData: FormData) {
