@@ -4,18 +4,25 @@ import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
 import { sseEvents } from '@/lib/db/schema';
 
+const siteDescription = 'Book Index is a small, growing archive of books of various titles, open to readers in Kuala Lumpur.';
+
 export const metadata: Metadata = {
   title: 'Book Index',
-  description: 'Book Index',
+  description: siteDescription,
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: 'Book Index',
-    description: 'Book Index',
+    description: siteDescription,
     siteName: 'Book Index',
+    url: '/',
+    type: 'website',
   },
   twitter: {
     card: 'summary',
     title: 'Book Index',
-    description: 'Book Index',
+    description: siteDescription,
   },
   robots: {
     index: true,
@@ -23,8 +30,6 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-snippet': 0,
-      'max-image-preview': 'none',
     },
   },
 };
@@ -150,13 +155,14 @@ const availableBooks = [
   ['Novel', 'The Curious Incident of the Dog in the Night-Time', 'Mark Haddon', 'Available'],
   ['Essay', 'The Book of Tea', 'Okakura Kakuzō', 'Available'],
   ['Magazine', 'POP Magazine: September Issue', 'POP Magazine', 'Available'],
+  ['Book', 'Townscape Revisited: Unraveling the Character of the Historic Townscape in Malaysia', 'Shuhana Shamsuddin', 'Available'],
   ['Book', 'The Spirit of Cities', 'Daniel A. Bell & Avner de-Shalit', 'Available'],
   ['Book', 'Design in Conservative Times', 'Joannette van der Veer', 'Available'],
   ['Book', 'Art and Beauty in the Middle Ages', 'Umberto Eco', 'Available'],
   ['Book', 'You Glow in the Dark', 'Liliana Colanzi', 'Available'],
   ['Book', 'Soups, Salads, Sandwiches', 'Matty Matheson', 'Available'],
   ['Magazine', 'Penang Monthly: September Issue', 'Penang Institute', 'Available'],
-  ['Magazine', 'Noia Magazine Issue 4: Absurd Rituals', 'Noai', 'Available'],
+  ['Magazine', 'Noia Magazine Issue 4: Absurd Rituals', 'Noia Magazine', 'Available'],
   ['Zine', 'Nyampah', 'Emte', 'Available'],
   ['Book', 'Cyberfeminism Index', 'Mindy Seu', 'Available'],
   ['Book', 'Ornament and Crime', 'Adolf Loos', 'Available'],

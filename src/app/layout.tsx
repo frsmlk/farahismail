@@ -7,18 +7,27 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
+const siteDescription = 'Book Index is a small, growing archive of books of various titles, open to readers in Kuala Lumpur.';
+
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.farahismail.com'),
   title: 'Book Index',
-  description: 'Book Index',
+  description: siteDescription,
+  applicationName: 'Book Index',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: 'Book Index',
-    description: 'Book Index',
+    description: siteDescription,
     siteName: 'Book Index',
+    url: '/',
+    type: 'website',
   },
   twitter: {
     card: 'summary',
     title: 'Book Index',
-    description: 'Book Index',
+    description: siteDescription,
   },
   robots: {
     index: true,
@@ -26,8 +35,6 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-snippet': 0,
-      'max-image-preview': 'none',
     },
   },
 };
@@ -39,10 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <meta name="robots" content="index, follow, max-snippet:0, max-image-preview:none" />
-        <meta name="googlebot" content="index, follow, nosnippet, max-snippet:0, max-image-preview:none" />
-      </head>
+      <head />
       <body>{children}</body>
     </html>
   );
