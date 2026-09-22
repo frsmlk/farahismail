@@ -30,6 +30,43 @@ export const metadata: Metadata = {
 };
 
 
+type BorrowRequestPayload = {
+  type: 'borrow_request';
+  bookTitle: string;
+  name: string;
+  address: string;
+  phone: string;
+  submittedAt: string;
+};
+
+async function notifyBorrowRequest(payload: BorrowRequestPayload) {
+  const webhookUrl = process.env.BOOK_CLUB_BORROW_WEBHOOK_URL;
+  if (!webhookUrl) return;
+
+  try {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
+    if (process.env.BOOK_CLUB_BORROW_WEBHOOK_SECRET) {
+      headers.Authorization = `Bearer ${process.env.BOOK_CLUB_BORROW_WEBHOOK_SECRET}`;
+    }
+
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(payload),
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      console.error('Borrow request webhook failed.');
+    }
+  } catch {
+    console.error('Borrow request webhook failed.');
+  }
+}
+
 async function submitBorrowRequest(formData: FormData) {
   'use server';
 
@@ -42,16 +79,21 @@ async function submitBorrowRequest(formData: FormData) {
     redirect(`/?borrow=${encodeURIComponent(bookTitle)}&error=missing#borrow-card`);
   }
 
+  const payload: BorrowRequestPayload = {
+    type: 'borrow_request',
+    bookTitle,
+    name,
+    address,
+    phone,
+    submittedAt: new Date().toISOString(),
+  };
+
   await db.insert(sseEvents).values({
     type: 'borrow_request',
-    payload: {
-      bookTitle,
-      name,
-      address,
-      phone,
-      submittedAt: new Date().toISOString(),
-    },
+    payload,
   });
+
+  await notifyBorrowRequest(payload);
 
   redirect('/?borrow=submitted#borrow-card');
 }
