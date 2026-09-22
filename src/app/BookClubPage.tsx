@@ -176,6 +176,7 @@ const availableBooks = [
 
 function Row({ item, borrowable = false }: { item: string[]; borrowable?: boolean }) {
   const [type, title, author, status] = item;
+  const lent = status.startsWith('Lent to ');
   return (
     <article className="bcListItem">
       <div className="bcType">{type}</div>
@@ -187,6 +188,10 @@ function Row({ item, borrowable = false }: { item: string[]; borrowable?: boolea
             <span className="bcAvailableText">{status}</span>
             <span className="bcBorrowText">Borrow</span>
           </a>
+        ) : lent ? (
+          <a className="bcLentStatus" href={`?lent=${encodeURIComponent(title)}#lent-card`} aria-label={`View lent card for ${title}`}>
+            {status}
+          </a>
         ) : status}
       </div>
     </article>
@@ -194,12 +199,15 @@ function Row({ item, borrowable = false }: { item: string[]; borrowable?: boolea
 }
 
 type BookClubPageProps = {
-  searchParams?: Promise<{ borrow?: string; error?: string }> | { borrow?: string; error?: string };
+  searchParams?: Promise<{ borrow?: string; lent?: string; error?: string }> | { borrow?: string; lent?: string; error?: string };
 };
 
 export default async function BookClubPage({ searchParams }: BookClubPageProps) {
   const params = searchParams ? await Promise.resolve(searchParams) : {};
   const borrowTitle = params.borrow && params.borrow !== 'submitted' ? params.borrow : '';
+  const lentTitle = params.lent ?? '';
+  const lentBook = lentBooks.find((book) => book[1] === lentTitle);
+  const lentName = lentBook?.[3].replace(/^Lent to\s+/, '') ?? '';
   const submitted = params.borrow === 'submitted';
   const missing = params.error === 'missing';
 
@@ -291,8 +299,31 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         </div>
       ) : null}
 
+      {lentBook ? (
+        <div className="bcBorrowModal" id="lent-card" role="dialog" aria-modal="true" aria-labelledby="lent-card-title">
+          <Link className="bcBorrowBackdrop" href="/" aria-label="Close lent card" />
+          <div className="bcLibraryCard">
+            <Link className="bcCardClose" href="/" aria-label="Close lent card">×</Link>
+            <div className="bcBorrowForm">
+              <div className="bcCardHeader">
+                <p id="lent-card-title">Book Index Library Card</p>
+              </div>
+              <div className="bcCardRow">
+                <span>Title</span>
+                <div className="bcCardValue">{lentBook[1]}</div>
+              </div>
+              <div className="bcCardRow">
+                <span>Name</span>
+                <div className="bcCardValue">{lentName}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <style>{`
         .bcBorrowStatus { position: relative; display: inline-block; min-width: 70px; }
+        .bcLentStatus { text-decoration: underline; text-underline-offset: 2px; }
         .bcBorrowText { display: none; text-decoration: underline; }
         .bcBorrowStatus:hover .bcAvailableText { display: none; }
         .bcBorrowStatus:hover .bcBorrowText { display: inline; }
@@ -305,7 +336,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcCardHeader p { margin: 0; padding: 14px 16px; font: 10pt 'Times New Roman', Times, serif; letter-spacing: 0.04em; }
         .bcCardRow { display: grid; grid-template-columns: 150px 1fr; min-height: 58px; border-bottom: 1px solid #16130f; }
         .bcCardRow span, .bcDateDue span { padding: 12px 16px; border-right: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; }
-        .bcCardRow input { width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; padding: 12px 16px; font: 10pt 'Courier New', Courier, monospace; color: #1b1712; outline: none; }
+        .bcCardRow input, .bcCardValue { width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; padding: 12px 16px; font: 10pt 'Courier New', Courier, monospace; color: #1b1712; outline: none; }
         .bcCardRow input:focus { background: rgba(255, 255, 255, 0.25); }
         .bcCardRow input[readonly] { cursor: default; }
         .bcCardGrid { display: grid; grid-template-columns: 1fr 170px; border-bottom: 1px solid #16130f; }
