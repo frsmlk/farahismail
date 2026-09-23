@@ -256,7 +256,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       </section>
 
       <section className="bcSection" id="current">
-        <div className="bcSectionHead"><h2>Current Reads</h2></div>
+        <div className="bcSectionHead"><h2>Currently Reading</h2></div>
         <div className="bcList">
           {currentReads.map((book) => <Row key={book[1]} item={book} currentReadable />)}
         </div>
@@ -272,7 +272,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       <section className="bcSection" id="available">
         <div className="bcSectionHead">
           <h2>
-            <span className="bcAvailableHeadingText">Available</span>
+            <span className="bcAvailableHeadingText">Available Books</span>
             <span className="bcBorrowHeadingText">borrow</span>
           </h2>
         </div>
@@ -379,6 +379,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @media (prefers-reduced-motion: reduce) { .bcButterflies, .bcCursorButterfly { display: none; } .bcButterfly { animation: none; } }
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
         .bcSite > header, .bcSite > section, .bcSite > footer { position: relative; z-index: 2; }
+        .bcSectionHead h2 { font-family: Arial, Helvetica, sans-serif; color: #000000; }
         .bcListItem { position: relative; }
         .bcListItemLink { position: absolute; inset: 0; z-index: 1; }
         .bcScreenReaderText { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
