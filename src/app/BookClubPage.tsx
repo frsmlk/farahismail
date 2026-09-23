@@ -271,13 +271,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       </section>
 
       <section className="bcSection" id="available">
-        <div className="bcSectionHead">
-          <h2>
-            <span className="bcAvailableHeadingText">Available</span>
-            <span className="bcBorrowHeadingText">borrow</span>
-            <span> Books</span>
-          </h2>
-        </div>
+        <div className="bcSectionHead"><h2>Available Books</h2></div>
         <div className="bcList">
           {availableBooks.map((book) => <Row key={book[1]} item={book} borrowable />)}
         </div>
@@ -402,9 +396,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         #current .bcListItemClickable:focus-within .bcTitle,
         #current .bcListItemClickable:active .bcTitle { color: #b00068; }
         #current .bcListItemLink:focus-visible { outline-color: #b00068; }
-        .bcBorrowHeadingText { display: none; }
-        #available .bcSectionHead:hover .bcAvailableHeadingText { display: none !important; }
-        #available .bcSectionHead:hover .bcBorrowHeadingText { display: inline !important; }
         .bcBorrowModal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 18px; }
         .bcBorrowBackdrop { position: absolute; inset: 0; background: rgba(40, 34, 28, 0.28); backdrop-filter: blur(3px); }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
@@ -437,11 +428,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         dangerouslySetInnerHTML={{
           __html: `
             (() => {
-              document.querySelectorAll('.bcBorrowHeadingText, .bcBorrowText').forEach((element) => {
-                if (element.textContent && element.textContent.trim().toLowerCase() === ('bur' + 'row')) {
-                  element.textContent = 'borrow';
-                }
-              });
               const butterfly = document.querySelector('.bcCursorButterfly');
               if (!butterfly || window.matchMedia('(pointer: coarse)').matches) return;
               let x = -100;
