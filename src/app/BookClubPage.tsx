@@ -370,10 +370,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcListItemClickable:active .bcTitle { color: #fff44f; }
         .bcListItemLink:focus-visible { outline: 1px solid #fff44f; outline-offset: -4px; }
         .bcBorrowHeadingText { display: none; }
-        #available .bcSectionHead:hover .bcAvailableHeadingText,
-        #available:hover .bcAvailableHeadingText { display: none !important; }
-        #available .bcSectionHead:hover .bcBorrowHeadingText,
-        #available:hover .bcBorrowHeadingText { display: inline !important; }
+        #available .bcSectionHead:hover .bcAvailableHeadingText { display: none !important; }
+        #available .bcSectionHead:hover .bcBorrowHeadingText { display: inline !important; }
         .bcBorrowStatus { position: relative; display: inline-block; min-width: 70px; }
         .bcBorrowText { display: none; }
         .bcListItemClickable:hover .bcBorrowStatus .bcAvailableText,
