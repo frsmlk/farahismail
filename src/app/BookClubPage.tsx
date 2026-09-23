@@ -370,18 +370,20 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcListItemClickable:active .bcTitle { color: #fff44f; }
         .bcListItemLink:focus-visible { outline: 1px solid #fff44f; outline-offset: -4px; }
         .bcBorrowHeadingText { display: none; }
-        #available:hover .bcAvailableHeadingText { display: none; }
-        #available:hover .bcBorrowHeadingText { display: inline; }
+        #available .bcSectionHead:hover .bcAvailableHeadingText,
+        #available:hover .bcAvailableHeadingText { display: none !important; }
+        #available .bcSectionHead:hover .bcBorrowHeadingText,
+        #available:hover .bcBorrowHeadingText { display: inline !important; }
         .bcBorrowStatus { position: relative; display: inline-block; min-width: 70px; }
         .bcBorrowText { display: none; }
         .bcListItemClickable:hover .bcBorrowStatus .bcAvailableText,
         .bcListItemClickable:focus-within .bcBorrowStatus .bcAvailableText,
         .bcListItemLink:hover ~ .bcStatus .bcAvailableText,
-        .bcListItemLink:focus-visible ~ .bcStatus .bcAvailableText { display: none; }
+        .bcListItemLink:focus-visible ~ .bcStatus .bcAvailableText { display: none !important; }
         .bcListItemClickable:hover .bcBorrowStatus .bcBorrowText,
         .bcListItemClickable:focus-within .bcBorrowStatus .bcBorrowText,
         .bcListItemLink:hover ~ .bcStatus .bcBorrowText,
-        .bcListItemLink:focus-visible ~ .bcStatus .bcBorrowText { display: inline; }
+        .bcListItemLink:focus-visible ~ .bcStatus .bcBorrowText { display: inline !important; }
         .bcBorrowModal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 18px; }
         .bcBorrowBackdrop { position: absolute; inset: 0; background: rgba(40, 34, 28, 0.28); backdrop-filter: blur(3px); }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
