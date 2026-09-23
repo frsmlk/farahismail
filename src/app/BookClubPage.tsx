@@ -273,8 +273,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       <section className="bcSection" id="available">
         <div className="bcSectionHead">
           <h2>
-            <span className="bcAvailableHeadingText">Available Books</span>
+            <span className="bcAvailableHeadingText">Available</span>
             <span className="bcBorrowHeadingText">borrow</span>
+            <span> Books</span>
           </h2>
         </div>
         <div className="bcList">
