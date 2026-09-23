@@ -375,9 +375,13 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBorrowStatus { position: relative; display: inline-block; min-width: 70px; }
         .bcBorrowText { display: none; }
         .bcListItemClickable:hover .bcBorrowStatus .bcAvailableText,
-        .bcListItemClickable:focus-within .bcBorrowStatus .bcAvailableText { display: none; }
+        .bcListItemClickable:focus-within .bcBorrowStatus .bcAvailableText,
+        .bcListItemLink:hover ~ .bcStatus .bcAvailableText,
+        .bcListItemLink:focus-visible ~ .bcStatus .bcAvailableText { display: none; }
         .bcListItemClickable:hover .bcBorrowStatus .bcBorrowText,
-        .bcListItemClickable:focus-within .bcBorrowStatus .bcBorrowText { display: inline; }
+        .bcListItemClickable:focus-within .bcBorrowStatus .bcBorrowText,
+        .bcListItemLink:hover ~ .bcStatus .bcBorrowText,
+        .bcListItemLink:focus-visible ~ .bcStatus .bcBorrowText { display: inline; }
         .bcBorrowModal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 18px; }
         .bcBorrowBackdrop { position: absolute; inset: 0; background: rgba(40, 34, 28, 0.28); backdrop-filter: blur(3px); }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
