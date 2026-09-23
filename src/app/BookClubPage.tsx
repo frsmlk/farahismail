@@ -211,7 +211,7 @@ function Row({ item, borrowable = false, currentReadable = false }: { item: stri
 }
 
 type BookClubPageProps = {
-  searchParams?: Promise<{ borrow?: string; lent?: string; current?: string; error?: string }> | { borrow?: string; lent?: string; current?: string; error?: string };
+  searchParams?: Promise<{ borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }> | { borrow?: string; lent?: string; current?: string; playlist?: string; error?: string };
 };
 
 export default async function BookClubPage({ searchParams }: BookClubPageProps) {
@@ -219,6 +219,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
   const borrowTitle = params.borrow && params.borrow !== 'submitted' ? params.borrow : '';
   const lentTitle = params.lent ?? '';
   const currentTitle = params.current ?? '';
+  const playlistOpen = params.playlist === 'fun-pop';
   const lentBook = lentBooks.find((book) => book[1] === lentTitle);
   const currentBook = currentReads.find((book) => book[1] === currentTitle);
   const lentName = lentBook?.[3].replace(/^Lent to\s+/, '') ?? '';
@@ -247,9 +248,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       <section className="bcSection" id="playlist">
         <div className="bcSectionHead"><h2>Playlist</h2></div>
         <div className="bcList">
-          <article className="bcListItem">
+          <article className="bcListItem bcListItemClickable">
+            <Link className="bcListItemLink" href="?playlist=fun-pop#playlist-card" aria-label="Play Fun Pop playlist">
+              <span className="bcScreenReaderText">Play Fun Pop playlist</span>
+            </Link>
             <div className="bcType">Playlist</div>
-            <a className="bcTitle" href="https://open.spotify.com/playlist/64pIJTT6N8h2lDk3uUg9g2?si=r81ZHn4UQq2zamqJecAiLQ&utm_source=copy-link&pi=kcZrELpMREKPI" target="_blank" rel="noopener noreferrer">Fun Pop</a>
+            <div className="bcTitle">Fun Pop</div>
             <div className="bcAuthor">Spotify</div>
             <div className="bcStatus">Playlist</div>
           </article>
@@ -276,6 +280,38 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           {availableBooks.map((book) => <Row key={book[1]} item={book} borrowable />)}
         </div>
       </section>
+
+      {playlistOpen ? (
+        <div className="bcBorrowModal" id="playlist-card" role="dialog" aria-modal="true" aria-labelledby="playlist-card-title">
+          <Link className="bcBorrowBackdrop" href="/" aria-label="Close playlist" />
+          <div className="bcPlaylistWindow">
+            <div className="bcPlaylistTopBar">
+              <span id="playlist-card-title">Book Index: Fun Pop</span>
+              <Link className="bcPlaylistClose" href="/" aria-label="Close playlist">×</Link>
+            </div>
+            <div className="bcPlaylistMenu" aria-hidden="true">File&nbsp;&nbsp;View&nbsp;&nbsp;Play&nbsp;&nbsp;Help</div>
+            <div className="bcPlaylistScene" aria-hidden="true">
+              <div className="bcPlaylistSunset" />
+              <div className="bcPlaylistHills" />
+              <div className="bcPlaylistGrid" />
+              <div className="bcPlaylistPlayButton">▶</div>
+            </div>
+            <div className="bcPlaylistControls" aria-hidden="true">
+              <div className="bcPlaylistProgress"><span /></div>
+              <div className="bcPlaylistIcons">▶ &nbsp;Ⅱ&nbsp; ■ &nbsp;&nbsp;&nbsp; |◀ &nbsp;◀◀ &nbsp;▶▶ &nbsp;▶| &nbsp;&nbsp;&nbsp;☷ &nbsp;◢</div>
+            </div>
+            <iframe
+              className="bcSpotifyEmbed"
+              title="Fun Pop Spotify playlist"
+              src="https://open.spotify.com/embed/playlist/64pIJTT6N8h2lDk3uUg9g2?utm_source=generator&theme=0"
+              width="100%"
+              height="152"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      ) : null}
 
       {(borrowTitle || submitted || missing) ? (
         <div className="bcBorrowModal" id="borrow-card" role="dialog" aria-modal="true" aria-labelledby="borrow-card-title">
@@ -398,6 +434,20 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         #current .bcListItemLink:focus-visible { outline-color: #b00068; }
         .bcBorrowModal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 18px; }
         .bcBorrowBackdrop { position: absolute; inset: 0; background: rgba(40, 34, 28, 0.28); backdrop-filter: blur(3px); }
+        .bcPlaylistWindow { position: relative; width: min(680px, 100%); border: 2px solid #16130f; border-radius: 8px; background: #fff3ea; box-shadow: 0 24px 55px rgba(0,0,0,0.24); overflow: hidden; color: #16130f; }
+        .bcPlaylistTopBar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 36px; padding: 6px 10px 6px 18px; border-bottom: 2px solid #16130f; background: #6b8cff; font: 12pt Arial, Helvetica, sans-serif; font-weight: 700; }
+        .bcPlaylistClose { display: grid; place-items: center; width: 28px; height: 28px; border: 2px solid #16130f; background: #fff3ea; color: #16130f; text-decoration: none; font: 18pt Arial, Helvetica, sans-serif; line-height: 1; }
+        .bcPlaylistMenu { padding: 10px 18px; border-bottom: 2px solid #16130f; font: 14pt 'Courier New', Courier, monospace; letter-spacing: 0.04em; }
+        .bcPlaylistScene { position: relative; height: 290px; margin: 28px 20px 18px; border: 2px solid #16130f; overflow: hidden; background: #6b8cff; }
+        .bcPlaylistSunset { position: absolute; inset: 0 0 54%; background: #f35ba3; }
+        .bcPlaylistHills { position: absolute; left: -4%; right: -4%; top: 30%; height: 72px; background: #ffd84b; clip-path: polygon(0 54%, 10% 54%, 16% 68%, 25% 48%, 36% 12%, 43% 12%, 52% 44%, 60% 44%, 66% 36%, 76% 36%, 84% 56%, 88% 56%, 92% 44%, 96% 44%, 100% 62%, 100% 100%, 0 100%); border-bottom: 2px solid #16130f; }
+        .bcPlaylistGrid { position: absolute; inset: 48% 0 0; background-image: linear-gradient(#fff 2px, transparent 2px), linear-gradient(90deg, #fff 2px, transparent 2px), linear-gradient(115deg, transparent 0 48%, #fff 49% 50%, transparent 51%), linear-gradient(65deg, transparent 0 48%, #fff 49% 50%, transparent 51%); background-size: 100% 54px, 82px 100%, 115px 100%, 115px 100%; opacity: 0.9; }
+        .bcPlaylistPlayButton { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: grid; place-items: center; width: 120px; height: 72px; border: 2px solid #16130f; background: #fff3ea; font-size: 34px; line-height: 1; }
+        .bcPlaylistControls { padding: 0 20px 18px; }
+        .bcPlaylistProgress { height: 20px; border: 2px solid #16130f; background: #fffdf8; margin-bottom: 14px; }
+        .bcPlaylistProgress span { display: block; width: 7%; height: 100%; border-right: 2px solid #16130f; background: #fff3ea; }
+        .bcPlaylistIcons { font: 18pt 'Courier New', Courier, monospace; white-space: nowrap; overflow: hidden; }
+        .bcSpotifyEmbed { display: block; width: calc(100% - 40px); margin: 0 20px 22px; border: 2px solid #16130f; border-radius: 0; background: #111; }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
         .bcCardClose { position: absolute; top: 10px; right: 14px; z-index: 2; color: #1b1712; font: 10pt Arial, Helvetica, sans-serif; line-height: 1; text-decoration: none; }
         .bcBorrowForm { position: relative; display: grid; gap: 0; padding: 0; border: 1px solid #16130f; background: #f3e7c4; background-image: radial-gradient(circle at 20% 12%, rgba(110, 82, 43, 0.13) 0 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.2), rgba(133, 96, 45, 0.07)); background-size: 12px 12px, 100% 100%; font-family: 'Courier New', Courier, monospace; }
