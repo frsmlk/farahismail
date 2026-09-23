@@ -174,6 +174,17 @@ const availableBooks = [
   ['Manga', 'Blame!', 'Tsutomu Nihei', 'Available'],
 ];
 
+const bookCovers: Record<string, string> = {
+  'The Vegetarian': 'https://covers.openlibrary.org/b/id/7412625-M.jpg',
+  'The Curious Incident of the Dog in the Night-Time': 'https://covers.openlibrary.org/b/id/7890719-M.jpg',
+  'The Book of Tea': 'https://covers.openlibrary.org/b/id/8245415-M.jpg',
+  'The Spirit of Cities': 'https://covers.openlibrary.org/b/id/9489690-M.jpg',
+  'Art and Beauty in the Middle Ages': 'https://covers.openlibrary.org/b/id/1047021-M.jpg',
+  'Soups, Salads, Sandwiches': 'https://covers.openlibrary.org/b/id/14846782-M.jpg',
+  'Cyberfeminism Index': 'https://covers.openlibrary.org/b/id/15138100-M.jpg',
+  'Valley of the Dolls': 'https://covers.openlibrary.org/b/id/568844-M.jpg',
+};
+
 function Row({ item, borrowable = false }: { item: string[]; borrowable?: boolean }) {
   const [type, title, author, status] = item;
   const lent = status.startsWith('Lent to ');
@@ -208,6 +219,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
   const lentTitle = params.lent ?? '';
   const lentBook = lentBooks.find((book) => book[1] === lentTitle);
   const lentName = lentBook?.[3].replace(/^Lent to\s+/, '') ?? '';
+  const borrowCover = borrowTitle ? bookCovers[borrowTitle] : '';
+  const lentCover = lentBook ? bookCovers[lentBook[1]] : '';
   const submitted = params.borrow === 'submitted';
   const missing = params.error === 'missing';
 
@@ -217,7 +230,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div>
           <h1>Book Index</h1>
           <p className="bcIntroText">
-            Book Index is a small, growing archive of books of various titles, open to readers in Kuala Lumpur. The index grows over time, and everything marked available is welcome to be borrowed at no cost. Book Index will occasionally have guests host their curations.
+            Book Index is a small, growing archive of books of various titles, open to readers in Kuala Lumpur. The index grows over time, and everything marked available is welcome to be borrowed at no cost. Book Index occasionally invites guests to curate special selections.
           </p>
         </div>
       </header>
@@ -271,6 +284,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               </div>
               {submitted ? <p className="bcFormMessage">Borrow request received.</p> : null}
               {missing ? <p className="bcFormMessage">Please fill in name, address, and phone.</p> : null}
+              {borrowCover ? (
+                <div className="bcCardCoverRow">
+                  <img src={borrowCover} alt={`${borrowTitle} cover`} />
+                </div>
+              ) : null}
               <label className="bcCardRow bcBookRow">
                 <span>Title</span>
                 <input name="bookTitle" defaultValue={borrowTitle} readOnly={Boolean(borrowTitle)} placeholder="Book title" required />
@@ -308,6 +326,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               <div className="bcCardHeader">
                 <p id="lent-card-title">Book Index Library Card</p>
               </div>
+              {lentCover ? (
+                <div className="bcCardCoverRow">
+                  <img src={lentCover} alt={`${lentBook[1]} cover`} />
+                </div>
+              ) : null}
               <div className="bcCardRow">
                 <span>Title</span>
                 <div className="bcCardValue">{lentBook[1]}</div>
@@ -334,6 +357,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBorrowForm { position: relative; display: grid; gap: 0; padding: 0; border: 1px solid #16130f; background: #f3e7c4; background-image: radial-gradient(circle at 20% 12%, rgba(110, 82, 43, 0.13) 0 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.2), rgba(133, 96, 45, 0.07)); background-size: 12px 12px, 100% 100%; font-family: 'Courier New', Courier, monospace; }
         .bcCardHeader { border-bottom: 1px solid #16130f; }
         .bcCardHeader p { margin: 0; padding: 14px 16px; font: 10pt 'Times New Roman', Times, serif; letter-spacing: 0.04em; }
+        .bcCardCoverRow { display: grid; place-items: center; padding: 16px; border-bottom: 1px solid #16130f; }
+        .bcCardCoverRow img { width: 96px; max-height: 145px; object-fit: contain; border: 1px solid rgba(22, 19, 15, 0.35); background: rgba(255, 255, 255, 0.35); }
         .bcCardRow { display: grid; grid-template-columns: 150px 1fr; min-height: 58px; border-bottom: 1px solid #16130f; }
         .bcCardRow span, .bcDateDue span { padding: 12px 16px; border-right: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; }
         .bcCardRow input, .bcCardValue { width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; padding: 12px 16px; font: 10pt 'Courier New', Courier, monospace; color: #1b1712; outline: none; }
