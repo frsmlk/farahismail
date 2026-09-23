@@ -294,7 +294,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <iframe
                   className="bcSpotifyEmbed"
                   title="Fun Pop Spotify playlist"
-                  src="https://open.spotify.com/embed/playlist/64pIJTT6N8h2lDk3uUg9g2?utm_source=generator&theme=0"
+                  src="https://open.spotify.com/embed/playlist/7HkgT6pevKLLvSCocAX7F0?utm_source=generator&theme=0"
                   width="100%"
                   height="352"
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
