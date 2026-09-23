@@ -272,7 +272,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       </section>
 
       <section className="bcSection" id="available">
-        <div className="bcSectionHead"><h2>Available</h2></div>
+        <div className="bcSectionHead">
+          <h2>
+            <span className="bcAvailableHeadingText">Available</span>
+            <span className="bcBorrowHeadingText">borrow</span>
+          </h2>
+        </div>
         <div className="bcList">
           {availableBooks.map((book) => <Row key={book[1]} item={book} borrowable />)}
         </div>
@@ -364,6 +369,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcListItemClickable:focus-within .bcTitle,
         .bcListItemClickable:active .bcTitle { color: #fff44f; }
         .bcListItemLink:focus-visible { outline: 1px solid #fff44f; outline-offset: -4px; }
+        .bcBorrowHeadingText { display: none; }
+        #available:hover .bcAvailableHeadingText { display: none; }
+        #available:hover .bcBorrowHeadingText { display: inline; }
         .bcBorrowStatus { position: relative; display: inline-block; min-width: 70px; }
         .bcBorrowText { display: none; }
         .bcListItemClickable:hover .bcBorrowStatus .bcAvailableText,
