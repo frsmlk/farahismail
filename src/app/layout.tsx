@@ -7,26 +7,30 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-const siteDescription = 'Book Index is a small, growing archive of books of various titles, open to readers in Kuala Lumpur.';
+const siteTitle = 'Book Index';
+const siteDescription = 'Book Index is Farah Ismail’s small, growing archive of books, open to readers in Kuala Lumpur.';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.farahismail.com'),
-  title: 'Book Index',
+  title: {
+    default: siteTitle,
+    template: '%s | Book Index',
+  },
   description: siteDescription,
-  applicationName: 'Book Index',
+  applicationName: siteTitle,
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Book Index',
+    title: siteTitle,
     description: siteDescription,
-    siteName: 'Book Index',
+    siteName: siteTitle,
     url: '/',
     type: 'website',
   },
   twitter: {
     card: 'summary',
-    title: 'Book Index',
+    title: siteTitle,
     description: siteDescription,
   },
   robots: {
@@ -35,6 +39,8 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
+      noarchive: true,
+      'max-snippet': 160,
     },
   },
 };

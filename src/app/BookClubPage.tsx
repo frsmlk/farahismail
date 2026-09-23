@@ -4,24 +4,25 @@ import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
 import { sseEvents } from '@/lib/db/schema';
 
-const siteDescription = 'Book Index is a small, growing archive of books of various titles, open to readers in Kuala Lumpur.';
+const siteTitle = 'Book Index';
+const siteDescription = 'Book Index is Farah Ismail’s small, growing archive of books, open to readers in Kuala Lumpur.';
 
 export const metadata: Metadata = {
-  title: 'Book Index',
+  title: siteTitle,
   description: siteDescription,
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'Book Index',
+    title: siteTitle,
     description: siteDescription,
-    siteName: 'Book Index',
+    siteName: siteTitle,
     url: '/',
     type: 'website',
   },
   twitter: {
     card: 'summary',
-    title: 'Book Index',
+    title: siteTitle,
     description: siteDescription,
   },
   robots: {
@@ -30,6 +31,8 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
+      noarchive: true,
+      'max-snippet': 160,
     },
   },
 };
@@ -225,7 +228,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div>
           <h1>Book Index</h1>
           <p className="bcIntroText">
-            Book Index is a small, growing archive of books of various titles, open to readers in Kuala Lumpur. The index grows over time, and everything marked available is welcome to be borrowed at no cost. Book Index occasionally invites guests to curate special selections.
+            Book Index is Farah Ismail’s small, growing archive of books, open to readers in Kuala Lumpur. The index grows over time, and everything marked available is welcome to be borrowed at no cost. Book Index occasionally invites guests to curate special selections.
           </p>
         </div>
       </header>

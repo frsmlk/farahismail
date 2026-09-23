@@ -1,6 +1,6 @@
 {
   "name": "kontekstkl",
-  "description": "Portfolio management API for Farah Ismail — architect, interior designer, art director, and model based in Kuala Lumpur. Use these tools to read, create, update, and manage her portfolio entries, timeline updates, media, and profile.",
+  "description": "Book Index management API for Farah Ismail’s public book archive at farahismail.com.",
   "base_url": "${BASE_URL}",
   "auth": {
     "type": "bearer",
@@ -10,7 +10,7 @@
   "tools": [
     {
       "name": "get_context",
-      "description": "Call this FIRST in every session. Returns a full snapshot: all portfolio entries (summary), profile info, 10 most recent timeline updates, and aggregate stats. Use this to orient yourself before taking any action.",
+      "description": "Call this FIRST in every session. Returns a full snapshot: all Book Index records (summary), profile info, 10 most recent timeline updates, and aggregate stats. Use this to orient yourself before taking any action.",
       "method": "GET",
       "path": "/api/agent/context",
       "parameters": {}
@@ -30,13 +30,13 @@
     },
     {
       "name": "list_entries",
-      "description": "List all portfolio entries with full details including timeline updates and media. Use get_context for a lighter summary, or this when you need complete entry data.",
+      "description": "List all Book Index records with full details including timeline updates and media. Use get_context for a lighter summary, or this when you need complete entry data.",
       "method": "GET",
       "path": "/api/entries"
     },
     {
       "name": "get_entry",
-      "description": "Get a single portfolio entry by its slug, including all timeline updates and media. Use search first if you don't know the exact slug.",
+      "description": "Get a single Book Index record by its slug, including all timeline updates and media. Use search first if you don't know the exact slug.",
       "method": "GET",
       "path": "/api/entries/{slug}",
       "parameters": {
@@ -50,7 +50,7 @@
     },
     {
       "name": "create_entry",
-      "description": "Create a new portfolio entry. Generate a URL-safe slug from the title. Ask Farah to confirm category and entry type if unclear.",
+      "description": "Create a new Book Index record. Generate a URL-safe slug from the title. Ask Farah to confirm category and entry type if unclear.",
       "method": "POST",
       "path": "/api/entries",
       "parameters": {
@@ -78,7 +78,7 @@
     },
     {
       "name": "update_entry",
-      "description": "Update fields on an existing portfolio entry. Only include fields that are changing. Use search to find the slug if needed.",
+      "description": "Update fields on an existing Book Index record. Only include fields that are changing. Use search to find the slug if needed.",
       "method": "PATCH",
       "path": "/api/entries/{slug}",
       "parameters": {
@@ -103,7 +103,7 @@
     },
     {
       "name": "delete_entry",
-      "description": "Permanently delete a portfolio entry and all its timeline updates and media. Always confirm with Farah before deleting.",
+      "description": "Permanently delete a Book Index record and all its timeline updates and media. Always confirm with Farah before deleting.",
       "method": "DELETE",
       "path": "/api/entries/{slug}",
       "parameters": {
@@ -112,7 +112,7 @@
     },
     {
       "name": "add_update",
-      "description": "Add a timeline update to a portfolio entry. This is the primary way Farah logs progress — site visit notes, milestones reached, thoughts, photo descriptions. Use today's date unless Farah specifies otherwise. Infer the type from context: 'milestone' for completions/achievements, 'photo' for image-related, 'thought' for reflections/ideas, 'note' for everything else.",
+      "description": "Add a timeline update to a Book Index record. This is the primary way Farah logs progress — site visit notes, milestones reached, thoughts, photo descriptions. Use today's date unless Farah specifies otherwise. Infer the type from context: 'milestone' for completions/achievements, 'photo' for image-related, 'thought' for reflections/ideas, 'note' for everything else.",
       "method": "POST",
       "path": "/api/entries/{slug}/updates",
       "parameters": {
@@ -133,7 +133,7 @@
     },
     {
       "name": "add_media",
-      "description": "Attach a media item (photo, sketch, render, document) to a portfolio entry. The URL should point to an already-uploaded file (e.g. Vercel Blob). Infer mediaType from context: 'photo' for photographs, 'sketch' for drawings/hand sketches, 'render' for 3D/CGI, 'document' for PDFs/plans.",
+      "description": "Attach a media item (photo, sketch, render, document) to a Book Index record. The URL should point to an already-uploaded file (e.g. Vercel Blob). Infer mediaType from context: 'photo' for photographs, 'sketch' for drawings/hand sketches, 'render' for 3D/CGI, 'document' for PDFs/plans.",
       "method": "POST",
       "path": "/api/entries/{slug}/media",
       "parameters": {
