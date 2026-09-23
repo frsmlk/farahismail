@@ -403,7 +403,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @keyframes bcPulse { from { scale: 0.88; } to { scale: 1.08; } }
         @media (prefers-reduced-motion: reduce) { .bcButterflies, .bcCursorButterfly { display: none; } .bcButterfly { animation: none; } }
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
-        .bcSite > header, .bcSite > section, .bcSite > footer { position: relative; z-index: 2; }
+        .bcSite > header, .bcSite > section, .bcSite > footer, .bcHostingNote { position: relative; z-index: 2; }
         .bcSectionHead h2 { font-family: Arial, Helvetica, sans-serif; color: #000000; }
         .bcListItem { position: relative; }
         .bcListItemLink { position: absolute; inset: 0; z-index: 1; }
@@ -447,6 +447,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBorrowForm button { justify-self: stretch; border: 0; background: transparent; padding: 16px; font: 10pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; cursor: pointer; }
         .bcBorrowForm button:hover { background: rgba(27, 23, 18, 0.08); }
         .bcFormMessage { margin: 0; padding: 12px 16px; border-bottom: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; }
+        .bcHostingNote { padding: 18px 22px 0; font-family: Arial, Helvetica, sans-serif; font-size: 8pt; line-height: 1.35; text-transform: uppercase; letter-spacing: 0.08em; color: #9d1b1e; }
+        .bcHostingNote a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
         @media (max-width: 640px) {
           .bcCardRow, .bcCardGrid { grid-template-columns: 1fr; }
           .bcCardRow span, .bcDateDue span { border-right: 0; border-bottom: 1px solid #16130f; }
@@ -483,6 +485,10 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           `,
         }}
       />
+
+      <div className="bcHostingNote">
+        <a href="http://farahismail.com/">FARAHISMAIL.COM</a> IS CURRENTLY HOSTING: BOOK INDEX
+      </div>
 
       <footer className="bcFooter">
         <div>Book Index</div>
