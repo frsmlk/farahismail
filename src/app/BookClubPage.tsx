@@ -197,12 +197,7 @@ function Row({ item, borrowable = false }: { item: string[]; borrowable?: boolea
       <div className="bcTitle">{title}</div>
       <div className="bcAuthor">{author}</div>
       <div className="bcStatus">
-        {borrowable ? (
-          <span className="bcBorrowStatus" aria-hidden="true">
-            <span className="bcAvailableText">{status}</span>
-            <span className="bcBorrowText">borrow</span>
-          </span>
-        ) : status}
+        {status}
       </div>
     </article>
   );
@@ -372,16 +367,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBorrowHeadingText { display: none; }
         #available .bcSectionHead:hover .bcAvailableHeadingText { display: none !important; }
         #available .bcSectionHead:hover .bcBorrowHeadingText { display: inline !important; }
-        .bcBorrowStatus { position: relative; display: inline-block; min-width: 70px; }
-        .bcBorrowText { display: none; }
-        .bcListItemClickable:hover .bcBorrowStatus .bcAvailableText,
-        .bcListItemClickable:focus-within .bcBorrowStatus .bcAvailableText,
-        .bcListItemLink:hover ~ .bcStatus .bcAvailableText,
-        .bcListItemLink:focus-visible ~ .bcStatus .bcAvailableText { display: none !important; }
-        .bcListItemClickable:hover .bcBorrowStatus .bcBorrowText,
-        .bcListItemClickable:focus-within .bcBorrowStatus .bcBorrowText,
-        .bcListItemLink:hover ~ .bcStatus .bcBorrowText,
-        .bcListItemLink:focus-visible ~ .bcStatus .bcBorrowText { display: inline !important; }
         .bcBorrowModal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 18px; }
         .bcBorrowBackdrop { position: absolute; inset: 0; background: rgba(40, 34, 28, 0.28); backdrop-filter: blur(3px); }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
