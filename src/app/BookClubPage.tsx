@@ -337,7 +337,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcButterflyThree { top: 56%; left: -5%; width: 42px; animation-duration: 30s, 1s; animation-delay: -8s, -0.2s; opacity: 0.7; }
         .bcButterflyFour { top: 72%; left: -8%; width: 30px; animation-duration: 24s, 1.4s; animation-delay: -17s, -0.8s; opacity: 0.58; }
         .bcButterflyFive { top: 22%; left: -10%; width: 22px; animation-duration: 34s, 1.2s; animation-delay: -23s, -0.5s; opacity: 0.54; }
-        .bcCursorButterfly { position: fixed; left: 0; top: 0; z-index: 30; width: 34px; height: auto; pointer-events: none; opacity: 0; transform: translate3d(-100px, -100px, 0); transition: opacity 0.18s ease; filter: hue-rotate(145deg) saturate(1.75) brightness(1.05) drop-shadow(0 2px 5px rgba(38, 83, 170, 0.28)); }
+        .bcCursorButterfly { position: fixed; left: 0; top: 0; z-index: 30; width: 26px; height: auto; pointer-events: none; opacity: 0; transform: translate3d(-100px, -100px, 0); transition: opacity 0.18s ease; filter: hue-rotate(145deg) saturate(1.85) brightness(1.08) drop-shadow(0 2px 5px rgba(38, 83, 170, 0.28)); }
         .bcCursorButterfly.isVisible { opacity: 0.86; }
         @keyframes bcFlutter { 0% { transform: translate3d(-8vw, 0, 0) rotate(7deg); } 20% { transform: translate3d(24vw, -28px, 0) rotate(-9deg); } 42% { transform: translate3d(48vw, 34px, 0) rotate(11deg); } 68% { transform: translate3d(78vw, -18px, 0) rotate(-6deg); } 100% { transform: translate3d(112vw, 24px, 0) rotate(8deg); } }
         @keyframes bcPulse { from { scale: 0.88; } to { scale: 1.08; } }
@@ -387,8 +387,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               let tx = -100;
               let ty = -100;
               const move = (event) => {
-                tx = event.clientX + 16;
-                ty = event.clientY + 14;
+                tx = event.clientX + 10;
+                ty = event.clientY + 10;
                 butterfly.classList.add('isVisible');
               };
               const animate = () => {
