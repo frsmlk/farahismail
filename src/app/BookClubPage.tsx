@@ -214,12 +214,13 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
   return (
     <main className="bcSite">
       <div className="bcButterflies" aria-hidden="true">
-        <span className="bcButterfly bcButterflyOne" />
-        <span className="bcButterfly bcButterflyTwo" />
-        <span className="bcButterfly bcButterflyThree" />
-        <span className="bcButterfly bcButterflyFour" />
-        <span className="bcButterfly bcButterflyFive" />
+        <img className="bcButterfly bcButterflyOne" src="/book-index-butterfly.png" alt="" />
+        <img className="bcButterfly bcButterflyTwo" src="/book-index-butterfly.png" alt="" />
+        <img className="bcButterfly bcButterflyThree" src="/book-index-butterfly.png" alt="" />
+        <img className="bcButterfly bcButterflyFour" src="/book-index-butterfly.png" alt="" />
+        <img className="bcButterfly bcButterflyFive" src="/book-index-butterfly.png" alt="" />
       </div>
+      <img className="bcCursorButterfly" src="/book-index-butterfly.png" alt="" aria-hidden="true" />
       <header className="bcHero">
         <div>
           <h1>Book Index</h1>
@@ -330,19 +331,18 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       <style>{`
         .bcButterflies { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
-        .bcButterfly { position: absolute; width: 24px; height: 18px; opacity: 0.72; transform-origin: center; animation: bcFlutter 18s linear infinite; }
-        .bcButterfly::before, .bcButterfly::after { content: ''; position: absolute; top: 2px; width: 13px; height: 16px; background: radial-gradient(circle at 45% 35%, #ffd2ea 0 22%, #ff8fc6 23% 62%, #ec5ba8 63% 100%); border: 1px solid rgba(190, 52, 127, 0.34); }
-        .bcButterfly::before { left: 1px; border-radius: 80% 45% 75% 45%; transform-origin: right center; animation: bcWingLeft 0.72s ease-in-out infinite alternate; }
-        .bcButterfly::after { right: 1px; border-radius: 45% 80% 45% 75%; transform-origin: left center; animation: bcWingRight 0.72s ease-in-out infinite alternate; }
-        .bcButterflyOne { top: 14%; left: -4%; animation-duration: 22s; animation-delay: -4s; }
-        .bcButterflyTwo { top: 34%; left: -6%; width: 18px; height: 14px; animation-duration: 26s; animation-delay: -13s; opacity: 0.58; }
-        .bcButterflyThree { top: 56%; left: -5%; width: 28px; height: 21px; animation-duration: 30s; animation-delay: -8s; opacity: 0.66; }
-        .bcButterflyFour { top: 72%; left: -8%; width: 20px; height: 15px; animation-duration: 24s; animation-delay: -17s; opacity: 0.5; }
-        .bcButterflyFive { top: 22%; left: -10%; width: 16px; height: 12px; animation-duration: 34s; animation-delay: -23s; opacity: 0.48; }
+        .bcButterfly { position: absolute; width: 34px; height: auto; opacity: 0.82; transform-origin: center; animation: bcFlutter 18s linear infinite, bcPulse 1.1s ease-in-out infinite alternate; filter: drop-shadow(0 2px 4px rgba(146, 48, 112, 0.18)); }
+        .bcButterflyOne { top: 14%; left: -4%; animation-duration: 22s, 1.1s; animation-delay: -4s, 0s; }
+        .bcButterflyTwo { top: 34%; left: -6%; width: 26px; animation-duration: 26s, 1.3s; animation-delay: -13s, -0.4s; opacity: 0.62; }
+        .bcButterflyThree { top: 56%; left: -5%; width: 42px; animation-duration: 30s, 1s; animation-delay: -8s, -0.2s; opacity: 0.7; }
+        .bcButterflyFour { top: 72%; left: -8%; width: 30px; animation-duration: 24s, 1.4s; animation-delay: -17s, -0.8s; opacity: 0.58; }
+        .bcButterflyFive { top: 22%; left: -10%; width: 22px; animation-duration: 34s, 1.2s; animation-delay: -23s, -0.5s; opacity: 0.54; }
+        .bcCursorButterfly { position: fixed; left: 0; top: 0; z-index: 30; width: 34px; height: auto; pointer-events: none; opacity: 0; transform: translate3d(-100px, -100px, 0); transition: opacity 0.18s ease; filter: hue-rotate(145deg) saturate(1.75) brightness(1.05) drop-shadow(0 2px 5px rgba(38, 83, 170, 0.28)); }
+        .bcCursorButterfly.isVisible { opacity: 0.86; }
         @keyframes bcFlutter { 0% { transform: translate3d(-8vw, 0, 0) rotate(7deg); } 20% { transform: translate3d(24vw, -28px, 0) rotate(-9deg); } 42% { transform: translate3d(48vw, 34px, 0) rotate(11deg); } 68% { transform: translate3d(78vw, -18px, 0) rotate(-6deg); } 100% { transform: translate3d(112vw, 24px, 0) rotate(8deg); } }
-        @keyframes bcWingLeft { from { transform: rotateY(18deg) rotate(-8deg); } to { transform: rotateY(64deg) rotate(8deg); } }
-        @keyframes bcWingRight { from { transform: rotateY(-18deg) rotate(8deg); } to { transform: rotateY(-64deg) rotate(-8deg); } }
-        @media (prefers-reduced-motion: reduce) { .bcButterfly, .bcButterfly::before, .bcButterfly::after { animation: none; } .bcButterflies { display: none; } }
+        @keyframes bcPulse { from { scale: 0.88; } to { scale: 1.08; } }
+        @media (prefers-reduced-motion: reduce) { .bcButterfly { animation: none; } .bcButterflies, .bcCursorButterfly { display: none; } }
+        @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
         .bcSite > header, .bcSite > section, .bcSite > footer { position: relative; z-index: 2; }
         .bcBorrowStatus { position: relative; display: inline-block; min-width: 70px; }
         .bcLentStatus { text-decoration: underline; text-underline-offset: 2px; }
@@ -375,6 +375,35 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           .bcDateDue { display: none; }
         }
       `}</style>
+
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            (() => {
+              const butterfly = document.querySelector('.bcCursorButterfly');
+              if (!butterfly || window.matchMedia('(pointer: coarse)').matches) return;
+              let x = -100;
+              let y = -100;
+              let tx = -100;
+              let ty = -100;
+              const move = (event) => {
+                tx = event.clientX + 16;
+                ty = event.clientY + 14;
+                butterfly.classList.add('isVisible');
+              };
+              const animate = () => {
+                x += (tx - x) * 0.18;
+                y += (ty - y) * 0.18;
+                butterfly.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0) rotate(' + Math.sin(Date.now() / 220) * 8 + 'deg)';
+                requestAnimationFrame(animate);
+              };
+              window.addEventListener('pointermove', move, { passive: true });
+              window.addEventListener('pointerleave', () => butterfly.classList.remove('isVisible'));
+              animate();
+            })();
+          `,
+        }}
+      />
 
       <footer className="bcFooter">
         <div>Book Index</div>
