@@ -148,6 +148,10 @@ async function submitBorrowRequest(formData: FormData) {
   redirect('/?borrow=submitted#borrow-card');
 }
 
+const currentReads = [
+  ['Memoir', 'I Saw Ramallah', 'Mourid Barghouti', 'Current read'],
+];
+
 const lentBooks = [
   ['Novel', 'The Vegetarian', 'Han Kang', 'Lent to Shyafika S.'],
   ['Essays', 'In the Garden: Essays on Nature and Growing', 'Daunt Books, ed.', 'Lent to Irdina N.'],
@@ -177,20 +181,22 @@ const availableBooks = [
   ['Manga', 'Blame!', 'Tsutomu Nihei', 'Available'],
 ];
 
-function Row({ item, borrowable = false }: { item: string[]; borrowable?: boolean }) {
+function Row({ item, borrowable = false, currentReadable = false }: { item: string[]; borrowable?: boolean; currentReadable?: boolean }) {
   const [type, title, author, status] = item;
   const lent = status.startsWith('Lent to ');
   const modalHref = borrowable
     ? `?borrow=${encodeURIComponent(title)}#borrow-card`
-    : lent
-      ? `?lent=${encodeURIComponent(title)}#lent-card`
-      : '';
+    : currentReadable
+      ? `?current=${encodeURIComponent(title)}#current-card`
+      : lent
+        ? `?lent=${encodeURIComponent(title)}#lent-card`
+        : '';
 
   return (
     <article className={modalHref ? 'bcListItem bcListItemClickable' : 'bcListItem'}>
       {modalHref ? (
-        <Link className="bcListItemLink" href={modalHref} aria-label={`${borrowable ? 'Borrow' : 'View lent card for'} ${title}`}>
-          <span className="bcScreenReaderText">{borrowable ? 'Borrow' : 'View lent card for'} {title}</span>
+        <Link className="bcListItemLink" href={modalHref} aria-label={`${borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} ${title}`}>
+          <span className="bcScreenReaderText">{borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} {title}</span>
         </Link>
       ) : null}
       <div className="bcType">{type}</div>
@@ -204,14 +210,16 @@ function Row({ item, borrowable = false }: { item: string[]; borrowable?: boolea
 }
 
 type BookClubPageProps = {
-  searchParams?: Promise<{ borrow?: string; lent?: string; error?: string }> | { borrow?: string; lent?: string; error?: string };
+  searchParams?: Promise<{ borrow?: string; lent?: string; current?: string; error?: string }> | { borrow?: string; lent?: string; current?: string; error?: string };
 };
 
 export default async function BookClubPage({ searchParams }: BookClubPageProps) {
   const params = searchParams ? await Promise.resolve(searchParams) : {};
   const borrowTitle = params.borrow && params.borrow !== 'submitted' ? params.borrow : '';
   const lentTitle = params.lent ?? '';
+  const currentTitle = params.current ?? '';
   const lentBook = lentBooks.find((book) => book[1] === lentTitle);
+  const currentBook = currentReads.find((book) => book[1] === currentTitle);
   const lentName = lentBook?.[3].replace(/^Lent to\s+/, '') ?? '';
   const submitted = params.borrow === 'submitted';
   const missing = params.error === 'missing';
@@ -250,12 +258,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       <section className="bcSection" id="current">
         <div className="bcSectionHead"><h2>Current Reads</h2></div>
         <div className="bcList">
-          <article className="bcListItem">
-            <div className="bcType">Memoir</div>
-            <div className="bcTitle">I Saw Ramallah</div>
-            <div className="bcAuthor">Mourid Barghouti</div>
-            <div className="bcStatus">Current read</div>
-          </article>
+          {currentReads.map((book) => <Row key={book[1]} item={book} currentReadable />)}
         </div>
       </section>
 
@@ -317,6 +320,28 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         </div>
       ) : null}
 
+      {currentBook ? (
+        <div className="bcBorrowModal" id="current-card" role="dialog" aria-modal="true" aria-labelledby="current-card-title">
+          <Link className="bcBorrowBackdrop" href="/" aria-label="Close current read card" />
+          <div className="bcLibraryCard">
+            <Link className="bcCardClose" href="/" aria-label="Close current read card">×</Link>
+            <div className="bcBorrowForm">
+              <div className="bcCardHeader">
+                <p id="current-card-title">Book Index Current Read Card</p>
+              </div>
+              <div className="bcCardRow">
+                <span>Title</span>
+                <div className="bcCardValue">{currentBook[1]}</div>
+              </div>
+              <div className="bcCardRow">
+                <span>Current read</span>
+                <div className="bcCardValue">{currentBook[2]}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       {lentBook ? (
         <div className="bcBorrowModal" id="lent-card" role="dialog" aria-modal="true" aria-labelledby="lent-card-title">
           <Link className="bcBorrowBackdrop" href="/" aria-label="Close lent card" />
@@ -364,6 +389,15 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcListItemClickable:focus-within .bcTitle,
         .bcListItemClickable:active .bcTitle { color: #fff44f; }
         .bcListItemLink:focus-visible { outline: 1px solid #fff44f; outline-offset: -4px; }
+        #current,
+        #current * { color: #000000; font-weight: 400; }
+        #current .bcSectionHead h2,
+        #current .bcTitle { transition: color 0.16s ease; }
+        #current .bcSectionHead:hover h2,
+        #current .bcListItemClickable:hover .bcTitle,
+        #current .bcListItemClickable:focus-within .bcTitle,
+        #current .bcListItemClickable:active .bcTitle { color: #b00068; }
+        #current .bcListItemLink:focus-visible { outline-color: #b00068; }
         .bcBorrowHeadingText { display: none; }
         #available .bcSectionHead:hover .bcAvailableHeadingText { display: none !important; }
         #available .bcSectionHead:hover .bcBorrowHeadingText { display: inline !important; }
