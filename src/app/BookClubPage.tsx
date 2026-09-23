@@ -180,21 +180,28 @@ const availableBooks = [
 function Row({ item, borrowable = false }: { item: string[]; borrowable?: boolean }) {
   const [type, title, author, status] = item;
   const lent = status.startsWith('Lent to ');
+  const modalHref = borrowable
+    ? `?borrow=${encodeURIComponent(title)}#borrow-card`
+    : lent
+      ? `?lent=${encodeURIComponent(title)}#lent-card`
+      : '';
+
   return (
-    <article className="bcListItem">
+    <article className={modalHref ? 'bcListItem bcListItemClickable' : 'bcListItem'}>
+      {modalHref ? (
+        <Link className="bcListItemLink" href={modalHref} aria-label={`${borrowable ? 'Borrow' : 'View lent card for'} ${title}`}>
+          <span className="bcScreenReaderText">{borrowable ? 'Borrow' : 'View lent card for'} {title}</span>
+        </Link>
+      ) : null}
       <div className="bcType">{type}</div>
       <div className="bcTitle">{title}</div>
       <div className="bcAuthor">{author}</div>
       <div className="bcStatus">
         {borrowable ? (
-          <a className="bcBorrowStatus" href={`?borrow=${encodeURIComponent(title)}#borrow-card`} aria-label={`Borrow ${title}`}>
+          <span className="bcBorrowStatus" aria-hidden="true">
             <span className="bcAvailableText">{status}</span>
-            <span className="bcBorrowText">Borrow</span>
-          </a>
-        ) : lent ? (
-          <a className="bcLentStatus" href={`?lent=${encodeURIComponent(title)}#lent-card`} aria-label={`View lent card for ${title}`}>
-            {status}
-          </a>
+            <span className="bcBorrowText">burrow</span>
+          </span>
         ) : status}
       </div>
     </article>
@@ -347,11 +354,22 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @media (prefers-reduced-motion: reduce) { .bcButterflies, .bcCursorButterfly { display: none; } .bcButterfly { animation: none; } }
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
         .bcSite > header, .bcSite > section, .bcSite > footer { position: relative; z-index: 2; }
+        .bcListItem { position: relative; }
+        .bcListItemLink { position: absolute; inset: 0; z-index: 1; }
+        .bcScreenReaderText { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+        .bcListItemClickable { cursor: pointer; }
+        .bcListItemClickable > :not(.bcListItemLink) { position: relative; z-index: 2; pointer-events: none; }
+        .bcTitle { transition: color 0.16s ease; }
+        .bcListItemClickable:hover .bcTitle,
+        .bcListItemClickable:focus-within .bcTitle,
+        .bcListItemClickable:active .bcTitle { color: #fff44f; }
+        .bcListItemLink:focus-visible { outline: 1px solid #fff44f; outline-offset: -4px; }
         .bcBorrowStatus { position: relative; display: inline-block; min-width: 70px; }
-        .bcLentStatus { text-decoration: underline; text-underline-offset: 2px; }
-        .bcBorrowText { display: none; text-decoration: underline; }
-        .bcBorrowStatus:hover .bcAvailableText { display: none; }
-        .bcBorrowStatus:hover .bcBorrowText { display: inline; }
+        .bcBorrowText { display: none; }
+        .bcListItemClickable:hover .bcBorrowStatus .bcAvailableText,
+        .bcListItemClickable:focus-within .bcBorrowStatus .bcAvailableText { display: none; }
+        .bcListItemClickable:hover .bcBorrowStatus .bcBorrowText,
+        .bcListItemClickable:focus-within .bcBorrowStatus .bcBorrowText { display: inline; }
         .bcBorrowModal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 18px; }
         .bcBorrowBackdrop { position: absolute; inset: 0; background: rgba(40, 34, 28, 0.28); backdrop-filter: blur(3px); }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
