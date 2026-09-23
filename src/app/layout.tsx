@@ -8,7 +8,7 @@ export const viewport: Viewport = {
 };
 
 const siteTitle = 'Book Index';
-const siteDescription = 'Book Index is Farah Ismail’s small, growing archive of books, open to readers in Kuala Lumpur.';
+const siteDescription = 'Book Index';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.farahismail.com'),
