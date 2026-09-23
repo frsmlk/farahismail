@@ -200,7 +200,7 @@ function Row({ item, borrowable = false }: { item: string[]; borrowable?: boolea
         {borrowable ? (
           <span className="bcBorrowStatus" aria-hidden="true">
             <span className="bcAvailableText">{status}</span>
-            <span className="bcBorrowText">burrow</span>
+            <span className="bcBorrowText">borrow</span>
           </span>
         ) : status}
       </div>
