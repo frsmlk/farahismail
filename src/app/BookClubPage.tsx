@@ -327,14 +327,14 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link className="bcCardClose" href="/" aria-label="Close current read card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
-                <p id="current-card-title">Book Index Current Read Card</p>
+                <p id="current-card-title">Book Index: Currently Reading</p>
               </div>
               <div className="bcCardRow">
                 <span>Title</span>
                 <div className="bcCardValue">{currentBook[1]}</div>
               </div>
               <div className="bcCardRow">
-                <span>Current read</span>
+                <span>Author</span>
                 <div className="bcCardValue">{currentBook[2]}</div>
               </div>
             </div>
