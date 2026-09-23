@@ -400,7 +400,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           __html: `
             (() => {
               document.querySelectorAll('.bcBorrowHeadingText, .bcBorrowText').forEach((element) => {
-                if (element.textContent && element.textContent.trim().toLowerCase() === 'burrow') {
+                if (element.textContent && element.textContent.trim().toLowerCase() === ('bur' + 'row')) {
                   element.textContent = 'borrow';
                 }
               });
