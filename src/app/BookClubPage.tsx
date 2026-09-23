@@ -399,6 +399,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         dangerouslySetInnerHTML={{
           __html: `
             (() => {
+              document.querySelectorAll('.bcBorrowHeadingText, .bcBorrowText').forEach((element) => {
+                if (element.textContent && element.textContent.trim().toLowerCase() === 'burrow') {
+                  element.textContent = 'borrow';
+                }
+              });
               const butterfly = document.querySelector('.bcCursorButterfly');
               if (!butterfly || window.matchMedia('(pointer: coarse)').matches) return;
               let x = -100;
