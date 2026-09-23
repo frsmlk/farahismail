@@ -307,7 +307,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                   <input name="phone" placeholder="Phone" required />
                 </label>
                 <div className="bcDateDue" aria-hidden="true">
-                  <span>Date Due</span>
+                  <span>Return Date</span>
                   <strong>45 Days</strong>
                 </div>
               </div>
