@@ -161,6 +161,7 @@ const lentBooks = [
 const availableBooks = [
   ['Novel', 'The Curious Incident of the Dog in the Night-Time', 'Mark Haddon', 'Available'],
   ['Essay', 'The Book of Tea', 'Okakura Kakuzō', 'Available'],
+  ['Essays', 'Reluctant Capital: Essays on Kuala Lumpur', 'Badrul Hisham Ismail', 'Available'],
   ['Magazine', 'POP Magazine: September Issue', 'POP Magazine', 'Available'],
   ['Book', 'Townscape Revisited: Unraveling the Character of the Historic Townscape in Malaysia', 'Shuhana Shamsuddin', 'Available'],
   ['Book', 'The Spirit of Cities', 'Daniel A. Bell & Avner de-Shalit', 'Available'],
