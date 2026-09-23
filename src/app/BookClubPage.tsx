@@ -213,7 +213,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
   return (
     <main className="bcSite">
-      <img className="bcCursorButterfly" src="/book-index-butterfly.png" alt="" aria-hidden="true" />
       <header className="bcHero">
         <div>
           <h1>Book Index</h1>
@@ -323,10 +322,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       ) : null}
 
       <style>{`
-        .bcCursorButterfly { position: fixed; left: 0; top: 0; z-index: 30; width: 26px; height: auto; pointer-events: none; opacity: 0; transform: translate3d(-100px, -100px, 0); transition: opacity 0.18s ease; filter: drop-shadow(0 2px 5px rgba(146, 48, 112, 0.24)); }
-        .bcCursorButterfly.isVisible { opacity: 0.86; }
-        @media (prefers-reduced-motion: reduce) { .bcCursorButterfly { display: none; } }
-        @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
         .bcSite > header, .bcSite > section, .bcSite > footer { position: relative; z-index: 2; }
         .bcBorrowStatus { position: relative; display: inline-block; min-width: 70px; }
         .bcLentStatus { text-decoration: underline; text-underline-offset: 2px; }
@@ -360,34 +355,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         }
       `}</style>
 
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            (() => {
-              const butterfly = document.querySelector('.bcCursorButterfly');
-              if (!butterfly || window.matchMedia('(pointer: coarse)').matches) return;
-              let x = -100;
-              let y = -100;
-              let tx = -100;
-              let ty = -100;
-              const move = (event) => {
-                tx = event.clientX + 10;
-                ty = event.clientY + 10;
-                butterfly.classList.add('isVisible');
-              };
-              const animate = () => {
-                x += (tx - x) * 0.18;
-                y += (ty - y) * 0.18;
-                butterfly.style.transform = 'translate3d(' + x + 'px, ' + y + 'px, 0) rotate(' + Math.sin(Date.now() / 220) * 8 + 'deg)';
-                requestAnimationFrame(animate);
-              };
-              window.addEventListener('pointermove', move, { passive: true });
-              window.addEventListener('pointerleave', () => butterfly.classList.remove('isVisible'));
-              animate();
-            })();
-          `,
-        }}
-      />
 
       <footer className="bcFooter">
         <div>Book Index</div>
