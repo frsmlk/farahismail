@@ -392,6 +392,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcListItemLink:focus-visible { outline: 1px solid #fff44f; outline-offset: -4px; }
         #current,
         #current * { color: #000000; font-weight: 400; }
+        #current .bcSectionHead h2 { font-weight: 700; }
         #current .bcSectionHead h2,
         #current .bcTitle { transition: color 0.16s ease; }
         #current .bcSectionHead:hover h2,
