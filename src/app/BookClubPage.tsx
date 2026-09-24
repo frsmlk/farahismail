@@ -298,9 +298,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               <div className="bcAboutCardText">
                 <p>Book Index is part archive, part library by Farah Ismail.</p>
                 <p>Farah works across architecture, design, urban life, objects, and the quiet details that make up how people live. Books sit somewhere in the middle of all of it.</p>
-                <p>Hosted on <a href="http://farahismail.com/">farahismail.com</a>.</p>
                 <p>Available books can be borrowed. Read carefully. Return kindly.</p>
                 <p>Keep your voices loud in this library.</p>
+                <p className="bcAboutHosted">Hosted on <a href="http://farahismail.com/">farahismail.com</a>.</p>
               </div>
             </div>
           </div>
@@ -464,11 +464,13 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcSpotifyEmbed { display: block; width: 100%; border: 0; border-radius: 0; background: #111; }
         .bcAboutCard { width: min(520px, 100%); }
         .bcAboutCard .bcBorrowForm { background: var(--bc-paper); background-image: none; font-family: Arial, Helvetica, sans-serif; color: #9d1b1e; }
+        .bcAboutCard .bcBorrowForm, .bcAboutCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; }
         .bcAboutCard .bcCardClose { color: #9d1b1e; font-family: Arial, Helvetica, sans-serif; }
         .bcAboutCardHeader { background: var(--bc-paper); }
         .bcAboutCardHeader p { color: #9d1b1e; font: 700 11pt Arial, Helvetica, sans-serif; letter-spacing: 0.06em; }
-        .bcAboutCardText { display: grid; gap: 14px; padding: 18px 20px 20px; font: 11pt/1.45 Arial, Helvetica, sans-serif; letter-spacing: 0.01em; }
+        .bcAboutCardText { display: grid; gap: 14px; min-height: 290px; padding: 18px 20px 20px; font: 11pt/1.45 Arial, Helvetica, sans-serif; letter-spacing: 0.01em; }
         .bcAboutCardText p { margin: 0; }
+        .bcAboutHosted { align-self: end; margin-top: 24px; }
         .bcAboutCardText a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
         .bcCardClose { position: absolute; top: 10px; right: 14px; z-index: 2; color: #1b1712; font: 10pt Arial, Helvetica, sans-serif; line-height: 1; text-decoration: none; }
