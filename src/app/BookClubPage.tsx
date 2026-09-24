@@ -156,6 +156,7 @@ const lentBooks = [
   ['Novel', 'The Vegetarian', 'Han Kang', 'Lent to Shyafika S.'],
   ['Essays', 'In the Garden: Essays on Nature and Growing', 'Daunt Books, ed.', 'Lent to Irdina N.'],
   ['Book', 'Common Treasures Vol 2. Housing, Planning and Construction', 'Amica Dall, Giles Smith, James Binning & Sara Pereira', 'Lent to Adam R.'],
+  ['Book', 'Soups, Salads, Sandwiches', 'Matty Matheson', 'Lent to Faris M.'],
 ];
 
 const availableBooks = [
@@ -168,7 +169,6 @@ const availableBooks = [
   ['Book', 'Design in Conservative Times', 'Joannette van der Veer', 'Available'],
   ['Book', 'Art and Beauty in the Middle Ages', 'Umberto Eco', 'Available'],
   ['Book', 'You Glow in the Dark', 'Liliana Colanzi', 'Available'],
-  ['Book', 'Soups, Salads, Sandwiches', 'Matty Matheson', 'Available'],
   ['Magazine', 'Penang Monthly: September Issue', 'Penang Institute', 'Available'],
   ['Magazine', 'Noia Magazine Issue 4: Absurd Rituals', 'Noia Magazine', 'Available'],
   ['Zine', 'Nyampah', 'Emte', 'Available'],
