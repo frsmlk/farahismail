@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
   });
 }
 
-export async function DELETE(req: NextRequest) {
+async function deleteBorrowRequest(req: NextRequest) {
   const token = req.nextUrl.searchParams.get('token');
 
   if (!token || token !== NOTIFY_TOKEN) {
@@ -52,4 +52,12 @@ export async function DELETE(req: NextRequest) {
     .returning({ id: sseEvents.id });
 
   return NextResponse.json({ deleted: deleted.length, id });
+}
+
+export async function POST(req: NextRequest) {
+  return deleteBorrowRequest(req);
+}
+
+export async function DELETE(req: NextRequest) {
+  return deleteBorrowRequest(req);
 }
