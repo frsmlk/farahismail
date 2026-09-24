@@ -461,7 +461,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcPlaylistEmbedRow { padding: 16px; }
         .bcSpotifyEmbed { display: block; width: 100%; border: 0; border-radius: 0; background: #111; }
         .bcAboutCard { width: min(520px, 100%); }
-        .bcAboutCard .bcBorrowForm { font-family: Arial, Helvetica, sans-serif; }
+        .bcAboutCard .bcBorrowForm { background: var(--bc-paper); background-image: none; font-family: Arial, Helvetica, sans-serif; color: #9d1b1e; }
+        .bcAboutCard .bcCardClose { color: #9d1b1e; font-family: Arial, Helvetica, sans-serif; }
         .bcAboutCardHeader { background: var(--bc-paper); }
         .bcAboutCardHeader p { color: #9d1b1e; font: 700 11pt Arial, Helvetica, sans-serif; letter-spacing: 0.06em; }
         .bcAboutCardText { display: grid; gap: 14px; padding: 18px 20px 20px; font: 11pt/1.45 Arial, Helvetica, sans-serif; letter-spacing: 0.01em; }
