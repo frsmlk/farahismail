@@ -467,7 +467,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcAboutCard .bcCardClose { color: #9d1b1e; font-family: Arial, Helvetica, sans-serif; }
         .bcAboutCardHeader { background: var(--bc-paper); }
         .bcAboutCardHeader p { color: #9d1b1e; font: 700 11pt Arial, Helvetica, sans-serif; letter-spacing: 0.06em; }
-        .bcAboutCardText { display: grid; gap: 14px; min-height: 290px; padding: 18px 20px 20px; font: 11pt/1.45 Arial, Helvetica, sans-serif; letter-spacing: 0.01em; }
+        .bcAboutCardText { display: grid; gap: 4px; min-height: 290px; padding: 18px 20px 20px; font: 11pt/1.15 Arial, Helvetica, sans-serif; letter-spacing: 0.01em; }
         .bcAboutCardText p { margin: 0; }
         .bcAboutHosted { align-self: end; margin-top: 24px; }
         .bcAboutCardText a { color: inherit; text-decoration: underline; text-underline-offset: 2px; transition: color 0.16s ease; }
