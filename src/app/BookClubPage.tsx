@@ -409,7 +409,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
         .bcSite > header, .bcSite > section, .bcSite > footer, .bcHostingNote { position: relative; z-index: 2; }
         .bcTopTabs { position: fixed; top: 0; right: 18px; z-index: 10; display: flex; align-items: flex-start; gap: 0; padding-top: 0; }
-        .bcTopTab { position: relative; display: flex; align-items: center; justify-content: center; min-width: 104px; height: 42px; padding: 11px 18px 9px; border: 1px solid rgba(0, 0, 0, 0.42); border-top: 0; border-radius: 0 0 18px 18px; background: var(--bc-paper); color: #000000; font: 700 9pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08); }
+        .bcTopTab { position: relative; display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 82px; height: 34px; padding: 9px 10px 7px; border: 1px solid rgba(0, 0, 0, 0.42); border-top: 0; border-radius: 0 0 14px 14px; background: var(--bc-paper); color: #000000; font: 700 8pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08); }
         .bcTopTab + .bcTopTab { margin-left: -1px; }
         .bcTopTab:nth-child(2) { transform: translateY(10px); }
         .bcTopTab:hover, .bcTopTab:focus-visible { background: rgba(255, 255, 255, 0.18); outline: 0; }
@@ -460,7 +460,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcHostingNote a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
         @media (max-width: 640px) {
           .bcTopTabs { right: 10px; }
-          .bcTopTab { min-width: 84px; height: 36px; padding: 9px 12px 8px; border-radius: 0 0 14px 14px; font-size: 8pt; }
+          .bcTopTab { width: 72px; height: 30px; padding: 8px 8px 6px; border-radius: 0 0 12px 12px; font-size: 7.5pt; }
           .bcCardRow, .bcCardGrid { grid-template-columns: 1fr; }
           .bcCardRow span, .bcDateDue span { border-right: 0; border-bottom: 1px solid #16130f; }
           .bcDateDue { display: none; }
