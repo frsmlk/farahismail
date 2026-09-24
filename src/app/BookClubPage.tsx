@@ -249,11 +249,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div className="bcSectionHead"><h2>Playlist</h2></div>
         <div className="bcList">
           <article className="bcListItem bcListItemClickable">
-            <Link className="bcListItemLink" href="?playlist=fun-pop#playlist-card" aria-label="Play Fun Pop playlist">
-              <span className="bcScreenReaderText">Play Fun Pop playlist</span>
+            <Link className="bcListItemLink" href="?playlist=fun-pop#playlist-card" aria-label="Play September playlist">
+              <span className="bcScreenReaderText">Play September playlist</span>
             </Link>
             <div className="bcType">Playlist</div>
-            <div className="bcTitle">Fun Pop</div>
+            <div className="bcTitle">September</div>
             <div className="bcAuthor">Spotify</div>
             <div className="bcStatus">Playlist</div>
           </article>
@@ -288,12 +288,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link className="bcCardClose" href="/" aria-label="Close playlist">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
-                <p id="playlist-card-title">Book Index: Fun Pop</p>
+                <p id="playlist-card-title">Book Index: September</p>
               </div>
               <div className="bcPlaylistEmbedRow">
                 <iframe
                   className="bcSpotifyEmbed"
-                  title="Fun Pop Spotify playlist"
+                  title="September Spotify playlist"
                   src="https://open.spotify.com/embed/playlist/7HkgT6pevKLLvSCocAX7F0?utm_source=generator&theme=0"
                   width="100%"
                   height="352"
