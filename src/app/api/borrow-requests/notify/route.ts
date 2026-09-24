@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { and, desc, eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { db } from '@/lib/db';
 import { sseEvents } from '@/lib/db/schema';
 
@@ -10,10 +10,6 @@ export async function GET(req: NextRequest) {
 
   if (!token || token !== NOTIFY_TOKEN) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
-  }
-
-  if (req.nextUrl.searchParams.get('action') === 'delete') {
-    return deleteBorrowRequest(req);
   }
 
   const rows = await db
@@ -35,33 +31,4 @@ export async function GET(req: NextRequest) {
       ...(row.payload as Record<string, unknown>),
     })),
   });
-}
-
-async function deleteBorrowRequest(req: NextRequest) {
-  const token = req.nextUrl.searchParams.get('token');
-
-  if (!token || token !== NOTIFY_TOKEN) {
-    return NextResponse.json({ error: 'Not found' }, { status: 404 });
-  }
-
-  const id = Number(req.nextUrl.searchParams.get('id'));
-
-  if (!Number.isInteger(id) || id < 1) {
-    return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
-  }
-
-  const deleted = await db
-    .delete(sseEvents)
-    .where(and(eq(sseEvents.id, id), eq(sseEvents.type, 'borrow_request')))
-    .returning({ id: sseEvents.id });
-
-  return NextResponse.json({ deleted: deleted.length, id });
-}
-
-export async function POST(req: NextRequest) {
-  return deleteBorrowRequest(req);
-}
-
-export async function DELETE(req: NextRequest) {
-  return deleteBorrowRequest(req);
 }
