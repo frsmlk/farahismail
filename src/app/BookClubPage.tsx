@@ -211,7 +211,7 @@ function Row({ item, borrowable = false, currentReadable = false }: { item: stri
 }
 
 type BookClubPageProps = {
-  searchParams?: Promise<{ borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }> | { borrow?: string; lent?: string; current?: string; playlist?: string; error?: string };
+  searchParams?: Promise<{ about?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }> | { about?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string };
 };
 
 export default async function BookClubPage({ searchParams }: BookClubPageProps) {
@@ -220,6 +220,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
   const lentTitle = params.lent ?? '';
   const currentTitle = params.current ?? '';
   const playlistOpen = params.playlist === 'fun-pop';
+  const aboutOpen = params.about === 'book-index';
   const lentBook = lentBooks.find((book) => book[1] === lentTitle);
   const currentBook = currentReads.find((book) => book[1] === currentTitle);
   const lentName = lentBook?.[3].replace(/^Lent to\s+/, '') ?? '';
@@ -237,7 +238,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       </div>
       <img className="bcCursorButterfly" src="/book-index-butterfly.png" alt="" aria-hidden="true" />
       <nav className="bcTopTabs" aria-label="Book Index navigation">
-        <a className="bcTopTab" href="#about">ABOUT</a>
+        <Link className="bcTopTab" href="?about=book-index#about-card">ABOUT</Link>
         <a className="bcTopTab" href="#contact">CONTACT</a>
       </nav>
       <header className="bcHero" id="about">
@@ -284,6 +285,27 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           {availableBooks.map((book) => <Row key={book[1]} item={book} borrowable />)}
         </div>
       </section>
+
+      {aboutOpen ? (
+        <div className="bcBorrowModal" id="about-card" role="dialog" aria-modal="true" aria-labelledby="about-card-title">
+          <Link className="bcBorrowBackdrop" href="/" aria-label="Close about card" />
+          <div className="bcLibraryCard bcAboutCard">
+            <Link className="bcCardClose" href="/" aria-label="Close about card">×</Link>
+            <div className="bcBorrowForm">
+              <div className="bcCardHeader">
+                <p id="about-card-title">ABOUT</p>
+              </div>
+              <div className="bcAboutCardText">
+                <p>Book Index is part archive, part library by Farah Ismail.</p>
+                <p>Farah works across architecture, design, urban life, objects, and the quiet details that make up how people live. Books sit somewhere in the middle of all of it.</p>
+                <p>Hosted on <a href="http://farahismail.com/">farahismail.com</a>.</p>
+                <p>Available books can be borrowed. Read carefully. Return kindly.</p>
+                <p>Keep your voices loud in this library.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       {playlistOpen ? (
         <div className="bcBorrowModal" id="playlist-card" role="dialog" aria-modal="true" aria-labelledby="playlist-card-title">
@@ -440,6 +462,10 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBorrowBackdrop { position: absolute; inset: 0; background: rgba(40, 34, 28, 0.28); backdrop-filter: blur(3px); }
         .bcPlaylistEmbedRow { padding: 16px; }
         .bcSpotifyEmbed { display: block; width: 100%; border: 0; border-radius: 0; background: #111; }
+        .bcAboutCard { width: min(520px, 100%); }
+        .bcAboutCardText { display: grid; gap: 14px; padding: 18px 20px 20px; font: 11pt/1.45 Arial, Helvetica, sans-serif; letter-spacing: 0.01em; }
+        .bcAboutCardText p { margin: 0; }
+        .bcAboutCardText a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
         .bcCardClose { position: absolute; top: 10px; right: 14px; z-index: 2; color: #1b1712; font: 10pt Arial, Helvetica, sans-serif; line-height: 1; text-decoration: none; }
         .bcBorrowForm { position: relative; display: grid; gap: 0; padding: 0; border: 1px solid #16130f; background: #f3e7c4; background-image: radial-gradient(circle at 20% 12%, rgba(110, 82, 43, 0.13) 0 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.2), rgba(133, 96, 45, 0.07)); background-size: 12px 12px, 100% 100%; font-family: 'Courier New', Courier, monospace; }
