@@ -236,7 +236,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <img className="bcButterfly bcButterflyFive" src="/book-index-butterfly.png" alt="" />
       </div>
       <img className="bcCursorButterfly" src="/book-index-butterfly.png" alt="" aria-hidden="true" />
-      <header className="bcHero">
+      <nav className="bcTopTabs" aria-label="Book Index navigation">
+        <a className="bcTopTab" href="#about">ABOUT</a>
+        <a className="bcTopTab" href="#contact">CONTACT</a>
+      </nav>
+      <header className="bcHero" id="about">
         <div>
           <h1>Book Index</h1>
           <p className="bcIntroText">
@@ -404,6 +408,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @media (prefers-reduced-motion: reduce) { .bcButterflies, .bcCursorButterfly { display: none; } .bcButterfly { animation: none; } }
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
         .bcSite > header, .bcSite > section, .bcSite > footer, .bcHostingNote { position: relative; z-index: 2; }
+        .bcTopTabs { position: fixed; top: 0; right: 18px; z-index: 10; display: flex; align-items: flex-start; gap: 0; padding-top: 0; }
+        .bcTopTab { position: relative; display: flex; align-items: center; justify-content: center; min-width: 104px; height: 42px; padding: 11px 18px 9px; border: 1px solid rgba(0, 0, 0, 0.42); border-top: 0; border-radius: 0 0 18px 18px; background: var(--bc-paper); color: #000000; font: 700 9pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08); }
+        .bcTopTab + .bcTopTab { margin-left: -1px; }
+        .bcTopTab:nth-child(2) { transform: translateY(10px); }
+        .bcTopTab:hover, .bcTopTab:focus-visible { background: rgba(255, 255, 255, 0.18); outline: 0; }
         .bcSectionHead h2 { font-family: Arial, Helvetica, sans-serif; color: #000000; }
         .bcListItem { position: relative; }
         .bcListItemLink { position: absolute; inset: 0; z-index: 1; }
@@ -450,6 +459,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcHostingNote { padding: 18px 22px 0; font-family: Arial, Helvetica, sans-serif; font-size: 8pt; line-height: 1.35; text-transform: uppercase; letter-spacing: 0.08em; color: #9d1b1e; }
         .bcHostingNote a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
         @media (max-width: 640px) {
+          .bcTopTabs { right: 10px; }
+          .bcTopTab { min-width: 84px; height: 36px; padding: 9px 12px 8px; border-radius: 0 0 14px 14px; font-size: 8pt; }
           .bcCardRow, .bcCardGrid { grid-template-columns: 1fr; }
           .bcCardRow span, .bcDateDue span { border-right: 0; border-bottom: 1px solid #16130f; }
           .bcDateDue { display: none; }
@@ -490,7 +501,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <a href="http://farahismail.com/">FARAHISMAIL.COM</a> IS CURRENTLY HOSTING: BOOK INDEX
       </div>
 
-      <footer className="bcFooter">
+      <footer className="bcFooter" id="contact">
         <div>Book Index</div>
         <div><a href="https://farahainismail.substack.com" target="_blank" rel="noopener noreferrer">SUBSTACK</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">INSTAGRAM</a></div>
       </footer>
