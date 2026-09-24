@@ -12,6 +12,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Not found' }, { status: 404 });
   }
 
+  if (req.nextUrl.searchParams.get('action') === 'delete') {
+    return deleteBorrowRequest(req);
+  }
+
   const rows = await db
     .select({
       id: sseEvents.id,
