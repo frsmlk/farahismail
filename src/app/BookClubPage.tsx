@@ -298,7 +298,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               <div className="bcAboutCardText">
                 <p>Book Index is part archive, part library by Farah Ismail.</p>
                 <p>Farah works across <a className="bcAboutHoverLink" href="https://instagram.com/aaakl.co" target="_blank" rel="noopener noreferrer">architecture</a> &amp; <a className="bcAboutHoverLink" href="https://instagram.com/aaakl.co" target="_blank" rel="noopener noreferrer">design</a>, <a className="bcAboutHoverLink" href="https://instagram.com/kontekstkl" target="_blank" rel="noopener noreferrer">urban life</a>, and the quiet details that make up how people live.</p>
-                <p>Books sit somewhere in the middle of all of it. Keep your voices loud in this library.</p>
+                <p>Books sit somewhere in the middle of all of it.</p>
                 <p className="bcAboutHosted">Hosted on <a href="http://farahismail.com/">farahismail.com</a>.</p>
               </div>
             </div>
