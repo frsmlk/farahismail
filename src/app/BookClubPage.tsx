@@ -239,7 +239,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       <img className="bcCursorButterfly" src="/book-index-butterfly.png" alt="" aria-hidden="true" />
       <nav className="bcTopTabs" aria-label="Book Index navigation">
         <Link className="bcTopTab" href="?about=book-index#about-card">ABOUT</Link>
-        <a className="bcTopTab" href="#contact">CONTACT</a>
       </nav>
       <header className="bcHero" id="about">
         <div>
@@ -435,7 +434,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcTopTab { position: relative; display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 82px; height: 30px; padding: 8px 10px 6px; border: 1.5px solid rgba(0, 0, 0, 0.62); border-bottom: 0; border-radius: 16px 16px 0 0; background: var(--bc-paper); color: #000000; font: 700 8pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; box-shadow: none; }
         .bcTopTab + .bcTopTab { margin-left: -1.5px; }
         .bcTopTab:first-child { transform: rotate(-0.4deg); }
-        .bcTopTab:nth-child(2) { transform: rotate(0.4deg); }
         .bcTopTab:hover, .bcTopTab:focus-visible { background: rgba(255, 255, 255, 0.18); outline: 0; }
         .bcSectionHead h2 { font-family: Arial, Helvetica, sans-serif; color: #000000; }
         .bcListItem { position: relative; }
