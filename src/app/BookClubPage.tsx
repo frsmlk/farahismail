@@ -297,8 +297,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               </div>
               <div className="bcAboutCardText">
                 <p>Book Index is part archive, part library by Farah Ismail.</p>
-                <p>Farah works across architecture, design, urban life, objects, and the quiet details that make up how people live. Books sit somewhere in the middle of all of it.</p>
-                <p>Available books can be borrowed. Read carefully. Return kindly.</p>
+                <p>Farah works across <a className="bcAboutHoverLink" href="https://instagram.com/aaakl.co" target="_blank" rel="noopener noreferrer">architecture</a>, design, <a className="bcAboutHoverLink" href="https://instagram.com/kontekstkl" target="_blank" rel="noopener noreferrer">urban life</a>, objects, and the quiet details that make up how people live. Books sit somewhere in the middle of all of it.</p>
                 <p>Keep your voices loud in this library.</p>
                 <p className="bcAboutHosted">Hosted on <a href="http://farahismail.com/">farahismail.com</a>.</p>
               </div>
@@ -471,7 +470,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcAboutCardText { display: grid; gap: 14px; min-height: 290px; padding: 18px 20px 20px; font: 11pt/1.45 Arial, Helvetica, sans-serif; letter-spacing: 0.01em; }
         .bcAboutCardText p { margin: 0; }
         .bcAboutHosted { align-self: end; margin-top: 24px; }
-        .bcAboutCardText a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+        .bcAboutCardText a { color: inherit; text-decoration: underline; text-underline-offset: 2px; transition: color 0.16s ease; }
+        .bcAboutCardText .bcAboutHoverLink:hover,
+        .bcAboutCardText .bcAboutHoverLink:focus-visible { color: #fff44f; outline: 0; }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
         .bcCardClose { position: absolute; top: 10px; right: 14px; z-index: 2; color: #1b1712; font: 10pt Arial, Helvetica, sans-serif; line-height: 1; text-decoration: none; }
         .bcBorrowForm { position: relative; display: grid; gap: 0; padding: 0; border: 1px solid #16130f; background: #f3e7c4; background-image: radial-gradient(circle at 20% 12%, rgba(110, 82, 43, 0.13) 0 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.2), rgba(133, 96, 45, 0.07)); background-size: 12px 12px, 100% 100%; font-family: 'Courier New', Courier, monospace; }
