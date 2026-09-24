@@ -408,10 +408,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @media (prefers-reduced-motion: reduce) { .bcButterflies, .bcCursorButterfly { display: none; } .bcButterfly { animation: none; } }
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
         .bcSite > header, .bcSite > section, .bcSite > footer, .bcHostingNote { position: relative; z-index: 2; }
-        .bcTopTabs { position: fixed; top: 0; right: 18px; z-index: 10; display: flex; align-items: flex-start; gap: 0; padding-top: 0; }
-        .bcTopTab { position: relative; display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 82px; height: 34px; padding: 9px 10px 7px; border: 1px solid rgba(0, 0, 0, 0.42); border-top: 0; border-radius: 0 0 14px 14px; background: var(--bc-paper); color: #000000; font: 700 8pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; box-shadow: 0 5px 10px rgba(0, 0, 0, 0.08); }
-        .bcTopTab + .bcTopTab { margin-left: -1px; }
-        .bcTopTab:nth-child(2) { transform: translateY(10px); }
+        .bcTopTabs { position: fixed; top: 0; right: 18px; z-index: 10; display: flex; align-items: flex-end; gap: 0; padding-top: 5px; }
+        .bcTopTabs::before { content: ''; position: fixed; top: 35px; left: 0; right: 0; border-top: 1.5px solid rgba(0, 0, 0, 0.62); pointer-events: none; }
+        .bcTopTab { position: relative; display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 82px; height: 30px; padding: 8px 10px 6px; border: 1.5px solid rgba(0, 0, 0, 0.62); border-bottom: 0; border-radius: 16px 16px 0 0; background: var(--bc-paper); color: #000000; font: 700 8pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; box-shadow: none; }
+        .bcTopTab + .bcTopTab { margin-left: -1.5px; }
+        .bcTopTab:first-child { transform: rotate(-0.4deg); }
+        .bcTopTab:nth-child(2) { transform: rotate(0.4deg); }
         .bcTopTab:hover, .bcTopTab:focus-visible { background: rgba(255, 255, 255, 0.18); outline: 0; }
         .bcSectionHead h2 { font-family: Arial, Helvetica, sans-serif; color: #000000; }
         .bcListItem { position: relative; }
@@ -459,8 +461,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcHostingNote { padding: 18px 22px 0; font-family: Arial, Helvetica, sans-serif; font-size: 8pt; line-height: 1.35; text-transform: uppercase; letter-spacing: 0.08em; color: #9d1b1e; }
         .bcHostingNote a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
         @media (max-width: 640px) {
-          .bcTopTabs { right: 10px; }
-          .bcTopTab { width: 72px; height: 30px; padding: 8px 8px 6px; border-radius: 0 0 12px 12px; font-size: 7.5pt; }
+          .bcTopTabs { right: 10px; padding-top: 5px; }
+          .bcTopTabs::before { top: 32px; }
+          .bcTopTab { width: 72px; height: 27px; padding: 7px 8px 5px; border-radius: 14px 14px 0 0; font-size: 7.5pt; }
           .bcCardRow, .bcCardGrid { grid-template-columns: 1fr; }
           .bcCardRow span, .bcDateDue span { border-right: 0; border-bottom: 1px solid #16130f; }
           .bcDateDue { display: none; }
