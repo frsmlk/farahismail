@@ -387,6 +387,10 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <span>Author</span>
                 <div className="bcCardValue">{currentBook[2]}</div>
               </div>
+              <div className="bcCardRow bcNoteRow">
+                <span>Note</span>
+                <div className="bcCardValue">Mourid Barghouti&apos;s impeccable writing, heart and rage unravels the emotions of exile and where grief goes when it has no vessel to take place.</div>
+              </div>
             </div>
           </div>
         </div>
@@ -481,6 +485,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcCardRow { display: grid; grid-template-columns: 150px 1fr; min-height: 58px; border-bottom: 1px solid #16130f; }
         .bcCardRow span, .bcDateDue span { padding: 12px 16px; border-right: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; }
         .bcCardRow input, .bcCardValue { width: 100%; min-width: 0; border: 0; border-radius: 0; background: transparent; padding: 12px 16px; font: 10pt 'Courier New', Courier, monospace; color: #1b1712; outline: none; }
+        .bcNoteRow .bcCardValue { line-height: 1.35; }
         .bcCardRow input:focus { background: rgba(255, 255, 255, 0.25); }
         .bcCardRow input[readonly] { cursor: default; }
         .bcCardGrid { display: grid; grid-template-columns: 1fr 170px; border-bottom: 1px solid #16130f; }
