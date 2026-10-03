@@ -183,7 +183,7 @@ const availableBooks = [
   ['Manga', 'Blame!', 'Tsutomu Nihei', 'Available'],
 ];
 
-const coverPaths = ['/book-covers/ramallah.jpg', '/book-covers/vegetarian.jpg', '/book-covers/garden.jpg', '/book-covers/treasures.jpg', '/book-covers/soups.jpg', '/book-covers/curious.jpg', '/book-covers/tea.jpg', null, null, '/book-covers/townscape.jpg', '/book-covers/cities.jpg', '/book-covers/design.jpg', '/book-covers/eco.jpg', '/book-covers/glow.jpg', null, '/book-covers/noia.jpg', '/book-covers/nyampah.jpg', '/book-covers/cyber.jpg', '/book-covers/ornament.jpg', '/book-covers/accountability.jpg', null, '/book-covers/valley.jpg', '/book-covers/butter.jpg', '/book-covers/body.jpg', '/book-covers/blame.jpg'];
+const coverPaths = ['/book-covers/ramallah.jpg', '/book-covers/vegetarian.jpg', '/book-covers/garden.jpg', '/book-covers/treasures.jpg', '/book-covers/soups.jpg', '/book-covers/curious.jpg', '/book-covers/tea.jpg', '/book-covers/reluctant.png', null, '/book-covers/townscape.jpg', '/book-covers/cities.jpg', '/book-covers/design.jpg', '/book-covers/eco.jpg', '/book-covers/glow.jpg', null, '/book-covers/noia.jpg', '/book-covers/nyampah.jpg', '/book-covers/cyber.jpg', '/book-covers/ornament.jpg', '/book-covers/accountability.jpg', null, '/book-covers/valley.jpg', '/book-covers/butter.jpg', '/book-covers/body.jpg', '/book-covers/blame.jpg'];
 
 type BookClubPageProps = {
   searchParams?: Promise<{ about?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }>;

@@ -1,5 +1,5 @@
 {
-  "note": "Title-matched online cover art; owner editions not confirmed. Four covers unresolved: Reluctant Capital, Dejavu, POP September, Penang Monthly September.",
+  "note": "Title-matched online cover art; owner editions not confirmed. Three covers unresolved: Dejavu, POP September, Penang Monthly September.",
   "covers": {
     "ramallah": {
       "source": "https://covers.openlibrary.org/b/isbn/9781400032662-L.jpg?default=false",
@@ -97,6 +97,10 @@
     "townscape": {
       "source": "https://cdn.shopify.com/s/files/1/0511/7575/1837/products/9789835207433_b.jpg?v=1623328969",
       "file": "/book-covers/townscape.jpg"
+    },
+    "reluctant": {
+      "source": "https://tintabudi.com/products/reluctant-capital-essays-on-kuala-lumpur",
+      "file": "/book-covers/reluctant.png"
     }
   }
 }
