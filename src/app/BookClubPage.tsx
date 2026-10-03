@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
@@ -184,6 +185,14 @@ const availableBooks = [
 
 function Row({ item, borrowable = false, currentReadable = false }: { item: string[]; borrowable?: boolean; currentReadable?: boolean }) {
   const [type, title, author, status] = item;
+  const seed = Array.from(title).reduce((total, char) => total + char.charCodeAt(0), 0);
+  const colors = ['#31594e', '#e6c369', '#bc5740', '#d9d6c9', '#567b93', '#c8919e', '#293d50', '#a3b69e'];
+  const spineStyle = {
+    '--spine-color': colors[seed % colors.length],
+    '--spine-ink': seed % colors.length === 0 || seed % colors.length === 6 ? '#fffdf6' : '#171717',
+    '--spine-height': `${260 + seed % 100}px`,
+    '--spine-width': `${52 + seed % 25}px`,
+  } as CSSProperties;
   const lent = status.startsWith('Lent to ');
   const modalHref = borrowable
     ? `?borrow=${encodeURIComponent(title)}#borrow-card`
@@ -194,7 +203,7 @@ function Row({ item, borrowable = false, currentReadable = false }: { item: stri
         : '';
 
   return (
-    <article className={modalHref ? 'bcListItem bcListItemClickable' : 'bcListItem'}>
+    <article style={spineStyle} className={modalHref ? 'bcListItem bcListItemClickable' : 'bcListItem'}>
       {modalHref ? (
         <Link className="bcListItemLink" href={modalHref} aria-label={`${borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} ${title}`}>
           <span className="bcScreenReaderText">{borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} {title}</span>
@@ -237,10 +246,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <img className="bcButterfly bcButterflyFive" src="/book-index-butterfly.png" alt="" />
       </div>
       <img className="bcCursorButterfly" src="/book-index-butterfly.png" alt="" aria-hidden="true" />
-      <nav className="bcTopTabs" aria-label="Book Index navigation">
-        <Link className="bcTopTab" href="?about=book-index#about-card">ABOUT</Link>
-        <a className="bcTopTab" href="https://farahismail.com/">BOOK INDEX</a>
-      </nav>
       <header className="bcHero" id="about">
         <div>
           <h1>BOOK INDEX</h1>
@@ -432,7 +437,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @keyframes bcPulse { from { scale: 0.88; } to { scale: 1.08; } }
         @media (prefers-reduced-motion: reduce) { .bcButterflies, .bcCursorButterfly { display: none; } .bcButterfly { animation: none; } }
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
-        .bcSite { --bc-paper: #f19cd7; }
+        .bcSite { --bc-paper: #f7f5ef; }
         .bcSite > header, .bcSite > section, .bcSite > footer, .bcHostingNote { position: relative; z-index: 2; }
         .bcTopTabs { position: fixed; top: 0; right: 18px; z-index: 10; display: flex; align-items: flex-end; gap: 0; padding-top: 5px; }
         .bcTopTabs::before { content: ''; position: fixed; top: 35px; left: 0; right: 0; border-top: 1.5px solid rgba(0, 0, 0, 0.62); pointer-events: none; }
@@ -508,6 +513,31 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           .bcCardRow, .bcCardGrid { grid-template-columns: 1fr; }
           .bcCardRow span, .bcDateDue span { border-right: 0; border-bottom: 1px solid #16130f; }
           .bcDateDue { display: none; }
+        }
+
+        .bcHero, .bcSection, .bcSectionHead, .bcListItem { border: 0; }
+        .bcHero { padding: 70px 5vw 48px; min-height: auto; }
+        .bcHero h1 { font-size: clamp(42px, 8vw, 96px); white-space: normal; }
+        .bcIntroText { max-width: 650px; font-size: 16px; line-height: 1.5; }
+        .bcSection { padding: 20px 5vw 45px; }
+        .bcSectionHead { padding: 0 0 24px; }
+        .bcSectionHead h2 { font-size: 13px; }
+        .bcList { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 7px; row-gap: 28px; }
+        .bcListItem { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex: 0 0 var(--spine-width, 65px); width: var(--spine-width, 65px); height: var(--spine-height, 300px); padding: 16px 8px; gap: 10px; background: var(--spine-color, #d9d6c9); color: var(--spine-ink, #171717); border-radius: 2px; box-shadow: inset 3px 0 5px #00000013, inset -2px 0 3px #00000012, 2px 3px 5px #00000012; transition: transform .2s ease; }
+        .bcListItem:hover, .bcListItem:focus-within { background: var(--spine-color, #d9d6c9); transform: translateY(-10px); }
+        .bcListItem .bcTitle { writing-mode: vertical-rl; text-orientation: mixed; font-size: 15px; line-height: 1.2; flex: 1; min-height: 0; overflow-wrap: normal; color: inherit; }
+        .bcListItem .bcAuthor { writing-mode: vertical-rl; font-size: 9px; text-transform: none; letter-spacing: 0; color: inherit; max-height: 90px; }
+        .bcListItem .bcType { display: none; }
+        .bcListItem .bcStatus { font-size: 8px; text-transform: none; letter-spacing: 0; text-align: center; color: inherit; }
+        #current .bcListItem, #current .bcListItem * { color: var(--spine-ink, #171717); }
+        #playlist .bcListItem { --spine-color: #c8919e; --spine-height: 240px; --spine-width: 76px; }
+        .bcFooter { padding: 20px 5vw 40px; border: 0; }
+        @media (max-width: 600px) {
+          .bcHero { padding-top: 38px; }
+          .bcSection { padding-bottom: 30px; }
+          .bcList { gap: 5px; row-gap: 22px; }
+          .bcListItem { flex-basis: 52px; width: 52px; height: calc(var(--spine-height, 300px) * .8); padding: 12px 6px; }
+          .bcListItem .bcTitle { font-size: 13px; }
         }
       `}</style>
 
