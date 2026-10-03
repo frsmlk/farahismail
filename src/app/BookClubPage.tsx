@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import type { CSSProperties } from 'react';
+import CoffeeTable from './CoffeeTable';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
@@ -183,41 +183,7 @@ const availableBooks = [
   ['Manga', 'Blame!', 'Tsutomu Nihei', 'Available'],
 ];
 
-function Row({ item, borrowable = false, currentReadable = false }: { item: string[]; borrowable?: boolean; currentReadable?: boolean }) {
-  const [type, title, author, status] = item;
-  const seed = Array.from(title).reduce((total, char) => total + char.charCodeAt(0), 0);
-  const colors = ['#31594e', '#e6c369', '#bc5740', '#d9d6c9', '#567b93', '#c8919e', '#293d50', '#a3b69e'];
-  const spineStyle = {
-    '--spine-color': colors[seed % colors.length],
-    '--spine-ink': seed % colors.length === 0 || seed % colors.length === 6 ? '#fffdf6' : '#171717',
-    '--spine-height': `${260 + seed % 100}px`,
-    '--spine-width': `${52 + seed % 25}px`,
-  } as CSSProperties;
-  const lent = status.startsWith('Lent to ');
-  const modalHref = borrowable
-    ? `?borrow=${encodeURIComponent(title)}#borrow-card`
-    : currentReadable
-      ? `?current=${encodeURIComponent(title)}#current-card`
-      : lent
-        ? `?lent=${encodeURIComponent(title)}#lent-card`
-        : '';
-
-  return (
-    <article style={spineStyle} className={modalHref ? 'bcListItem bcListItemClickable' : 'bcListItem'}>
-      {modalHref ? (
-        <Link className="bcListItemLink" href={modalHref} aria-label={`${borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} ${title}`}>
-          <span className="bcScreenReaderText">{borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} {title}</span>
-        </Link>
-      ) : null}
-      <div className="bcType">{type}</div>
-      <div className="bcTitle">{title}</div>
-      <div className="bcAuthor">{author}</div>
-      <div className="bcStatus">
-        {status}
-      </div>
-    </article>
-  );
-}
+const coverPaths = ['/book-covers/ramallah.jpg', '/book-covers/vegetarian.jpg', '/book-covers/garden.jpg', '/book-covers/treasures.jpg', '/book-covers/soups.jpg', '/book-covers/curious.jpg', '/book-covers/tea.jpg', null, null, '/book-covers/townscape.jpg', '/book-covers/cities.jpg', '/book-covers/design.jpg', '/book-covers/eco.jpg', '/book-covers/glow.jpg', null, '/book-covers/noia.jpg', '/book-covers/nyampah.jpg', '/book-covers/cyber.jpg', '/book-covers/ornament.jpg', '/book-covers/accountability.jpg', null, '/book-covers/valley.jpg', '/book-covers/butter.jpg', '/book-covers/body.jpg', '/book-covers/blame.jpg'];
 
 type BookClubPageProps = {
   searchParams?: Promise<{ about?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }>;
@@ -238,14 +204,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
   return (
     <main className="bcSite">
-      <div className="bcButterflies" aria-hidden="true">
-        <img className="bcButterfly bcButterflyOne" src="/book-index-butterfly.png" alt="" />
-        <img className="bcButterfly bcButterflyTwo" src="/book-index-butterfly.png" alt="" />
-        <img className="bcButterfly bcButterflyThree" src="/book-index-butterfly.png" alt="" />
-        <img className="bcButterfly bcButterflyFour" src="/book-index-butterfly.png" alt="" />
-        <img className="bcButterfly bcButterflyFive" src="/book-index-butterfly.png" alt="" />
-      </div>
-      <img className="bcCursorButterfly" src="/book-index-butterfly.png" alt="" aria-hidden="true" />
       <header className="bcHero" id="about">
         <div>
           <h1>BOOK INDEX</h1>
@@ -255,44 +213,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         </div>
       </header>
 
-      <div className="bcShelfStrip" aria-label="Book shelves — scroll horizontally">
-      <section className="bcSection" id="playlist">
-        <div className="bcSectionHead"><h2>Playlist</h2></div>
-        <div className="bcList">
-          <article className="bcListItem bcListItemClickable">
-            <Link className="bcListItemLink" href="?playlist=fun-pop#playlist-card" aria-label="Play Fun Pop playlist">
-              <span className="bcScreenReaderText">Play Fun Pop playlist</span>
-            </Link>
-            <div className="bcType">Playlist</div>
-            <div className="bcTitle">Fun Pop</div>
-            <div className="bcAuthor">Spotify</div>
-            <div className="bcStatus">Playlist</div>
-          </article>
-        </div>
-      </section>
-
-      <section className="bcSection" id="current">
-        <div className="bcSectionHead"><h2>Currently Reading</h2></div>
-        <div className="bcList">
-          {currentReads.map((book) => <Row key={book[1]} item={book} currentReadable />)}
-        </div>
-      </section>
-
-      <section className="bcSection" id="lent">
-        <div className="bcSectionHead"><h2>Lent Books</h2></div>
-        <div className="bcList">
-          {lentBooks.map((book) => <Row key={book[1]} item={book} />)}
-        </div>
-      </section>
-
-      <section className="bcSection" id="available">
-        <div className="bcSectionHead"><h2>Available Books</h2></div>
-        <div className="bcList">
-          {availableBooks.map((book) => <Row key={book[1]} item={book} borrowable />)}
-        </div>
-      </section>
-
-      </div>
+      <CoffeeTable books={[...currentReads, ...lentBooks, ...availableBooks].map((book, i) => ({ title: book[1], author: book[2], status: book[3], cover: coverPaths[i], href: `?${book[3] === 'Available' ? 'borrow' : book[3] === 'Current read' ? 'current' : 'lent'}=${encodeURIComponent(book[1])}#${book[3] === 'Available' ? 'borrow' : book[3] === 'Current read' ? 'current' : 'lent'}-card` }))} />
 
       {aboutOpen ? (
         <div className="bcBorrowModal" id="about-card" role="dialog" aria-modal="true" aria-labelledby="about-card-title">
@@ -440,7 +361,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @keyframes bcPulse { from { scale: 0.88; } to { scale: 1.08; } }
         @media (prefers-reduced-motion: reduce) { .bcButterflies, .bcCursorButterfly { display: none; } .bcButterfly { animation: none; } }
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
-        .bcSite { --bc-paper: #f7f5ef; }
+        .bcSite { --bc-paper: #f7f5ef; background: #f7f5ef; }
         .bcSite > header, .bcSite > section, .bcSite > footer, .bcHostingNote { position: relative; z-index: 2; }
         .bcTopTabs { position: fixed; top: 0; right: 18px; z-index: 10; display: flex; align-items: flex-end; gap: 0; padding-top: 5px; }
         .bcTopTabs::before { content: ''; position: fixed; top: 35px; left: 0; right: 0; border-top: 1.5px solid rgba(0, 0, 0, 0.62); pointer-events: none; }

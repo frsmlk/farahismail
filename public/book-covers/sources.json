@@ -1,0 +1,102 @@
+{
+  "note": "Title-matched online cover art; owner editions not confirmed. Four covers unresolved: Reluctant Capital, Dejavu, POP September, Penang Monthly September.",
+  "covers": {
+    "ramallah": {
+      "source": "https://covers.openlibrary.org/b/isbn/9781400032662-L.jpg?default=false",
+      "isbn": "9781400032662",
+      "file": "/book-covers/ramallah.jpg"
+    },
+    "vegetarian": {
+      "source": "https://covers.openlibrary.org/b/isbn/9781846276033-L.jpg?default=false",
+      "isbn": "9781846276033",
+      "file": "/book-covers/vegetarian.jpg"
+    },
+    "garden": {
+      "source": "https://covers.openlibrary.org/b/isbn/9781911547921-L.jpg?default=false",
+      "isbn": "9781911547921",
+      "file": "/book-covers/garden.jpg"
+    },
+    "treasures": {
+      "source": "https://www.littletoller.co.uk/shop/books/little-toller/new-books/common-treasures-vol-2/",
+      "image": "https://www.littletoller.co.uk/wp-content/uploads/2025/06/Common-Treasures-Vol-2-Standard-225x150-1.png",
+      "size": [
+        1000,
+        1500
+      ],
+      "file": "/book-covers/treasures.jpg"
+    },
+    "soups": {
+      "image": "https://mattymatheson.store/cdn/shop/files/sss-book-front.jpg?v=1733933038&width=1200",
+      "file": "/book-covers/soups.jpg"
+    },
+    "curious": {
+      "source": "https://covers.openlibrary.org/b/isbn/9781400032716-L.jpg?default=false",
+      "isbn": "9781400032716",
+      "file": "/book-covers/curious.jpg"
+    },
+    "tea": {
+      "image": "https://cdn.penguin.co.uk/dam-assets/books/9780141191843/9780141191843-jacket-large.jpg",
+      "file": "/book-covers/tea.jpg"
+    },
+    "cities": {
+      "image": "https://pup-assets.imgix.net/onix/images/9780691159690.jpg?w=900",
+      "file": "/book-covers/cities.jpg"
+    },
+    "design": {
+      "image": "https://images-na.ssl-images-amazon.com/images/P/9493148173.01.L.jpg",
+      "file": "/book-covers/design.jpg"
+    },
+    "eco": {
+      "source": "https://covers.openlibrary.org/b/isbn/9780300093049-L.jpg?default=false",
+      "isbn": "9780300093049",
+      "file": "/book-covers/eco.jpg"
+    },
+    "glow": {
+      "source": "https://cdn.sanity.io/images/p34gzxcg/production/cea4e8973b0f89ee5458b3a537d3d07279dc71fc-1328x2048.jpg?dl=NfajcD_a.jpeg",
+      "file": "/book-covers/glow.jpg"
+    },
+    "cyber": {
+      "source": "https://storeparis.perrotin.com/cdn/shop/files/Mindy-Seu-Cyberfeminism-Index-01_2000x.jpg?v=1743689881",
+      "file": "/book-covers/cyber.jpg"
+    },
+    "ornament": {
+      "image": "https://images-na.ssl-images-amazon.com/images/P/0141392975.01.L.jpg",
+      "file": "/book-covers/ornament.jpg"
+    },
+    "accountability": {
+      "image": "https://cdn.shopify.com/s/files/1/0671/1374/6550/files/CoreSourceHub_967f8a8a-7967-4267-b8ab-f33ea6337b1c.jpg?v=1787434825",
+      "file": "/book-covers/accountability.jpg"
+    },
+    "valley": {
+      "source": "https://covers.openlibrary.org/b/isbn/9780802135193-L.jpg?default=false",
+      "isbn": "9780802135193",
+      "file": "/book-covers/valley.jpg"
+    },
+    "butter": {
+      "image": "https://images-na.ssl-images-amazon.com/images/P/0008511713.01.L.jpg",
+      "file": "/book-covers/butter.jpg"
+    },
+    "body": {
+      "source": "https://covers.openlibrary.org/b/isbn/9780143127741-L.jpg?default=false",
+      "isbn": "9780143127741",
+      "file": "/book-covers/body.jpg"
+    },
+    "blame": {
+      "source": "https://covers.openlibrary.org/b/isbn/9781942993773-L.jpg?default=false",
+      "isbn": "9781942993773",
+      "file": "/book-covers/blame.jpg"
+    },
+    "noia": {
+      "source": "https://cdn.shopify.com/s/files/1/0617/8242/5845/files/IMG_1638.heic?v=1758149357&format=jpg",
+      "file": "/book-covers/noia.jpg"
+    },
+    "nyampah": {
+      "source": "https://cdn.shopify.com/s/files/1/0444/3111/4397/files/Binatang_Press_Nyampah_Emte.png?v=1773046822",
+      "file": "/book-covers/nyampah.jpg"
+    },
+    "townscape": {
+      "source": "https://cdn.shopify.com/s/files/1/0511/7575/1837/products/9789835207433_b.jpg?v=1623328969",
+      "file": "/book-covers/townscape.jpg"
+    }
+  }
+}
