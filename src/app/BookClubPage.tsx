@@ -255,6 +255,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         </div>
       </header>
 
+      <div className="bcShelfStrip" aria-label="Book shelves — scroll horizontally">
       <section className="bcSection" id="playlist">
         <div className="bcSectionHead"><h2>Playlist</h2></div>
         <div className="bcList">
@@ -290,6 +291,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           {availableBooks.map((book) => <Row key={book[1]} item={book} borrowable />)}
         </div>
       </section>
+
+      </div>
 
       {aboutOpen ? (
         <div className="bcBorrowModal" id="about-card" role="dialog" aria-modal="true" aria-labelledby="about-card-title">
@@ -539,6 +542,14 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           .bcListItem { flex-basis: 52px; width: 52px; height: calc(var(--spine-height, 300px) * .8); padding: 12px 6px; }
           .bcListItem .bcTitle { font-size: 13px; }
         }
+
+        .bcShelfStrip { display: flex; align-items: flex-end; gap: 36px; overflow-x: auto; overflow-y: hidden; padding: 16px 5vw 40px; max-width: 100%; -webkit-overflow-scrolling: touch; }
+        .bcShelfStrip .bcSection { flex: 0 0 auto; padding: 0; }
+        .bcShelfStrip .bcSectionHead { padding: 0 0 24px; }
+        .bcShelfStrip .bcList { flex-wrap: nowrap; align-items: flex-end; height: 370px; }
+        .bcShelfStrip .bcListItem { flex-shrink: 0; }
+        .bcShelfStrip .bcSectionHead h2 { white-space: nowrap; }
+        @media (max-width: 600px) { .bcShelfStrip { gap: 24px; } .bcShelfStrip .bcList { height: 300px; } }
       `}</style>
 
 
