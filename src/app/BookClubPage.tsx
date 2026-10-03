@@ -243,7 +243,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       </nav>
       <header className="bcHero" id="about">
         <div>
-          <h1>Book Index</h1>
+          <h1>BOOK INDEX</h1>
           <p className="bcIntroText">
             Book Index is a small, growing archive of books, open to readers in Kuala Lumpur. The index grows over time, and everything marked available is welcome to be borrowed at no cost. Book Index occasionally invites guests to curate special selections.
           </p>
