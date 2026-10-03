@@ -211,7 +211,7 @@ function Row({ item, borrowable = false, currentReadable = false }: { item: stri
 }
 
 type BookClubPageProps = {
-  searchParams?: Promise<{ about?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }> | { about?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string };
+  searchParams?: Promise<{ about?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }>;
 };
 
 export default async function BookClubPage({ searchParams }: BookClubPageProps) {
@@ -254,11 +254,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div className="bcSectionHead"><h2>Playlist</h2></div>
         <div className="bcList">
           <article className="bcListItem bcListItemClickable">
-            <Link className="bcListItemLink" href="?playlist=fun-pop#playlist-card" aria-label="Play September playlist">
-              <span className="bcScreenReaderText">Play September playlist</span>
+            <Link className="bcListItemLink" href="?playlist=fun-pop#playlist-card" aria-label="Play Fun Pop playlist">
+              <span className="bcScreenReaderText">Play Fun Pop playlist</span>
             </Link>
             <div className="bcType">Playlist</div>
-            <div className="bcTitle">September</div>
+            <div className="bcTitle">Fun Pop</div>
             <div className="bcAuthor">Spotify</div>
             <div className="bcStatus">Playlist</div>
           </article>
@@ -300,6 +300,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <p>Farah works across <a className="bcAboutHoverLink" href="https://instagram.com/aaakl.co" target="_blank" rel="noopener noreferrer">architecture</a> &amp; <a className="bcAboutHoverLink" href="https://instagram.com/aaakl.co" target="_blank" rel="noopener noreferrer">design</a>, <a className="bcAboutHoverLink" href="https://instagram.com/kontekstkl" target="_blank" rel="noopener noreferrer">urban life</a>, and the quiet details that make up how people live.</p>
                 <p>Books sit somewhere in the middle of all of it.</p>
                 <p className="bcAboutHosted">Hosted on <a href="http://farahismail.com/">farahismail.com</a>.</p>
+                <a href="https://open.spotify.com/playlist/64pIJTT6N8h2lDk3uUg9g2?si=mvrepSkLQXiRjDQD9AUZJg&utm_source=copy-link&pi=VGSp0EvfSe6gQ" target="_blank" rel="noopener noreferrer">Open in Spotify</a>
               </div>
             </div>
           </div>
@@ -313,13 +314,13 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link className="bcCardClose" href="/" aria-label="Close playlist">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
-                <p id="playlist-card-title">Book Index: September</p>
+                <p id="playlist-card-title">Book Index: Fun Pop</p>
               </div>
               <div className="bcPlaylistEmbedRow">
                 <iframe
                   className="bcSpotifyEmbed"
-                  title="September Spotify playlist"
-                  src="https://open.spotify.com/embed/playlist/7HkgT6pevKLLvSCocAX7F0?utm_source=generator&theme=0"
+                  title="Fun Pop Spotify playlist"
+                  src="https://open.spotify.com/embed/playlist/64pIJTT6N8h2lDk3uUg9g2?utm_source=generator&theme=0"
                   width="100%"
                   height="352"
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
