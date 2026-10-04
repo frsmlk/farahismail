@@ -625,7 +625,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           .bcType { grid-column: 1; grid-row: 2; }
           .bcStatus { grid-column: 2; grid-row: 1 / span 3; max-width: 95px; text-align: right; }
         }
-        .bcCoverWall { display: none; }
+        .bcCoverWall { display: none; z-index: 3; }
         .bcCoverSquare { border: 0; padding: 0; background: transparent; pointer-events: auto; cursor: pointer; }
         .bcCoverSquare:focus-visible { outline: 2px solid #ff1493; outline-offset: 2px; }
         @media(max-width:640px) {
