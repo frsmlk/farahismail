@@ -629,6 +629,14 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           .bcStatus { grid-column: 2; grid-row: 1 / span 3; max-width: 95px; text-align: right; }
         }
         .bcCoverWall { display: none; }
+        @media(max-width:640px) {
+          .bcCoverWall { display: block; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .14; overflow: hidden; }
+          .bcCoverSquare { position: absolute; width: 30vw; height: 30vw; left: 6%; top: 24%; }
+          .bcCoverSquare:nth-child(2) { left: 62%; top: 64%; }
+          .bcCoverSquare:nth-child(n+3) { display: none; }
+          .bcCoverSquare img { width: 100%; height: 100%; object-fit: contain; }
+          .bcHero, .bcSection, .bcHostingNote, .bcEnquiries, .bcFooter { position: relative; z-index: 1; }
+        }
         @media(min-width:1100px) {
           .bcHero, .bcSection { padding-right: 39vw; }
           .bcListItem { grid-template-columns: 80px minmax(0,1fr) 135px; gap: 12px; }
@@ -647,8 +655,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               if (!window.bcCoverWallTimer) {
                 const covers = ${JSON.stringify(Object.values(bookCoverPhotos))};
                 window.bcCoverWallTimer = setInterval(() => {
-                  if (!matchMedia('(min-width:1100px)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches || document.hidden) return;
-                  const slots = [...document.querySelectorAll('.bcCoverSquare img')];
+                  if ((!matchMedia('(min-width:1100px)').matches && !matchMedia('(max-width:640px)').matches) || matchMedia('(prefers-reduced-motion: reduce)').matches || document.hidden) return;
+                  const slots = [...document.querySelectorAll('.bcCoverSquare img')].filter(img => getComputedStyle(img.parentElement).display !== 'none');
                   if (!slots.length) return;
                   const slot = slots[Math.floor(Math.random() * slots.length)];
                   const visible = slots.map(img => img.getAttribute('src'));
@@ -659,6 +667,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                   preload.onload = async () => {
                     await slot.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.92)'}], {duration:500,fill:'forwards'}).finished;
                     slot.src = next;
+                    if (matchMedia('(max-width:640px)').matches) {
+                      const other = slots.find(img => img !== slot)?.parentElement;
+                      const otherLeft = other ? parseFloat(other.style.left || (other.matches(':nth-child(2)') ? '62' : '6')) : 6;
+                      slot.parentElement.style.left = (otherLeft > 40 ? 4 + Math.random()*20 : 52 + Math.random()*14) + '%';
+                      slot.parentElement.style.top = 12 + Math.random()*65 + '%';
+                    }
                     slot.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'scale(1)'}], {duration:700,fill:'forwards'});
                   };
                   preload.src = next;
