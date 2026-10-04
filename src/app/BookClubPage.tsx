@@ -508,7 +508,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcLibraryCard { width: min(440px, 100%); }
         .bcLibraryCard .bcBorrowForm { background: var(--bc-paper); background-image: none; font-family: Arial, Helvetica, sans-serif; }
         .bcLibraryCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; font-size: 14.421px; letter-spacing: 0; }
-        .bcLibraryCard .bcCardHeader p { color: #ff1493; padding: 12px 14px; padding-right: 36px; }
+        .bcLibraryCard .bcCardHeader p { font-weight: 700; font-size: 15.14205px; color: #ff1493; padding: 12px 14px; padding-right: 36px; }
         .bcLibraryCard .bcCardRow { grid-template-columns: 100px minmax(0, 1fr); min-height: 42px; }
         .bcLibraryCard .bcCardRow span, .bcLibraryCard .bcCardRow input, .bcLibraryCard .bcCardValue { padding: 10px 12px; }
         .bcLibraryCard .bcCardGrid { grid-template-columns: minmax(0, 1fr) 100px; }
@@ -552,7 +552,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
         .bcLibraryCard .bcBorrowForm { line-height: 1.15; }
         .bcLibraryCard .bcCardValue, .bcLibraryCard .bcAboutCardText, .bcLibraryCard .bcNoteRow .bcCardValue { line-height: 1.15; white-space: normal; overflow-wrap: anywhere; }
-        #borrow-card .bcBookRow { padding: 8px 0; }
+        #borrow-card .bcBookRow { padding: 7.2px 0 8px; }
         #borrow-card .bcCardRow:not(.bcBookRow) { grid-template-columns: 1fr; }
         #borrow-card .bcCardRow input:not([type="hidden"]) { box-sizing: border-box; }
         .bcFullBookTitle { font-weight: 700; }
