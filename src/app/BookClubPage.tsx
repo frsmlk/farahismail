@@ -444,6 +444,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       ) : null}
 
       <style>{`
+        @media (pointer: fine) { .bcSite, .bcSite * { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2229%22%20height%3D%2229%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%202%20L2%2020%20L7%2015%20L11%2023%20L15%2021%20L11%2013%20L19%2013%20Z%22%20fill%3D%22%23ff1493%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.4%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 2 2, auto !important; } }
         .bcReturnBook { display: block; width: 100%; padding: 12px 8px; border: 0; border-top: 1px solid #16130f; background: transparent; color: #16130f; font: inherit; cursor: pointer; }
         .bcReturnBook:hover, .bcReturnBook:focus-visible { color: #ff1493; }
         .bcReturnConfetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
