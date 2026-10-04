@@ -149,6 +149,7 @@ async function submitBorrowRequest(formData: FormData) {
 }
 
 const bookCoverPhotos: Record<string, string> = {
+  "Pop Magazine: September Issue": "/book-covers/pop-user.png",
   "Butter": "/book-covers/butter-user.jpg",
   "Dejavu": "/book-covers/dejavu-user.jpg",
   "After Accountability: A Critical Genealogy of a Concept": "/book-covers/after-accountability-user.png",
