@@ -149,6 +149,7 @@ async function submitBorrowRequest(formData: FormData) {
 }
 
 const bookCoverPhotos: Record<string, string> = {
+  "The Book of Tea": "/book-covers/book-tea-user.png",
   "Penang Monthly: September Issue": "/book-covers/penang-monthly-user.png",
   "Art and Beauty in the Middle Ages": "/book-covers/art-beauty-user.png",
   "The Spirit of Cities": "/book-covers/spirit-cities-user.png",
