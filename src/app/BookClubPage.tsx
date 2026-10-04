@@ -163,7 +163,7 @@ const bookCoverPhotos: Record<string, string> = {
   "Common Treasures Vol 2. Housing, Planning and Construction": "/book-covers/common-treasures-user.png",
   "Townscape Revisited: Unraveling the Character of the Historic Townscape in Malaysia": "/book-covers/townscape-user.png",
   "Pop Magazine: September Issue": "/book-covers/pop-user.png",
-  "Butter": "/book-covers/butter-user.jpg",
+  "Butter": "/book-covers/butter-user-v2.jpg",
   "Dejavu": "/book-covers/dejavu-user.jpg",
   "After Accountability: A Critical Genealogy of a Concept": "/book-covers/after-accountability-user.png",
   "Nyampah": "/book-covers/nyampah-user.png",
