@@ -504,14 +504,14 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
         .bcLibraryCard { width: min(440px, 100%); }
         .bcLibraryCard .bcBorrowForm { background: #ff1493; background-image: none; font-family: Arial, Helvetica, sans-serif; }
-        .bcLibraryCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; font-size: 11px; letter-spacing: 0; }
+        .bcLibraryCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; font-size: 13.2px; letter-spacing: 0; }
         .bcLibraryCard .bcCardHeader p { padding: 12px 14px; padding-right: 36px; }
         .bcLibraryCard .bcCardRow { grid-template-columns: 100px minmax(0, 1fr); min-height: 42px; }
         .bcLibraryCard .bcCardRow span, .bcLibraryCard .bcCardRow input, .bcLibraryCard .bcCardValue { padding: 10px 12px; }
         .bcLibraryCard .bcCardGrid { grid-template-columns: minmax(0, 1fr) 100px; }
         .bcLibraryCard .bcDateDue strong { min-height: 42px; }
         .bcLibraryCard .bcBorrowForm button { padding: 12px; }
-        .bcLibraryCard .bcCardClose { font-family: Arial, Helvetica, sans-serif; font-size: 14px; }
+        .bcLibraryCard .bcCardClose { font-family: Arial, Helvetica, sans-serif; font-size: 16.8px; }
         @media (max-width: 640px) {
           .bcLibraryCard .bcCardRow, .bcLibraryCard .bcCardGrid { grid-template-columns: 1fr; }
         }
@@ -525,18 +525,21 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcSite { line-height: 1.15; }
         .bcLibraryCard .bcBorrowForm * { line-height: 1.15; }
         .bcSectionHead h2 { line-height: 1.1; }
+        .bcHostingNote, .bcFooter { font-size: 9.6pt; }
+        .bcLibraryCard .bcFormMessage { font-size: 12pt; }
+
         .bcHero, .bcSection, .bcSectionHead, .bcListItem { border: 0; }
         .bcHero { padding: 39.2px 5vw 19.6px; min-height: auto; }
         .bcHero h1 { font-size: clamp(50.4px, 9.6vw, 115.2px); white-space: normal; color: #ff1493; line-height: 0.85; }
-        .bcIntroText { margin: 18.2px 0 0; max-width: 650px; font-size: 16px; line-height: 1.15; }
+        .bcIntroText { margin: 18.2px 0 0; max-width: 650px; font-size: 19.2px; font-weight: 700; line-height: 1.15; }
         .bcSection { padding: 9.8px 5vw 16.8px; }
         .bcSectionHead { padding: 0 0 8.4px; }
-        .bcSectionHead h2 { font-size: 13px; }
+        .bcSectionHead h2 { font-size: 15.6px; font-weight: 700; }
         .bcList { display: block; }
         .bcListItem { display: grid; grid-template-columns: 100px minmax(0, 2fr) minmax(0, 1.3fr) 140px; gap: 16px; padding: 8.4px 0; background: transparent; box-shadow: none; height: auto; width: auto; align-items: start; }
-        .bcType, .bcStatus { font: 11px/1.15 Arial, sans-serif; }
-        .bcTitle { font: 16px/1.15 Arial, sans-serif; }
-        .bcAuthor { font: 13px/1.15 Arial, sans-serif; }
+        .bcType, .bcStatus { font: 13.2px/1.15 Arial, sans-serif; }
+        .bcTitle { font: 19.2px/1.15 Arial, sans-serif; }
+        .bcAuthor { font: 15.6px/1.15 Arial, sans-serif; }
         .bcFooter { padding: 20px 5vw 40px; border: 0; }
         @media (max-width: 640px) {
           .bcHero { padding-top: 26.6px; }
