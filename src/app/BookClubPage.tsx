@@ -571,6 +571,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBookDetails { min-width: 0; }
         .bcBookDetails .bcAuthor, #current .bcBookDetails .bcAuthor { font-weight: 700; margin-top: 2px; }
         .bcHostingNote, .bcFooter { font-size: 18.24px; letter-spacing: 0; }
+        .bcFooter, .bcFooter a { color: #ff1493; font-weight: 700; }
         .bcLibraryCard .bcFormMessage { font-size: 13.11pt; }
 
         #borrow-card .bcLibraryCard, #current-card .bcLibraryCard, #lent-card .bcLibraryCard { width: min(680px, 100%); max-height: calc(100dvh - 36px); overflow-y: auto; }
