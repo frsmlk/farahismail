@@ -526,22 +526,22 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcLibraryCard .bcBorrowForm * { line-height: 1.15; }
         .bcSectionHead h2 { line-height: 1.1; }
         .bcHero, .bcSection, .bcSectionHead, .bcListItem { border: 0; }
-        .bcHero { padding: 56px 5vw 28px; min-height: auto; }
-        .bcHero h1 { font-size: clamp(50.4px, 9.6vw, 115.2px); white-space: normal; color: #ff1493; line-height: 0.95; }
-        .bcIntroText { max-width: 650px; font-size: 16px; line-height: 1.15; }
-        .bcSection { padding: 14px 5vw 24px; }
-        .bcSectionHead { padding: 0 0 12px; }
+        .bcHero { padding: 39.2px 5vw 19.6px; min-height: auto; }
+        .bcHero h1 { font-size: clamp(50.4px, 9.6vw, 115.2px); white-space: normal; color: #ff1493; line-height: 0.85; }
+        .bcIntroText { margin: 18.2px 0 0; max-width: 650px; font-size: 16px; line-height: 1.15; }
+        .bcSection { padding: 9.8px 5vw 16.8px; }
+        .bcSectionHead { padding: 0 0 8.4px; }
         .bcSectionHead h2 { font-size: 13px; }
         .bcList { display: block; }
-        .bcListItem { display: grid; grid-template-columns: 100px minmax(0, 2fr) minmax(0, 1.3fr) 140px; gap: 16px; padding: 12px 0; background: transparent; box-shadow: none; height: auto; width: auto; align-items: start; }
+        .bcListItem { display: grid; grid-template-columns: 100px minmax(0, 2fr) minmax(0, 1.3fr) 140px; gap: 16px; padding: 8.4px 0; background: transparent; box-shadow: none; height: auto; width: auto; align-items: start; }
         .bcType, .bcStatus { font: 11px/1.15 Arial, sans-serif; }
         .bcTitle { font: 16px/1.15 Arial, sans-serif; }
         .bcAuthor { font: 13px/1.15 Arial, sans-serif; }
         .bcFooter { padding: 20px 5vw 40px; border: 0; }
         @media (max-width: 640px) {
-          .bcHero { padding-top: 38px; }
-          .bcSection { padding-bottom: 20px; }
-          .bcListItem { grid-template-columns: minmax(0, 1fr) auto; gap: 3px 14px; padding: 10px 0; }
+          .bcHero { padding-top: 26.6px; }
+          .bcSection { padding-bottom: 14px; }
+          .bcListItem { grid-template-columns: minmax(0, 1fr) auto; gap: 2.1px 14px; padding: 7px 0; }
           .bcTitle { grid-column: 1; grid-row: 1; }
           .bcAuthor { grid-column: 1; grid-row: 2; }
           .bcType { grid-column: 1; grid-row: 3; }
