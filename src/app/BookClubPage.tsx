@@ -149,6 +149,7 @@ async function submitBorrowRequest(formData: FormData) {
 }
 
 const bookCoverPhotos: Record<string, string> = {
+  "Valley of the Dolls": "/book-covers/valley-dolls-user.png",
   "The Body Keeps the Score": "/book-covers/body-score-user.jpg",
   "Noia Magazine Issue 4: Absurd Rituals": "/book-covers/noia-user.png",
   "The Book of Tea": "/book-covers/book-tea-user.png",
