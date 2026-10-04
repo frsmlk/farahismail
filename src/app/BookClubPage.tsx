@@ -520,6 +520,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcFooter a:hover, .bcFooter a:focus-visible,
         .bcHostingNote a:hover, .bcHostingNote a:focus-visible { color: #ff1493; }
 
+        .bcSite, .bcSite * { font-family: Helvetica, "Helvetica Neue", sans-serif !important; }
         .bcSite { line-height: 1.15; }
         .bcLibraryCard .bcBorrowForm * { line-height: 1.15; }
         .bcSectionHead h2 { line-height: 1.1; }
