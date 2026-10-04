@@ -319,8 +319,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <p id="about-card-title">About Book Index</p>
               </div>
               <div className="bcAboutCardText">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Book Index is a shared bookshelf in Kuala Lumpur. It brings together a growing personal collection of books, made available for others to read.</p>
+                <p>I hope these books start conversations about what stays with us, what we disagree with, and what we might read next.</p>
+                <p>For book swaps or a conversation about something you’ve read, get in touch via <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a>.</p>
               </div>
             </div>
           </div>
