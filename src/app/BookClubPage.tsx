@@ -574,7 +574,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
         #borrow-card .bcLibraryCard, #current-card .bcLibraryCard, #lent-card .bcLibraryCard { width: min(680px, 100%); max-height: calc(100dvh - 36px); overflow-y: auto; }
         .bcSplitCardBody { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-        .bcCardDetails { min-width: 0; }
+        .bcCardDetails { min-width: 0; display: flex; flex-direction: column; }
         .bcLibraryCard .bcIdentityRow { grid-template-columns: 1fr; min-height: 42px; }
         .bcLibraryCard .bcIdentityRow .bcCardValue, .bcLibraryCard .bcIdentityRow input { font-weight: 700; }
         .bcBookRow.bcIdentityRow input, .bcBookRow.bcIdentityRow .bcIdentityAuthor, #lent-card .bcIdentityRow .bcCardValue { padding-top: 0; padding-bottom: 0; line-height: 1.15; }
@@ -582,7 +582,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcModalCover { display: block; width: 100%; height: auto; object-fit: contain; }
         .bcBookCoverSpace { border-left: 1px solid #16130f; min-height: 220px; }
         .bcCardDetails .bcCardValue { overflow-wrap: anywhere; box-sizing: border-box; }
-        .bcCardDetails button { width: 100%; }
+        .bcCardDetails button { width: 100%; margin-top: auto; flex-shrink: 0; border-top: 1px solid #16130f; }
+        .bcCardDetails:has(> button) .bcCardRow:has(+ button) { border-bottom: 0; }
         .bcCardDetails .bcCardRow:last-child { border-bottom: 0; }
         @media(max-width:640px) { .bcCardDetails .bcCardRow span, .bcCardDetails .bcCardRow input, .bcCardDetails .bcCardValue { padding: 8px; } }
 
