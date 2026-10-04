@@ -149,6 +149,7 @@ async function submitBorrowRequest(formData: FormData) {
 }
 
 const bookCoverPhotos: Record<string, string> = {
+  "In the Garden: Essays on Nature and Growing": "/book-covers/in-garden-user.jpg",
   "Cyberfeminism Index": "/book-covers/cyberfeminism-user.png",
   "Valley of the Dolls": "/book-covers/valley-dolls-user.png",
   "The Body Keeps the Score": "/book-covers/body-score-user.jpg",
