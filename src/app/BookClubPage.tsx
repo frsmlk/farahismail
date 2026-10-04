@@ -153,7 +153,7 @@ const bookCoverPhotos: Record<string, string> = {
   "In the Garden: Essays on Nature and Growing": "/book-covers/in-garden-user.jpg",
   "Cyberfeminism Index": "/book-covers/cyberfeminism-user.png",
   "Valley of the Dolls": "/book-covers/valley-dolls-user.png",
-  "The Body Keeps the Score": "/book-covers/body-score-user-v2.jpg",
+  "The Body Keeps the Score": "/book-covers/body-score-user-v3.jpg",
   "Noia Magazine Issue 4: Absurd Rituals": "/book-covers/noia-user.png",
   "The Book of Tea": "/book-covers/book-tea-user.png",
   "Penang Monthly: September Issue": "/book-covers/penang-monthly-user.png",
