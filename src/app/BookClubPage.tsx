@@ -363,7 +363,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <p id="borrow-card-title">Book Index</p>
               </div>
               <div className="bcSplitCardBody"><div className="bcCardDetails">
-              {submitted ? <p className="bcFormMessage">Borrow request received.</p> : null}
+              {submitted ? <p className="bcFormMessage" data-borrow-success="true">Borrow request received.</p> : null}
               {missing ? <p className="bcFormMessage">Please fill in name, address, and phone.</p> : null}
               <div className="bcCardRow bcBookRow bcIdentityRow">
                 {borrowTitle ? <><input type="hidden" name="bookTitle" value={borrowTitle} /><div className="bcCardValue bcFullBookTitle">{borrowTitle}</div></> : <input aria-label="Book title" name="bookTitle" placeholder="Book title" required />}
@@ -629,8 +629,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             (() => {
               if (!window.bcReturnConfettiBound) {
                 window.bcReturnConfettiBound = true;
-                document.addEventListener('click', (event) => {
-                  if (!(event.target instanceof Element) || !event.target.closest('.bcReturnBook')) return;
+                const celebrate = () => {
                   document.querySelector('.bcReturnConfetti')?.remove();
                   const confetti = document.createElement('div');
                   confetti.className = 'bcReturnConfetti';
@@ -644,7 +643,19 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                   }
                   document.body.appendChild(confetti);
                   setTimeout(() => confetti.remove(), 4000);
+                };
+                document.addEventListener('click', (event) => {
+                  if (event.target instanceof Element && event.target.closest('.bcReturnBook')) celebrate();
                 });
+                const celebrateBorrow = () => {
+                  const success = document.querySelector('[data-borrow-success]');
+                  if (success && !success.hasAttribute('data-celebrated')) {
+                    success.setAttribute('data-celebrated', 'true');
+                    celebrate();
+                  }
+                };
+                new MutationObserver(celebrateBorrow).observe(document.body, { childList: true, subtree: true });
+                celebrateBorrow();
               }
               const butterfly = document.querySelector('.bcCursorButterfly');
               if (!butterfly || window.matchMedia('(pointer: coarse)').matches) return;
