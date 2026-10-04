@@ -683,7 +683,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       />
 
       <div className="bcHostingNote">
-        <a href="http://farahismail.com/">farahismail.com</a> is currently hosting Book Index.
+        Book Index is a project by <a href="http://farahismail.com/">farahismail.com</a>.
       </div>
 
       <footer className="bcFooter" id="contact">
