@@ -334,22 +334,19 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               <div className="bcSplitCardBody"><div className="bcCardDetails">
               {submitted ? <p className="bcFormMessage">Borrow request received.</p> : null}
               {missing ? <p className="bcFormMessage">Please fill in name, address, and phone.</p> : null}
-              <label className="bcCardRow bcBookRow bcIdentityRow">
-                <input aria-label="Book title" name="bookTitle" defaultValue={borrowTitle} readOnly={Boolean(borrowTitle)} placeholder="Book title" required />
+              <div className="bcCardRow bcBookRow bcIdentityRow">
+                {borrowTitle ? <><input type="hidden" name="bookTitle" value={borrowTitle} /><div className="bcCardValue bcFullBookTitle">{borrowTitle}</div></> : <input aria-label="Book title" name="bookTitle" placeholder="Book title" required />}
                 {borrowBook ? <div className="bcCardValue bcIdentityAuthor">{borrowBook[2]}</div> : null}
+              </div>
+              <label className="bcCardRow">
+                <input aria-label="Name" name="name" placeholder="Name" required />
               </label>
               <label className="bcCardRow">
-                <span>Name</span>
-                <input name="name" placeholder="Name" required />
-              </label>
-              <label className="bcCardRow">
-                <span>Address</span>
-                <input name="address" placeholder="Address" required />
+                <input aria-label="Address" name="address" placeholder="Address" required />
               </label>
               <div className="bcCardGrid">
                 <label className="bcCardRow">
-                  <span>Phone</span>
-                  <input name="phone" placeholder="Phone" required />
+                  <input aria-label="Phone" name="phone" placeholder="Phone" required />
                 </label>
                 <div className="bcDateDue" aria-hidden="true">
                   <span>Return Date</span>
@@ -553,6 +550,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcCardDetails .bcCardRow:last-child { border-bottom: 0; }
         @media(max-width:640px) { .bcCardDetails .bcCardRow span, .bcCardDetails .bcCardRow input, .bcCardDetails .bcCardValue { padding: 8px; } }
 
+        .bcLibraryCard .bcBorrowForm { line-height: 1.15; }
+        .bcLibraryCard .bcCardValue, .bcLibraryCard .bcAboutCardText, .bcLibraryCard .bcNoteRow .bcCardValue { line-height: 1.15; white-space: normal; overflow-wrap: anywhere; }
+        #borrow-card .bcBookRow { padding: 8px 0; }
+        #borrow-card .bcCardRow:not(.bcBookRow) { grid-template-columns: 1fr; }
+        #borrow-card .bcCardRow input:not([type="hidden"]) { box-sizing: border-box; }
+        .bcFullBookTitle { font-weight: 700; }
         .bcHero, .bcSection, .bcSectionHead, .bcListItem { border: 0; }
         .bcHero { padding: 39.2px 5vw 19.6px; min-height: auto; }
         .bcHero h1 { font-size: clamp(55.44px, 10.56vw, 126.72px); white-space: normal; color: #ff1493; line-height: 0.85; }
