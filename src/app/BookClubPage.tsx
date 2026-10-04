@@ -632,7 +632,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcCoverWall { display: none; }
         @media(max-width:640px) {
           .bcSite { padding-bottom: calc(25vw + 20px + env(safe-area-inset-bottom)); }
-          .bcCoverWall { display: grid; position: fixed; inset: auto 0 0; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: #fff; pointer-events: none; z-index: 10; opacity: 1; overflow: hidden; }
+          .bcCoverWall { display: grid; position: fixed; inset: auto 0 0; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--bc-paper); pointer-events: none; z-index: 10; opacity: 1; overflow: hidden; }
           .bcCoverSquare { display: flex; justify-content: center; align-items: center; min-width: 0; aspect-ratio: 1; }
           .bcCoverSquare:nth-child(n+5) { display: none; }
           .bcCoverSquare img { display: block; width: 100%; height: 100%; object-fit: contain; }
