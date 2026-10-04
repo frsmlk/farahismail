@@ -316,13 +316,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link scroll={false} className="bcCardClose" href="/" aria-label="Close about card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader bcAboutCardHeader">
-                <p id="about-card-title">Book Index</p>
+                <p id="about-card-title">About Book Index</p>
               </div>
               <div className="bcAboutCardText">
-                <p>Book Index is part archive, part library by Farah Ismail.</p>
-                <p>Farah works across <a className="bcAboutHoverLink" href="https://instagram.com/aaakl.co" target="_blank" rel="noopener noreferrer">architecture</a> &amp; <a className="bcAboutHoverLink" href="https://instagram.com/aaakl.co" target="_blank" rel="noopener noreferrer">design</a>, <a className="bcAboutHoverLink" href="https://instagram.com/kontekstkl" target="_blank" rel="noopener noreferrer">urban life</a>, and the quiet details that make up how people live.</p>
-                <p>Books sit somewhere in the middle of all of it.</p>
-                <p className="bcAboutHosted">Hosted on <a href="http://farahismail.com/">farahismail.com</a>.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
               </div>
             </div>
           </div>
@@ -501,12 +499,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcPlaylistEmbedRow { padding: 16px; }
         .bcSpotifyEmbed { display: block; width: 100%; border: 0; border-radius: 0; background: #111; }
         .bcAboutCard { width: min(520px, 100%); }
-        .bcAboutCard .bcBorrowForm { background: var(--bc-paper); background-image: none; font-family: Arial, Helvetica, sans-serif; color: #9d1b1e; }
+        .bcAboutCard .bcBorrowForm { background: var(--bc-paper); background-image: none; font-family: Arial, Helvetica, sans-serif; color: var(--bc-accent); }
         .bcAboutCard .bcBorrowForm, .bcAboutCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; }
-        .bcAboutCard .bcCardClose { color: #9d1b1e; font-family: Arial, Helvetica, sans-serif; }
+        .bcAboutCard .bcCardClose { color: var(--bc-accent); font-family: Arial, Helvetica, sans-serif; }
         .bcAboutCardHeader { background: var(--bc-paper); }
-        .bcAboutCardHeader p { color: #9d1b1e; font: 700 11pt Arial, Helvetica, sans-serif; letter-spacing: 0.06em; }
-        .bcAboutCardText { display: grid; gap: 4px; min-height: 290px; padding: 18px 20px 20px; font: 11pt/1.15 Arial, Helvetica, sans-serif; letter-spacing: 0.01em; }
+        .bcAboutCardHeader p { color: var(--bc-accent); font: 700 11pt Arial, Helvetica, sans-serif; letter-spacing: 0.06em; }
+        .bcAboutCardText { display: grid; gap: 16px; padding: 18px 20px 20px; font: 11pt/1.15 Arial, Helvetica, sans-serif; letter-spacing: 0.01em; }
         .bcAboutCardText p { margin: 0; }
         .bcAboutHosted { align-self: end; margin-top: 24px; }
         .bcAboutCardText a { color: inherit; text-decoration: underline; text-underline-offset: 2px; transition: color 0.16s ease; }
@@ -753,7 +751,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       <footer className="bcFooter" id="contact">
         <div>Book Index</div>
-        <div><a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></div>
+        <div><Link scroll={false} href="/?about=book-index">About</Link> · <a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></div>
       </footer>
       <aside className="bcCoverWall" aria-label="Explore book covers">
         {Object.entries(bookCoverPhotos).slice(0, 6).map(([title, src], index) => (
