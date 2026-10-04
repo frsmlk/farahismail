@@ -233,7 +233,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
     <main className="bcSite">
       <header className="bcHero" id="about">
         <div>
-          <h1>BOOK INDEX</h1>
+          <h1>Book Index</h1>
           <p className="bcIntroText">
             Book Index is a small, growing archive of books, open to readers in Kuala Lumpur. The index grows over time, and everything marked available is welcome to be borrowed at no cost. Book Index occasionally invites guests to curate special selections.
           </p>
@@ -522,23 +522,26 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcFooter a:hover, .bcFooter a:focus-visible,
         .bcHostingNote a:hover, .bcHostingNote a:focus-visible { color: #ff1493; }
 
+        .bcSite { line-height: 1.15; }
+        .bcLibraryCard .bcBorrowForm * { line-height: 1.15; }
+        .bcSectionHead h2 { line-height: 1.1; }
         .bcHero, .bcSection, .bcSectionHead, .bcListItem { border: 0; }
-        .bcHero { padding: 70px 5vw 48px; min-height: auto; }
-        .bcHero h1 { font-size: clamp(42px, 8vw, 96px); white-space: normal; }
-        .bcIntroText { max-width: 650px; font-size: 16px; line-height: 1.5; }
-        .bcSection { padding: 20px 5vw 45px; }
-        .bcSectionHead { padding: 0 0 24px; }
+        .bcHero { padding: 56px 5vw 28px; min-height: auto; }
+        .bcHero h1 { font-size: clamp(50.4px, 9.6vw, 115.2px); white-space: normal; color: #ff1493; line-height: 0.95; }
+        .bcIntroText { max-width: 650px; font-size: 16px; line-height: 1.15; }
+        .bcSection { padding: 14px 5vw 24px; }
+        .bcSectionHead { padding: 0 0 12px; }
         .bcSectionHead h2 { font-size: 13px; }
         .bcList { display: block; }
-        .bcListItem { display: grid; grid-template-columns: 100px minmax(0, 2fr) minmax(0, 1.3fr) 140px; gap: 20px; padding: 18px 0; background: transparent; box-shadow: none; height: auto; width: auto; align-items: start; }
-        .bcType, .bcStatus { font: 11px/1.5 Arial, sans-serif; }
-        .bcTitle { font: 16px/1.4 Arial, sans-serif; }
-        .bcAuthor { font: 13px/1.5 Arial, sans-serif; }
+        .bcListItem { display: grid; grid-template-columns: 100px minmax(0, 2fr) minmax(0, 1.3fr) 140px; gap: 16px; padding: 12px 0; background: transparent; box-shadow: none; height: auto; width: auto; align-items: start; }
+        .bcType, .bcStatus { font: 11px/1.15 Arial, sans-serif; }
+        .bcTitle { font: 16px/1.15 Arial, sans-serif; }
+        .bcAuthor { font: 13px/1.15 Arial, sans-serif; }
         .bcFooter { padding: 20px 5vw 40px; border: 0; }
         @media (max-width: 640px) {
           .bcHero { padding-top: 38px; }
-          .bcSection { padding-bottom: 30px; }
-          .bcListItem { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 14px; padding: 16px 0; }
+          .bcSection { padding-bottom: 20px; }
+          .bcListItem { grid-template-columns: minmax(0, 1fr) auto; gap: 3px 14px; padding: 10px 0; }
           .bcTitle { grid-column: 1; grid-row: 1; }
           .bcAuthor { grid-column: 1; grid-row: 2; }
           .bcType { grid-column: 1; grid-row: 3; }
