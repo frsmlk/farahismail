@@ -488,7 +488,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBorrowForm button { justify-self: stretch; border: 0; background: transparent; padding: 16px; font: 10pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; cursor: pointer; }
         .bcBorrowForm button:hover { background: rgba(27, 23, 18, 0.08); }
         .bcFormMessage { margin: 0; padding: 12px 16px; border-bottom: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; }
-        .bcHostingNote { padding: 18px 5vw 0; font-family: Arial, Helvetica, sans-serif; font-size: 8pt; line-height: 1.35; text-transform: none; letter-spacing: 0.08em; color: #ff1493; }
+        .bcHostingNote { padding: 18px 5vw 0; font-family: Arial, Helvetica, sans-serif; font-size: 8pt; line-height: 1.35; text-transform: none; letter-spacing: 0; color: #ff1493; }
         .bcHostingNote a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
         @media (max-width: 640px) {
           .bcTopTabs { right: 10px; padding-top: 5px; }
