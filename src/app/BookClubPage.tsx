@@ -528,7 +528,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcListItem .bcType, .bcListItem .bcTitle, .bcListItem .bcAuthor, .bcListItem .bcStatus { font-family: Arial, Helvetica, sans-serif; font-size: 19.2px; font-weight: 400; line-height: 1.15; letter-spacing: 0; }
         .bcBookDetails { min-width: 0; }
         .bcBookDetails .bcAuthor, #current .bcBookDetails .bcAuthor { font-weight: 700; margin-top: 2px; }
-        .bcHostingNote, .bcFooter { font-size: 9.6pt; }
+        .bcHostingNote, .bcFooter { font-size: 19.2px; }
         .bcLibraryCard .bcFormMessage { font-size: 12pt; }
 
         .bcHero, .bcSection, .bcSectionHead, .bcListItem { border: 0; }
