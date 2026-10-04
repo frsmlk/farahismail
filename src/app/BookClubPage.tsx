@@ -502,6 +502,20 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           .bcDateDue { display: none; }
         }
 
+        .bcLibraryCard { width: min(440px, 100%); }
+        .bcLibraryCard .bcBorrowForm { background: #ff1493; background-image: none; font-family: Arial, Helvetica, sans-serif; }
+        .bcLibraryCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; font-size: 11px; letter-spacing: 0; }
+        .bcLibraryCard .bcCardHeader p { padding: 12px 14px; padding-right: 36px; }
+        .bcLibraryCard .bcCardRow { grid-template-columns: 100px minmax(0, 1fr); min-height: 42px; }
+        .bcLibraryCard .bcCardRow span, .bcLibraryCard .bcCardRow input, .bcLibraryCard .bcCardValue { padding: 10px 12px; }
+        .bcLibraryCard .bcCardGrid { grid-template-columns: minmax(0, 1fr) 100px; }
+        .bcLibraryCard .bcDateDue strong { min-height: 42px; }
+        .bcLibraryCard .bcBorrowForm button { padding: 12px; }
+        .bcLibraryCard .bcCardClose { font-family: Arial, Helvetica, sans-serif; font-size: 14px; }
+        @media (max-width: 640px) {
+          .bcLibraryCard .bcCardRow, .bcLibraryCard .bcCardGrid { grid-template-columns: 1fr; }
+        }
+
         .bcHero, .bcSection, .bcSectionHead, .bcListItem { border: 0; }
         .bcHero { padding: 70px 5vw 48px; min-height: auto; }
         .bcHero h1 { font-size: clamp(42px, 8vw, 96px); white-space: normal; }
