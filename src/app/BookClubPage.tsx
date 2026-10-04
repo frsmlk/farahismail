@@ -604,6 +604,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         #current-card .bcIdentityRow { padding: 7.2px 0 8px; align-content: start; }
         #current-card .bcIdentityRow .bcCardValue { padding-top: 0; padding-bottom: 0; }
         #current-card .bcIdentityAuthor { margin-top: 4px; }
+        #borrow-card .bcCardGrid { flex: 1; align-items: stretch; }
         #current-card .bcNoteRow, #lent-card .bcCardRow:not(.bcIdentityRow) { flex: 1; align-items: stretch; }
         @media(max-width:640px) { #current-card .bcNoteRow, #lent-card .bcCardRow:not(.bcIdentityRow) { grid-template-rows: auto 1fr; } }
         .bcFullBookTitle { font-weight: 700; }
