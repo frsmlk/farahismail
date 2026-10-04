@@ -267,7 +267,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div>
           <h1>Book Index</h1>
           <p className="bcIntroText">
-            Book Index is an independent online library in Kuala Lumpur. The index grows over time, and everything marked available is welcome to be borrowed for 45-days at no cost. Please browse the following list, and click borrow to start reading.
+            Book Index is an independent library in Kuala Lumpur. The index grows over time, and everything marked available is welcome to be borrowed for 45-days at no cost. Please browse the following list, and click borrow to start reading.
           </p>
         </div>
       </header>
@@ -744,7 +744,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       />
 
       <div className="bcHostingNote">
-        Book Index is an open-source library by <a href="http://farahismail.com/">farahismail.com</a>.
+        Book Index is an independent library by <a href="http://farahismail.com/">farahismail.com</a>.
       </div>
 
       <p className="bcEnquiries">For enquiries &amp; collaborations, please contact via <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></p>
