@@ -433,7 +433,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcTopTab:first-child { transform: rotate(-0.4deg); }
         .bcTopTab:nth-child(2) { width: 104px; transform: rotate(0.4deg); }
         .bcTopTab:hover, .bcTopTab:focus-visible { background: rgba(255, 255, 255, 0.18); outline: 0; }
-        .bcHero h1 { font-family: Arial, Helvetica, sans-serif; letter-spacing: -0.05em; }
+        .bcHero h1 { font-family: Arial, Helvetica, sans-serif; letter-spacing: -0.05em; transform: translateX(-0.065em); }
         .bcSectionHead h2 { font-family: Arial, Helvetica, sans-serif; color: #000000; }
         .bcListItem { position: relative; }
         .bcListItemLink { position: absolute; inset: 0; z-index: 1; }
