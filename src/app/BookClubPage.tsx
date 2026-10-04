@@ -634,8 +634,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         }
         @media(min-width:1100px) {
           .bcHero, .bcSection { padding-right: 39vw; }
-          .bcListItem { grid-template-columns: 80px minmax(0,1fr) 135px; gap: 12px; }
-          .bcStatus { text-align: right; }
+          .bcListItem { grid-template-columns: 80px minmax(0,1fr) max-content; gap: 12px; }
+          .bcStatus { text-align: right; white-space: nowrap; }
           .bcCoverWall { display: grid; position: fixed; right: 3vw; top: 4vh; width: 31vw; height: 92vh; grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(3,minmax(0,1fr)); gap: 16px; pointer-events: none; }
           .bcCoverSquare { display: flex; justify-content: center; align-items: center; min-height: 0; }
           .bcCoverSquare img { display: block; width: 130%; height: 130%; flex-shrink: 0; max-width: min(18.2vw,31.2vh); max-height: min(18.2vw,31.2vh); object-fit: contain; }
