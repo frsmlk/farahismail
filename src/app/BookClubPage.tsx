@@ -219,17 +219,17 @@ function Row({ item, borrowable = false, currentReadable = false }: { item: stri
   const [type, title, author, status] = item;
   const lent = status.startsWith('Lent to ');
   const modalHref = borrowable
-    ? `?borrow=${encodeURIComponent(title)}#borrow-card`
+    ? `?borrow=${encodeURIComponent(title)}`
     : currentReadable
-      ? `?current=${encodeURIComponent(title)}#current-card`
+      ? `?current=${encodeURIComponent(title)}`
       : lent
-        ? `?lent=${encodeURIComponent(title)}#lent-card`
+        ? `?lent=${encodeURIComponent(title)}`
         : '';
 
   return (
     <article className={modalHref ? 'bcListItem bcListItemClickable' : 'bcListItem'}>
       {modalHref ? (
-        <Link className="bcListItemLink" href={modalHref} aria-label={`${borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} ${title}`}>
+        <Link scroll={false} className="bcListItemLink" href={modalHref} aria-label={`${borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} ${title}`}>
           <span className="bcScreenReaderText">{borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} {title}</span>
         </Link>
       ) : null}
@@ -275,7 +275,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div className="bcSectionHead"><h2>Playlist</h2></div>
         <div className="bcList">
           <article className="bcListItem bcListItemClickable">
-            <Link className="bcListItemLink" href="?playlist=fun-pop#playlist-card" aria-label="Play Fun Pop playlist">
+            <Link scroll={false} className="bcListItemLink" href="?playlist=fun-pop" aria-label="Play Fun Pop playlist">
               <span className="bcScreenReaderText">Play Fun Pop playlist</span>
             </Link>
             <div className="bcType">Playlist</div>
@@ -310,9 +310,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {aboutOpen ? (
         <div className="bcBorrowModal" id="about-card" role="dialog" aria-modal="true" aria-labelledby="about-card-title">
-          <Link className="bcBorrowBackdrop" href="/" aria-label="Close about card" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close about card" />
           <div className="bcLibraryCard bcAboutCard">
-            <Link className="bcCardClose" href="/" aria-label="Close about card">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close about card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader bcAboutCardHeader">
                 <p id="about-card-title">Book Index</p>
@@ -330,9 +330,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {playlistOpen ? (
         <div className="bcBorrowModal" id="playlist-card" role="dialog" aria-modal="true" aria-labelledby="playlist-card-title">
-          <Link className="bcBorrowBackdrop" href="/" aria-label="Close playlist" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close playlist" />
           <div className="bcLibraryCard">
-            <Link className="bcCardClose" href="/" aria-label="Close playlist">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close playlist">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
                 <p id="playlist-card-title">Book Index</p>
@@ -355,9 +355,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {(borrowTitle || submitted || missing) ? (
         <div className="bcBorrowModal" id="borrow-card" role="dialog" aria-modal="true" aria-labelledby="borrow-card-title">
-          <Link className="bcBorrowBackdrop" href="/" aria-label="Close borrow form" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close borrow form" />
           <div className="bcLibraryCard">
-            <Link className="bcCardClose" href="/" aria-label="Close borrow form">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close borrow form">×</Link>
             <form className="bcBorrowForm" action={submitBorrowRequest}>
               <div className="bcCardHeader">
                 <p id="borrow-card-title">Book Index</p>
@@ -394,9 +394,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {currentBook ? (
         <div className="bcBorrowModal" id="current-card" role="dialog" aria-modal="true" aria-labelledby="current-card-title">
-          <Link className="bcBorrowBackdrop" href="/" aria-label="Close current read card" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close current read card" />
           <div className="bcLibraryCard">
-            <Link className="bcCardClose" href="/" aria-label="Close current read card">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close current read card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
                 <p id="current-card-title">Book Index</p>
@@ -419,9 +419,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {lentBook ? (
         <div className="bcBorrowModal" id="lent-card" role="dialog" aria-modal="true" aria-labelledby="lent-card-title">
-          <Link className="bcBorrowBackdrop" href="/" aria-label="Close lent card" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close lent card" />
           <div className="bcLibraryCard">
-            <Link className="bcCardClose" href="/" aria-label="Close lent card">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close lent card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
                 <p id="lent-card-title">Book Index</p>
