@@ -739,7 +739,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       <footer className="bcFooter" id="contact">
         <div>Book Index</div>
-        <div><a href="https://farahainismail.substack.com" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></div>
+        <div><a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></div>
       </footer>
     </main>
   );
