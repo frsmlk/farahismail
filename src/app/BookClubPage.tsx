@@ -322,6 +322,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <p>Book Index is a shared bookshelf in Kuala Lumpur. It brings together a growing personal collection of books, made available for others to read.</p>
                 <p>I hope these books start conversations about what stays with us, what we disagree with, and what we might read next.</p>
                 <p>For book swaps or a conversation about something you’ve read, get in touch via <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a>.</p>
+                <p>For enquiries &amp; collaborations, please contact via <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a>.</p>
               </div>
             </div>
           </div>
@@ -748,7 +749,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         Book Index is a shared bookshelf by <a href="http://farahismail.com/">farahismail.com</a>.
       </div>
 
-      <p className="bcEnquiries">For enquiries &amp; collaborations, please contact via <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></p>
+
 
       <footer className="bcFooter" id="contact">
         <div>Book Index</div>
