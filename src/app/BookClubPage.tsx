@@ -538,9 +538,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcSectionHead h2 { font-size: 19.2px; font-weight: 700; }
         .bcList { display: block; }
         .bcListItem { display: grid; grid-template-columns: 100px minmax(0, 2fr) minmax(0, 1.3fr) 140px; gap: 16px; padding: 8.4px 0; background: transparent; box-shadow: none; height: auto; width: auto; align-items: start; }
-        .bcType, .bcStatus { font: 13.2px/1.15 Arial, sans-serif; }
+        .bcType, .bcStatus { font: 19.2px/1.15 Arial, sans-serif; }
         .bcTitle { font: 19.2px/1.15 Arial, sans-serif; }
-        .bcAuthor { font: 15.6px/1.15 Arial, sans-serif; }
+        .bcAuthor { font: 19.2px/1.15 Arial, sans-serif; }
         .bcFooter { padding: 20px 5vw 40px; border: 0; }
         @media (max-width: 640px) {
           .bcHero { padding-top: 26.6px; }
