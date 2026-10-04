@@ -526,6 +526,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcLibraryCard .bcBorrowForm * { line-height: 1.15; }
         .bcSectionHead h2 { line-height: 1.1; }
         .bcType, .bcAuthor, .bcStatus, .bcFooter { text-transform: capitalize; }
+        .bcListItem .bcType, .bcListItem .bcTitle, .bcListItem .bcAuthor, .bcListItem .bcStatus { font-family: Arial, Helvetica, sans-serif; font-size: 19.2px; font-weight: 400; line-height: 1.15; letter-spacing: 0; }
         .bcHostingNote, .bcFooter { font-size: 9.6pt; }
         .bcLibraryCard .bcFormMessage { font-size: 12pt; }
 
