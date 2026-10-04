@@ -386,7 +386,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <div className="bcCardValue">Mourid Barghouti&apos;s impeccable writing, heart and rage unravels the emotions of exile and where grief goes when it has no vessel to take place.</div>
               </div>
 
-              </div><div className="bcBookCoverSpace" aria-label="Book cover space" /></div>
+              </div><div className="bcBookCoverSpace" aria-label="Book cover space"><img src="/book-covers/ramallah-user.png" alt="I Saw Ramallah by Mourid Barghouti book cover" className="bcModalCover" /></div></div>
             </div>
           </div>
         </div>
@@ -543,6 +543,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         #borrow-card .bcLibraryCard, #current-card .bcLibraryCard, #lent-card .bcLibraryCard { width: min(680px, 100%); max-height: calc(100dvh - 36px); overflow-y: auto; }
         .bcSplitCardBody { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
         .bcCardDetails { min-width: 0; }
+        .bcModalCover { display: block; width: 100%; height: auto; object-fit: contain; }
         .bcBookCoverSpace { border-left: 1px solid #16130f; min-height: 220px; }
         .bcCardDetails .bcCardValue { overflow-wrap: anywhere; box-sizing: border-box; }
         .bcCardDetails button { width: 100%; }
