@@ -587,7 +587,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBookCoverSpace { border-left: 1px solid #16130f; min-height: 220px; }
         .bcCardDetails .bcCardValue { overflow-wrap: anywhere; box-sizing: border-box; }
         .bcCardDetails button { width: 100%; margin-top: auto; flex-shrink: 0; border-top: 1px solid #16130f; }
-        .bcCardDetails:has(> button) .bcCardRow:has(+ button) { border-bottom: 0; }
+        .bcCardDetails > .bcCardRow:has(+ button), .bcCardDetails > .bcCardGrid:has(+ button) { border-bottom: 0; }
         .bcCardDetails .bcCardRow:last-child { border-bottom: 0; }
         @media(max-width:640px) { .bcCardDetails .bcCardRow span, .bcCardDetails .bcCardRow input, .bcCardDetails .bcCardValue { padding: 8px; } }
 
