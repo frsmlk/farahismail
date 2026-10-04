@@ -443,8 +443,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcTitle { transition: color 0.16s ease; }
         .bcListItemClickable:hover .bcTitle,
         .bcListItemClickable:focus-within .bcTitle,
-        .bcListItemClickable:active .bcTitle { color: #fff44f; }
-        .bcListItemLink:focus-visible { outline: 1px solid #fff44f; outline-offset: -4px; }
+        .bcListItemClickable:active .bcTitle { color: #ff1493; }
+        .bcListItemLink:focus-visible { outline: 1px solid #ff1493; outline-offset: -4px; }
         #current,
         #current * { color: #000000; font-weight: 400; }
         #current .bcSectionHead h2 { font-weight: 700; }
@@ -453,8 +453,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         #current .bcSectionHead:hover h2,
         #current .bcListItemClickable:hover .bcTitle,
         #current .bcListItemClickable:focus-within .bcTitle,
-        #current .bcListItemClickable:active .bcTitle { color: #b00068; }
-        #current .bcListItemLink:focus-visible { outline-color: #b00068; }
+        #current .bcListItemClickable:active .bcTitle { color: #ff1493; }
+        #current .bcListItemLink:focus-visible { outline-color: #ff1493; }
         .bcBorrowModal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 18px; }
         .bcBorrowBackdrop { position: absolute; inset: 0; background: rgba(40, 34, 28, 0.28); backdrop-filter: blur(3px); }
         .bcPlaylistEmbedRow { padding: 16px; }
@@ -470,7 +470,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcAboutHosted { align-self: end; margin-top: 24px; }
         .bcAboutCardText a { color: inherit; text-decoration: underline; text-underline-offset: 2px; transition: color 0.16s ease; }
         .bcAboutCardText .bcAboutHoverLink:hover,
-        .bcAboutCardText .bcAboutHoverLink:focus-visible { color: #fff44f; outline: 0; }
+        .bcAboutCardText .bcAboutHoverLink:focus-visible { color: #ff1493; outline: 0; }
         .bcLibraryCard { position: relative; width: min(620px, 100%); color: #1b1712; filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.22)); }
         .bcCardClose { position: absolute; top: 10px; right: 14px; z-index: 2; color: #1b1712; font: 10pt Arial, Helvetica, sans-serif; line-height: 1; text-decoration: none; }
         .bcBorrowForm { position: relative; display: grid; gap: 0; padding: 0; border: 1px solid #16130f; background: #f3e7c4; background-image: radial-gradient(circle at 20% 12%, rgba(110, 82, 43, 0.13) 0 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.2), rgba(133, 96, 45, 0.07)); background-size: 12px 12px, 100% 100%; font-family: 'Courier New', Courier, monospace; }
@@ -515,6 +515,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @media (max-width: 640px) {
           .bcLibraryCard .bcCardRow, .bcLibraryCard .bcCardGrid { grid-template-columns: 1fr; }
         }
+
+        .bcSectionHead:hover h2,
+        .bcListItemClickable:hover .bcTitle,
+        .bcListItemClickable:focus-within .bcTitle,
+        .bcFooter a:hover, .bcFooter a:focus-visible,
+        .bcHostingNote a:hover, .bcHostingNote a:focus-visible { color: #ff1493; }
 
         .bcHero, .bcSection, .bcSectionHead, .bcListItem { border: 0; }
         .bcHero { padding: 70px 5vw 48px; min-height: auto; }
