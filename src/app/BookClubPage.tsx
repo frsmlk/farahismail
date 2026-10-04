@@ -630,14 +630,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         }
         .bcCoverWall { display: none; }
         @media(max-width:640px) {
-          .bcCoverWall { display: block; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .32; overflow: hidden; }
-          .bcCoverSquare { position: absolute; width: 30vw; height: 30vw; left: 6%; top: 24%; }
-          .bcCoverSquare:nth-child(2) { left: 62%; top: 64%; }
-          .bcCoverSquare:nth-child(3) { left: 8%; top: 62%; }
-          .bcCoverSquare:nth-child(4) { left: 60%; top: 22%; }
+          .bcSite { padding-bottom: calc(25vw + 20px + env(safe-area-inset-bottom)); }
+          .bcCoverWall { display: grid; position: fixed; inset: auto 0 0; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: #fff; pointer-events: none; z-index: 10; opacity: 1; overflow: hidden; }
+          .bcCoverSquare { display: flex; justify-content: center; align-items: center; min-width: 0; aspect-ratio: 1; }
           .bcCoverSquare:nth-child(n+5) { display: none; }
-          .bcCoverSquare img { width: 100%; height: 100%; object-fit: contain; }
-          .bcHero, .bcSection, .bcHostingNote, .bcEnquiries, .bcFooter { position: relative; z-index: 1; }
+          .bcCoverSquare img { display: block; width: 100%; height: 100%; object-fit: contain; }
         }
         @media(min-width:1100px) {
           .bcHero, .bcSection { padding-right: 39vw; }
@@ -671,11 +668,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                     await new Promise(resolve => setTimeout(resolve, slotIndex * 180));
                     await slot.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.92)'}], {duration:500,fill:'forwards'}).finished;
                     slot.src = next;
-                    if (matchMedia('(max-width:640px)').matches) {
-                      const index = slots.indexOf(slot);
-                      slot.parentElement.style.left = ((index % 2 ? 52 : 4) + Math.random()*14) + '%';
-                      slot.parentElement.style.top = ((index < 2 ? 10 : 52) + Math.random()*18) + '%';
-                    }
                     slot.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'scale(1)'}], {duration:700,fill:'forwards'});
                   };
                   preload.src = next;
