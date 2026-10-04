@@ -694,6 +694,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                   document.querySelector('.bcReturnConfetti')?.remove();
                   const confetti = document.createElement('div');
                   confetti.className = 'bcReturnConfetti';
+                  const site = document.querySelector('.bcSite');
+                  if (site) confetti.style.setProperty('--bc-accent', getComputedStyle(site).getPropertyValue('--bc-accent'));
                   confetti.setAttribute('aria-hidden', 'true');
                   for (let i = 0; i < 100; i++) {
                     const piece = document.createElement('i');
