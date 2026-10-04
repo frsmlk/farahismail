@@ -571,6 +571,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBookDetails { min-width: 0; }
         .bcBookDetails .bcAuthor, #current .bcBookDetails .bcAuthor { font-weight: 700; margin-top: 2px; }
         .bcHostingNote, .bcFooter { font-size: 18.24px; letter-spacing: 0; }
+        .bcEnquiries { margin: 8px 5vw 0; color: #000; font-size: 18.24px; font-weight: 700; line-height: 1.15; letter-spacing: 0; }
+        .bcEnquiries a { color: inherit; font-weight: inherit; text-decoration: underline; text-underline-offset: 2px; }
         .bcFooter, .bcFooter a { color: #ff1493; font-weight: 700; }
         .bcLibraryCard .bcFormMessage { font-size: 13.11pt; }
 
@@ -686,6 +688,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       <div className="bcHostingNote">
         Book Index is a project by <a href="http://farahismail.com/">farahismail.com</a>.
       </div>
+
+      <p className="bcEnquiries">For enquiries &amp; collaborations, please contact via <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></p>
 
       <footer className="bcFooter" id="contact">
         <div>Book Index</div>
