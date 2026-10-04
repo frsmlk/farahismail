@@ -399,9 +399,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               <div className="bcSplitCardBody"><div className="bcCardDetails">
               <div className="bcCardRow bcIdentityRow">
                 <div className="bcCardValue">{currentBook[1]}</div>
-              </div>
-              <div className="bcCardRow bcIdentityRow">
-                <div className="bcCardValue">{currentBook[2]}</div>
+                <div className="bcCardValue bcIdentityAuthor">{currentBook[2]}</div>
               </div>
               <div className="bcCardRow bcNoteRow">
                 <span>Note</span>
@@ -581,6 +579,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         #borrow-card .bcBookRow { padding: 7.2px 0 8px; }
         #borrow-card .bcCardRow:not(.bcBookRow) { grid-template-columns: 1fr; }
         #borrow-card .bcCardRow input:not([type="hidden"]) { box-sizing: border-box; }
+        #current-card .bcIdentityRow { padding: 7.2px 0 8px; align-content: start; }
+        #current-card .bcIdentityRow .bcCardValue { padding-top: 0; padding-bottom: 0; }
+        #current-card .bcIdentityAuthor { margin-top: 4px; }
         .bcFullBookTitle { font-weight: 700; }
         .bcHero, .bcSection, .bcSectionHead, .bcListItem { border: 0; }
         .bcHero { padding: 39.2px 5vw 19.6px; min-height: auto; }
