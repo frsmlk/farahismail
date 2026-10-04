@@ -435,6 +435,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <div className="bcCardValue">{lentName}</div>
               </div>
 
+              <button type="button" className="bcReturnBook">Return Book</button>
               </div><BookCover title={lentBook[1]} /></div>
             </div>
           </div>
@@ -442,6 +443,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       ) : null}
 
       <style>{`
+        .bcReturnBook { display: block; width: 100%; padding: 12px 8px; border: 0; border-top: 1px solid #16130f; background: transparent; color: #16130f; font: inherit; cursor: pointer; }
+        .bcReturnBook:hover, .bcReturnBook:focus-visible { color: #ff1493; }
+        .bcReturnConfetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
+        .bcReturnConfetti i { position: absolute; top: -20px; width: 8px; height: 13px; background: #ff1493; animation: bcConfettiFall 2.8s ease-in forwards; }
+        @keyframes bcConfettiFall { from { transform: translateY(-20px) rotate(0deg); } to { transform: translateY(110vh) rotate(720deg); } }
+        @media (prefers-reduced-motion: reduce) { .bcReturnConfetti i { animation-duration: 0.3s; } }
         .bcButterflies { position: fixed; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
         .bcButterfly { position: absolute; width: 34px; height: auto; opacity: 0.7; transform-origin: center; animation: bcFlutter 18s linear infinite, bcPulse 1.1s ease-in-out infinite alternate; filter: drop-shadow(0 2px 4px rgba(146, 48, 112, 0.18)); }
         .bcButterflyOne { top: 14%; left: -4%; animation-duration: 22s, 1.1s; animation-delay: -4s, 0s; }
@@ -615,6 +622,25 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         dangerouslySetInnerHTML={{
           __html: `
             (() => {
+              if (!window.bcReturnConfettiBound) {
+                window.bcReturnConfettiBound = true;
+                document.addEventListener('click', (event) => {
+                  if (!(event.target instanceof Element) || !event.target.closest('.bcReturnBook')) return;
+                  document.querySelector('.bcReturnConfetti')?.remove();
+                  const confetti = document.createElement('div');
+                  confetti.className = 'bcReturnConfetti';
+                  confetti.setAttribute('aria-hidden', 'true');
+                  for (let i = 0; i < 100; i++) {
+                    const piece = document.createElement('i');
+                    piece.style.left = Math.random() * 100 + '%';
+                    piece.style.animationDelay = Math.random() * 0.6 + 's';
+                    piece.style.animationDuration = 2 + Math.random() * 1.2 + 's';
+                    confetti.appendChild(piece);
+                  }
+                  document.body.appendChild(confetti);
+                  setTimeout(() => confetti.remove(), 4000);
+                });
+              }
               const butterfly = document.querySelector('.bcCursorButterfly');
               if (!butterfly || window.matchMedia('(pointer: coarse)').matches) return;
               let x = -100;
