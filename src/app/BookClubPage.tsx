@@ -163,7 +163,7 @@ const availableBooks = [
   ['Novel', 'The Curious Incident of the Dog in the Night-Time', 'Mark Haddon', 'Available'],
   ['Essay', 'The Book of Tea', 'Okakura Kakuzō', 'Available'],
   ['Essays', 'Reluctant Capital: Essays on Kuala Lumpur', 'Badrul Hisham Ismail', 'Available'],
-  ['Magazine', 'POP Magazine: September Issue', 'POP Magazine', 'Available'],
+  ['Magazine', 'Pop Magazine: September Issue', 'Pop Magazine', 'Available'],
   ['Book', 'Townscape Revisited: Unraveling the Character of the Historic Townscape in Malaysia', 'Shuhana Shamsuddin', 'Available'],
   ['Book', 'The Spirit of Cities', 'Daniel A. Bell & Avner de-Shalit', 'Available'],
   ['Book', 'Design in Conservative Times', 'Joannette van der Veer', 'Available'],
@@ -285,7 +285,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link className="bcCardClose" href="/" aria-label="Close about card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader bcAboutCardHeader">
-                <p id="about-card-title">ABOUT</p>
+                <p id="about-card-title">About</p>
               </div>
               <div className="bcAboutCardText">
                 <p>Book Index is part archive, part library by Farah Ismail.</p>
@@ -428,7 +428,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcSite > header, .bcSite > section, .bcSite > footer, .bcHostingNote { position: relative; z-index: 2; }
         .bcTopTabs { position: fixed; top: 0; right: 18px; z-index: 10; display: flex; align-items: flex-end; gap: 0; padding-top: 5px; }
         .bcTopTabs::before { content: ''; position: fixed; top: 35px; left: 0; right: 0; border-top: 1.5px solid rgba(0, 0, 0, 0.62); pointer-events: none; }
-        .bcTopTab { position: relative; display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 82px; height: 30px; padding: 8px 10px 6px; border: 1.5px solid rgba(0, 0, 0, 0.62); border-bottom: 0; border-radius: 16px 16px 0 0; background: var(--bc-paper); color: #000000; font: 700 8pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; text-transform: uppercase; box-shadow: none; }
+        .bcTopTab { position: relative; display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 82px; height: 30px; padding: 8px 10px 6px; border: 1.5px solid rgba(0, 0, 0, 0.62); border-bottom: 0; border-radius: 16px 16px 0 0; background: var(--bc-paper); color: #000000; font: 700 8pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; text-transform: capitalize; box-shadow: none; }
         .bcTopTab + .bcTopTab { margin-left: -1.5px; }
         .bcTopTab:first-child { transform: rotate(-0.4deg); }
         .bcTopTab:nth-child(2) { width: 104px; transform: rotate(0.4deg); }
@@ -490,7 +490,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBorrowForm button { justify-self: stretch; border: 0; background: transparent; padding: 16px; font: 10pt Arial, Helvetica, sans-serif; letter-spacing: 0.04em; cursor: pointer; }
         .bcBorrowForm button:hover { background: rgba(27, 23, 18, 0.08); }
         .bcFormMessage { margin: 0; padding: 12px 16px; border-bottom: 1px solid #16130f; font: 10pt Arial, Helvetica, sans-serif; }
-        .bcHostingNote { padding: 18px 22px 0; font-family: Arial, Helvetica, sans-serif; font-size: 8pt; line-height: 1.35; text-transform: uppercase; letter-spacing: 0.08em; color: #ff1493; }
+        .bcHostingNote { padding: 18px 22px 0; font-family: Arial, Helvetica, sans-serif; font-size: 8pt; line-height: 1.35; text-transform: capitalize; letter-spacing: 0.08em; color: #ff1493; }
         .bcHostingNote a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
         @media (max-width: 640px) {
           .bcTopTabs { right: 10px; padding-top: 5px; }
@@ -525,6 +525,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcSite { line-height: 1.15; }
         .bcLibraryCard .bcBorrowForm * { line-height: 1.15; }
         .bcSectionHead h2 { line-height: 1.1; }
+        .bcType, .bcAuthor, .bcStatus, .bcFooter { text-transform: capitalize; }
         .bcHostingNote, .bcFooter { font-size: 9.6pt; }
         .bcLibraryCard .bcFormMessage { font-size: 12pt; }
 
@@ -534,7 +535,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcIntroText { margin: 18.2px 0 0; max-width: 650px; font-size: 19.2px; font-weight: 700; line-height: 1.15; }
         .bcSection { padding: 9.8px 5vw 16.8px; }
         .bcSectionHead { padding: 0 0 8.4px; }
-        .bcSectionHead h2 { font-size: 15.6px; font-weight: 700; }
+        .bcSectionHead h2 { font-size: 19.2px; font-weight: 700; }
         .bcList { display: block; }
         .bcListItem { display: grid; grid-template-columns: 100px minmax(0, 2fr) minmax(0, 1.3fr) 140px; gap: 16px; padding: 8.4px 0; background: transparent; box-shadow: none; height: auto; width: auto; align-items: start; }
         .bcType, .bcStatus { font: 13.2px/1.15 Arial, sans-serif; }
@@ -583,12 +584,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       />
 
       <div className="bcHostingNote">
-        <a href="http://farahismail.com/">FARAHISMAIL.COM</a> IS CURRENTLY HOSTING: BOOK INDEX
+        <a href="http://farahismail.com/">Farahismail.com</a> Is Currently Hosting: Book Index
       </div>
 
       <footer className="bcFooter" id="contact">
         <div>Book Index</div>
-        <div><a href="https://farahainismail.substack.com" target="_blank" rel="noopener noreferrer">SUBSTACK</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">INSTAGRAM</a></div>
+        <div><a href="https://farahainismail.substack.com" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></div>
       </footer>
     </main>
   );
