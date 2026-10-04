@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import CoffeeTable from './CoffeeTable';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
@@ -183,7 +182,35 @@ const availableBooks = [
   ['Manga', 'Blame!', 'Tsutomu Nihei', 'Available'],
 ];
 
-const coverPaths = ['/book-covers/ramallah.jpg', '/book-covers/vegetarian.jpg', '/book-covers/garden.jpg', '/book-covers/treasures.jpg', '/book-covers/soups.jpg', '/book-covers/curious.jpg', '/book-covers/tea.jpg', '/book-covers/reluctant.png', null, '/book-covers/townscape.jpg', '/book-covers/cities.jpg', '/book-covers/design.jpg', '/book-covers/eco.jpg', '/book-covers/glow.jpg', null, '/book-covers/noia.jpg', '/book-covers/nyampah.jpg', '/book-covers/cyber.jpg', '/book-covers/ornament.jpg', '/book-covers/accountability.jpg', null, '/book-covers/valley.jpg', '/book-covers/butter.jpg', '/book-covers/body.jpg', '/book-covers/blame.jpg'];
+
+
+function Row({ item, borrowable = false, currentReadable = false }: { item: string[]; borrowable?: boolean; currentReadable?: boolean }) {
+  const [type, title, author, status] = item;
+  const lent = status.startsWith('Lent to ');
+  const modalHref = borrowable
+    ? `?borrow=${encodeURIComponent(title)}#borrow-card`
+    : currentReadable
+      ? `?current=${encodeURIComponent(title)}#current-card`
+      : lent
+        ? `?lent=${encodeURIComponent(title)}#lent-card`
+        : '';
+
+  return (
+    <article className={modalHref ? 'bcListItem bcListItemClickable' : 'bcListItem'}>
+      {modalHref ? (
+        <Link className="bcListItemLink" href={modalHref} aria-label={`${borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} ${title}`}>
+          <span className="bcScreenReaderText">{borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} {title}</span>
+        </Link>
+      ) : null}
+      <div className="bcType">{type}</div>
+      <div className="bcTitle">{title}</div>
+      <div className="bcAuthor">{author}</div>
+      <div className="bcStatus">
+        {status}
+      </div>
+    </article>
+  );
+}
 
 type BookClubPageProps = {
   searchParams?: Promise<{ about?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }>;
@@ -213,7 +240,43 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         </div>
       </header>
 
-      <CoffeeTable books={[...currentReads, ...lentBooks, ...availableBooks].map((book, i) => ({ title: book[1], author: book[2], status: book[3], cover: coverPaths[i], href: `?${book[3] === 'Available' ? 'borrow' : book[3] === 'Current read' ? 'current' : 'lent'}=${encodeURIComponent(book[1])}#${book[3] === 'Available' ? 'borrow' : book[3] === 'Current read' ? 'current' : 'lent'}-card` }))} />
+      <section className="bcSection" id="playlist">
+        <div className="bcSectionHead"><h2>Playlist</h2></div>
+        <div className="bcList">
+          <article className="bcListItem bcListItemClickable">
+            <Link className="bcListItemLink" href="?playlist=fun-pop#playlist-card" aria-label="Play Fun Pop playlist">
+              <span className="bcScreenReaderText">Play Fun Pop playlist</span>
+            </Link>
+            <div className="bcType">Playlist</div>
+            <div className="bcTitle">Fun Pop</div>
+            <div className="bcAuthor">Spotify</div>
+            <div className="bcStatus">Playlist</div>
+          </article>
+        </div>
+      </section>
+
+      <section className="bcSection" id="current">
+        <div className="bcSectionHead"><h2>Currently Reading</h2></div>
+        <div className="bcList">
+          {currentReads.map((book) => <Row key={book[1]} item={book} currentReadable />)}
+        </div>
+      </section>
+
+      <section className="bcSection" id="lent">
+        <div className="bcSectionHead"><h2>Lent Books</h2></div>
+        <div className="bcList">
+          {lentBooks.map((book) => <Row key={book[1]} item={book} />)}
+        </div>
+      </section>
+
+      <section className="bcSection" id="available">
+        <div className="bcSectionHead"><h2>Available Books</h2></div>
+        <div className="bcList">
+          {availableBooks.map((book) => <Row key={book[1]} item={book} borrowable />)}
+        </div>
+      </section>
+
+
 
       {aboutOpen ? (
         <div className="bcBorrowModal" id="about-card" role="dialog" aria-modal="true" aria-labelledby="about-card-title">
@@ -446,31 +509,21 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcSection { padding: 20px 5vw 45px; }
         .bcSectionHead { padding: 0 0 24px; }
         .bcSectionHead h2 { font-size: 13px; }
-        .bcList { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 7px; row-gap: 28px; }
-        .bcListItem { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: space-between; flex: 0 0 var(--spine-width, 65px); width: var(--spine-width, 65px); height: var(--spine-height, 300px); padding: 16px 8px; gap: 10px; background: var(--spine-color, #d9d6c9); color: var(--spine-ink, #171717); border-radius: 2px; box-shadow: inset 3px 0 5px #00000013, inset -2px 0 3px #00000012, 2px 3px 5px #00000012; transition: transform .2s ease; }
-        .bcListItem:hover, .bcListItem:focus-within { background: var(--spine-color, #d9d6c9); transform: translateY(-10px); }
-        .bcListItem .bcTitle { writing-mode: vertical-rl; text-orientation: mixed; font-size: 15px; line-height: 1.2; flex: 1; min-height: 0; overflow-wrap: normal; color: inherit; }
-        .bcListItem .bcAuthor { writing-mode: vertical-rl; font-size: 9px; text-transform: none; letter-spacing: 0; color: inherit; max-height: 90px; }
-        .bcListItem .bcType { display: none; }
-        .bcListItem .bcStatus { font-size: 8px; text-transform: none; letter-spacing: 0; text-align: center; color: inherit; }
-        #current .bcListItem, #current .bcListItem * { color: var(--spine-ink, #171717); }
-        #playlist .bcListItem { --spine-color: #c8919e; --spine-height: 240px; --spine-width: 76px; }
+        .bcList { display: block; }
+        .bcListItem { display: grid; grid-template-columns: 100px minmax(0, 2fr) minmax(0, 1.3fr) 140px; gap: 20px; padding: 18px 0; background: transparent; box-shadow: none; height: auto; width: auto; align-items: start; }
+        .bcType, .bcStatus { font: 11px/1.5 Arial, sans-serif; }
+        .bcTitle { font: 16px/1.4 Arial, sans-serif; }
+        .bcAuthor { font: 13px/1.5 Arial, sans-serif; }
         .bcFooter { padding: 20px 5vw 40px; border: 0; }
-        @media (max-width: 600px) {
+        @media (max-width: 640px) {
           .bcHero { padding-top: 38px; }
           .bcSection { padding-bottom: 30px; }
-          .bcList { gap: 5px; row-gap: 22px; }
-          .bcListItem { flex-basis: 52px; width: 52px; height: calc(var(--spine-height, 300px) * .8); padding: 12px 6px; }
-          .bcListItem .bcTitle { font-size: 13px; }
+          .bcListItem { grid-template-columns: minmax(0, 1fr) auto; gap: 6px 14px; padding: 16px 0; }
+          .bcTitle { grid-column: 1; grid-row: 1; }
+          .bcAuthor { grid-column: 1; grid-row: 2; }
+          .bcType { grid-column: 1; grid-row: 3; }
+          .bcStatus { grid-column: 2; grid-row: 1 / span 3; max-width: 95px; text-align: right; }
         }
-
-        .bcShelfStrip { display: flex; align-items: flex-end; gap: 36px; overflow-x: auto; overflow-y: hidden; padding: 16px 5vw 40px; max-width: 100%; -webkit-overflow-scrolling: touch; }
-        .bcShelfStrip .bcSection { flex: 0 0 auto; padding: 0; }
-        .bcShelfStrip .bcSectionHead { padding: 0 0 24px; }
-        .bcShelfStrip .bcList { flex-wrap: nowrap; align-items: flex-end; height: 370px; }
-        .bcShelfStrip .bcListItem { flex-shrink: 0; }
-        .bcShelfStrip .bcSectionHead h2 { white-space: nowrap; }
-        @media (max-width: 600px) { .bcShelfStrip { gap: 24px; } .bcShelfStrip .bcList { height: 300px; } }
       `}</style>
 
 
