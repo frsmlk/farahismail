@@ -509,7 +509,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         }
 
         .bcLibraryCard { width: min(440px, 100%); }
-        .bcLibraryCard .bcBorrowForm { background: #ff1493; background-image: none; font-family: Arial, Helvetica, sans-serif; }
+        .bcLibraryCard .bcBorrowForm { background: var(--bc-paper); background-image: none; font-family: Arial, Helvetica, sans-serif; }
         .bcLibraryCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; font-size: 14.421px; letter-spacing: 0; }
         .bcLibraryCard .bcCardHeader p { padding: 12px 14px; padding-right: 36px; }
         .bcLibraryCard .bcCardRow { grid-template-columns: 100px minmax(0, 1fr); min-height: 42px; }
