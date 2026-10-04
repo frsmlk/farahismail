@@ -203,8 +203,7 @@ function Row({ item, borrowable = false, currentReadable = false }: { item: stri
         </Link>
       ) : null}
       <div className="bcType">{type}</div>
-      <div className="bcTitle">{title}</div>
-      <div className="bcAuthor">{author}</div>
+      <div className="bcBookDetails"><div className="bcTitle">{title}</div><div className="bcAuthor">{author}</div></div>
       <div className="bcStatus">
         {status}
       </div>
@@ -248,8 +247,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               <span className="bcScreenReaderText">Play Fun Pop playlist</span>
             </Link>
             <div className="bcType">Playlist</div>
-            <div className="bcTitle">Fun Pop</div>
-            <div className="bcAuthor">Spotify</div>
+            <div className="bcBookDetails"><div className="bcTitle">Fun Pop</div><div className="bcAuthor">Spotify</div></div>
             <div className="bcStatus">Playlist</div>
           </article>
         </div>
@@ -527,6 +525,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcSectionHead h2 { line-height: 1.1; }
         .bcType, .bcAuthor, .bcStatus, .bcFooter { text-transform: capitalize; }
         .bcListItem .bcType, .bcListItem .bcTitle, .bcListItem .bcAuthor, .bcListItem .bcStatus { font-family: Arial, Helvetica, sans-serif; font-size: 19.2px; font-weight: 400; line-height: 1.15; letter-spacing: 0; }
+        .bcBookDetails { min-width: 0; }
+        .bcBookDetails .bcAuthor, #current .bcBookDetails .bcAuthor { font-weight: 700; margin-top: 2px; }
         .bcHostingNote, .bcFooter { font-size: 9.6pt; }
         .bcLibraryCard .bcFormMessage { font-size: 12pt; }
 
@@ -538,7 +538,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcSectionHead { padding: 0 0 8.4px; }
         .bcSectionHead h2 { font-size: 19.2px; font-weight: 700; }
         .bcList { display: block; }
-        .bcListItem { display: grid; grid-template-columns: 100px minmax(0, 2fr) minmax(0, 1.3fr) 140px; gap: 16px; padding: 8.4px 0; background: transparent; box-shadow: none; height: auto; width: auto; align-items: start; }
+        .bcListItem { display: grid; grid-template-columns: 100px minmax(0, 1fr) 180px; gap: 16px; padding: 8.4px 0; background: transparent; box-shadow: none; height: auto; width: auto; align-items: start; }
         .bcType, .bcStatus { font: 19.2px/1.15 Arial, sans-serif; }
         .bcTitle { font: 19.2px/1.15 Arial, sans-serif; }
         .bcAuthor { font: 19.2px/1.15 Arial, sans-serif; }
@@ -547,9 +547,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           .bcHero { padding-top: 26.6px; }
           .bcSection { padding-bottom: 14px; }
           .bcListItem { grid-template-columns: minmax(0, 1fr) auto; gap: 2.1px 14px; padding: 7px 0; }
-          .bcTitle { grid-column: 1; grid-row: 1; }
-          .bcAuthor { grid-column: 1; grid-row: 2; }
-          .bcType { grid-column: 1; grid-row: 3; }
+          .bcBookDetails { grid-column: 1; grid-row: 1; }
+          .bcType { grid-column: 1; grid-row: 2; }
           .bcStatus { grid-column: 2; grid-row: 1 / span 3; max-width: 95px; text-align: right; }
         }
       `}</style>
