@@ -544,7 +544,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcCardDetails { min-width: 0; }
         .bcLibraryCard .bcIdentityRow { grid-template-columns: 1fr; min-height: 42px; }
         .bcLibraryCard .bcIdentityRow .bcCardValue, .bcLibraryCard .bcIdentityRow input { font-weight: 700; }
-        .bcBookRow.bcIdentityRow input, #lent-card .bcIdentityRow .bcCardValue { padding-top: 4px; padding-bottom: 4px; }
+        .bcBookRow.bcIdentityRow input, .bcBookRow.bcIdentityRow .bcIdentityAuthor, #lent-card .bcIdentityRow .bcCardValue { padding-top: 0; padding-bottom: 0; line-height: 1.15; }
         @media(max-width:640px) { .bcLibraryCard .bcIdentityRow { min-height: 67.15625px; } }
         .bcModalCover { display: block; width: 100%; height: auto; object-fit: contain; }
         .bcBookCoverSpace { border-left: 1px solid #16130f; min-height: 220px; }
