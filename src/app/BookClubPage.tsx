@@ -149,6 +149,7 @@ async function submitBorrowRequest(formData: FormData) {
 }
 
 const bookCoverPhotos: Record<string, string> = {
+  "The Spirit of Cities": "/book-covers/spirit-cities-user.png",
   "Blame!": "/book-covers/blame-user.png",
   "Reluctant Capital: Essays on Kuala Lumpur": "/book-covers/reluctant-capital-user.png",
   "You Glow in the Dark": "/book-covers/glow-user.png",
