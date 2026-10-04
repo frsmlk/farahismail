@@ -656,18 +656,19 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             (() => {
               if (!window.bcCoverWallTimer) {
                 const covers = ${JSON.stringify(Object.values(bookCoverPhotos))};
-                let coverTurn = 0;
                 window.bcCoverWallTimer = setInterval(() => {
                   if ((!matchMedia('(min-width:1100px)').matches && !matchMedia('(max-width:640px)').matches) || matchMedia('(prefers-reduced-motion: reduce)').matches || document.hidden) return;
                   const slots = [...document.querySelectorAll('.bcCoverSquare img')].filter(img => getComputedStyle(img.parentElement).display !== 'none');
                   if (!slots.length) return;
-                  const slot = slots[coverTurn++ % slots.length];
                   const visible = slots.map(img => img.getAttribute('src'));
+                  slots.forEach((slot, slotIndex) => {
                   const choices = covers.filter(src => !visible.includes(src));
                   const next = choices[Math.floor(Math.random() * choices.length)];
                   if (!next) return;
+                  visible.push(next);
                   const preload = new Image();
                   preload.onload = async () => {
+                    await new Promise(resolve => setTimeout(resolve, slotIndex * 180));
                     await slot.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.92)'}], {duration:500,fill:'forwards'}).finished;
                     slot.src = next;
                     if (matchMedia('(max-width:640px)').matches) {
@@ -678,7 +679,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                     slot.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'scale(1)'}], {duration:700,fill:'forwards'});
                   };
                   preload.src = next;
-                }, 2200);
+                  });
+                }, 4000);
               }
               if (!window.bcReturnConfettiBound) {
                 window.bcReturnConfettiBound = true;
