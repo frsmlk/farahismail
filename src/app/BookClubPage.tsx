@@ -284,7 +284,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link className="bcCardClose" href="/" aria-label="Close about card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader bcAboutCardHeader">
-                <p id="about-card-title">About</p>
+                <p id="about-card-title">Book Index</p>
               </div>
               <div className="bcAboutCardText">
                 <p>Book Index is part archive, part library by Farah Ismail.</p>
@@ -304,7 +304,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link className="bcCardClose" href="/" aria-label="Close playlist">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
-                <p id="playlist-card-title">Book Index: Fun Pop</p>
+                <p id="playlist-card-title">Book Index</p>
               </div>
               <div className="bcPlaylistEmbedRow">
                 <iframe
@@ -329,7 +329,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link className="bcCardClose" href="/" aria-label="Close borrow form">×</Link>
             <form className="bcBorrowForm" action={submitBorrowRequest}>
               <div className="bcCardHeader">
-                <p id="borrow-card-title">Book Index Library Card</p>
+                <p id="borrow-card-title">Book Index</p>
               </div>
               <div className="bcSplitCardBody"><div className="bcCardDetails">
               {submitted ? <p className="bcFormMessage">Borrow request received.</p> : null}
@@ -371,7 +371,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link className="bcCardClose" href="/" aria-label="Close current read card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
-                <p id="current-card-title">Book Index: Currently Reading</p>
+                <p id="current-card-title">Book Index</p>
               </div>
               <div className="bcSplitCardBody"><div className="bcCardDetails">
               <div className="bcCardRow bcIdentityRow">
@@ -398,7 +398,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link className="bcCardClose" href="/" aria-label="Close lent card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
-                <p id="lent-card-title">Book Index Library Card</p>
+                <p id="lent-card-title">Book Index</p>
               </div>
               <div className="bcSplitCardBody"><div className="bcCardDetails">
               <div className="bcCardRow bcIdentityRow">
@@ -511,7 +511,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcLibraryCard { width: min(440px, 100%); }
         .bcLibraryCard .bcBorrowForm { background: var(--bc-paper); background-image: none; font-family: Arial, Helvetica, sans-serif; }
         .bcLibraryCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; font-size: 14.421px; letter-spacing: 0; }
-        .bcLibraryCard .bcCardHeader p { padding: 12px 14px; padding-right: 36px; }
+        .bcLibraryCard .bcCardHeader p { color: #ff1493; padding: 12px 14px; padding-right: 36px; }
         .bcLibraryCard .bcCardRow { grid-template-columns: 100px minmax(0, 1fr); min-height: 42px; }
         .bcLibraryCard .bcCardRow span, .bcLibraryCard .bcCardRow input, .bcLibraryCard .bcCardValue { padding: 10px 12px; }
         .bcLibraryCard .bcCardGrid { grid-template-columns: minmax(0, 1fr) 100px; }
