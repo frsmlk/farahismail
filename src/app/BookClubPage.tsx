@@ -228,7 +228,7 @@ function Row({ item, borrowable = false, currentReadable = false }: { item: stri
         : '';
 
   return (
-    <article className={modalHref ? 'bcListItem bcListItemClickable' : 'bcListItem'}>
+    <article data-book-title={title} className={modalHref ? 'bcListItem bcListItemClickable' : 'bcListItem'}>
       {modalHref ? (
         <Link scroll={false} className="bcListItemLink" href={modalHref} aria-label={`${borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} ${title}`}>
           <span className="bcScreenReaderText">{borrowable ? 'Borrow' : currentReadable ? 'View current read card for' : 'View lent card for'} {title}</span>
@@ -626,6 +626,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           .bcStatus { grid-column: 2; grid-row: 1 / span 3; max-width: 95px; text-align: right; }
         }
         .bcCoverWall { display: none; }
+        .bcCoverSquare { border: 0; padding: 0; background: transparent; pointer-events: auto; cursor: pointer; }
+        .bcCoverSquare:focus-visible { outline: 2px solid #ff1493; outline-offset: 2px; }
         @media(max-width:640px) {
           .bcCoverWall { display: grid; position: relative; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; padding: 10px 4px calc(10px + env(safe-area-inset-bottom)); background: var(--bc-paper); pointer-events: none; opacity: 1; overflow: hidden; }
           .bcCoverSquare { display: flex; justify-content: center; align-items: center; min-width: 0; aspect-ratio: 1 / 1.2; }
@@ -647,6 +649,19 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         dangerouslySetInnerHTML={{
           __html: `
             (() => {
+              if (!window.bcCoverClickBound) {
+                window.bcCoverClickBound = true;
+                const coverTitles = ${JSON.stringify(Object.fromEntries(Object.entries(bookCoverPhotos).map(([title,src]) => [src,title])))};
+                document.addEventListener('click', event => {
+                  const button = event.target.closest?.('.bcCoverSquare');
+                  if (!button) return;
+                  const title = coverTitles[button.querySelector('img').getAttribute('src')];
+                  const row = [...document.querySelectorAll('[data-book-title]')].find(row => row.dataset.bookTitle === title);
+                  if (!row) return;
+                  row.scrollIntoView({block:'center',behavior:'instant'});
+                  row.querySelector('.bcListItemLink')?.click();
+                });
+              }
               if (!window.bcCoverWallTimer) {
                 const covers = ${JSON.stringify(Object.values(bookCoverPhotos))};
                 window.bcCoverWallTimer = setInterval(() => {
@@ -664,6 +679,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                     await new Promise(resolve => setTimeout(resolve, slotIndex * 180));
                     await slot.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.92)'}], {duration:500,fill:'forwards'}).finished;
                     slot.src = next;
+                    const title = ${JSON.stringify(Object.fromEntries(Object.entries(bookCoverPhotos).map(([title,src]) => [src,title])))}[next];
+                    slot.alt = title;
+                    slot.parentElement.setAttribute("aria-label", "View " + title);
                     slot.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'scale(1)'}], {duration:700,fill:'forwards'});
                   };
                   preload.src = next;
@@ -735,9 +753,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div>Book Index</div>
         <div><a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></div>
       </footer>
-      <aside className="bcCoverWall" aria-hidden="true">
+      <aside className="bcCoverWall" aria-label="Explore book covers">
         {Object.entries(bookCoverPhotos).slice(0, 6).map(([title, src], index) => (
-          <div className="bcCoverSquare" key={index}><img src={src} alt={title} /></div>
+          <button type="button" className="bcCoverSquare" key={index} aria-label={`View ${title}`}><img src={src} alt={title} /></button>
         ))}
       </aside>
     </main>
