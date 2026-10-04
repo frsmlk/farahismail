@@ -262,6 +262,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
   return (
     <main className="bcSite">
+      <aside className="bcCoverWall" aria-hidden="true">
+        {Object.entries(bookCoverPhotos).slice(0, 6).map(([title, src], index) => (
+          <div className="bcCoverSquare" key={index}><img src={src} alt={title} /></div>
+        ))}
+      </aside>
       <header className="bcHero" id="about">
         <div>
           <h1>Book Index</h1>
@@ -623,6 +628,15 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           .bcType { grid-column: 1; grid-row: 2; }
           .bcStatus { grid-column: 2; grid-row: 1 / span 3; max-width: 95px; text-align: right; }
         }
+        .bcCoverWall { display: none; }
+        @media(min-width:1100px) {
+          .bcHero, .bcSection { padding-right: 39vw; }
+          .bcListItem { grid-template-columns: 80px minmax(0,1fr) 135px; gap: 12px; }
+          .bcStatus { text-align: right; }
+          .bcCoverWall { display: grid; position: fixed; right: 3vw; top: 4vh; width: 31vw; height: 92vh; grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(3,minmax(0,1fr)); gap: 16px; pointer-events: none; }
+          .bcCoverSquare { display: flex; justify-content: center; align-items: center; min-height: 0; }
+          .bcCoverSquare img { display: block; width: 100%; height: 100%; max-width: min(14vw,24vh); max-height: min(14vw,24vh); object-fit: contain; }
+        }
       `}</style>
 
 
@@ -630,6 +644,26 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         dangerouslySetInnerHTML={{
           __html: `
             (() => {
+              if (!window.bcCoverWallTimer) {
+                const covers = ${JSON.stringify(Object.values(bookCoverPhotos))};
+                window.bcCoverWallTimer = setInterval(() => {
+                  if (!matchMedia('(min-width:1100px)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches || document.hidden) return;
+                  const slots = [...document.querySelectorAll('.bcCoverSquare img')];
+                  if (!slots.length) return;
+                  const slot = slots[Math.floor(Math.random() * slots.length)];
+                  const visible = slots.map(img => img.getAttribute('src'));
+                  const choices = covers.filter(src => !visible.includes(src));
+                  const next = choices[Math.floor(Math.random() * choices.length)];
+                  if (!next) return;
+                  const preload = new Image();
+                  preload.onload = async () => {
+                    await slot.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.92)'}], {duration:500,fill:'forwards'}).finished;
+                    slot.src = next;
+                    slot.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'scale(1)'}], {duration:700,fill:'forwards'});
+                  };
+                  preload.src = next;
+                }, 2200);
+              }
               if (!window.bcReturnConfettiBound) {
                 window.bcReturnConfettiBound = true;
                 const celebrate = () => {
