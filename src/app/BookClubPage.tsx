@@ -263,11 +263,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
   return (
     <main className="bcSite">
-      <aside className="bcCoverWall" aria-hidden="true">
-        {Object.entries(bookCoverPhotos).slice(0, 6).map(([title, src], index) => (
-          <div className="bcCoverSquare" key={index}><img src={src} alt={title} /></div>
-        ))}
-      </aside>
       <header className="bcHero" id="about">
         <div>
           <h1>Book Index</h1>
@@ -632,8 +627,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         }
         .bcCoverWall { display: none; }
         @media(max-width:640px) {
-          .bcSite { padding-bottom: calc(25vw + 20px + env(safe-area-inset-bottom)); }
-          .bcCoverWall { display: grid; position: fixed; inset: auto 0 0; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--bc-paper); pointer-events: none; z-index: 10; opacity: 1; overflow: hidden; }
+          .bcCoverWall { display: grid; position: relative; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--bc-paper); pointer-events: none; opacity: 1; overflow: hidden; }
           .bcCoverSquare { display: flex; justify-content: center; align-items: center; min-width: 0; aspect-ratio: 1; }
           .bcCoverSquare:nth-child(n+5) { display: none; }
           .bcCoverSquare img { display: block; width: 100%; height: 100%; object-fit: contain; }
@@ -741,6 +735,11 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div>Book Index</div>
         <div><a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></div>
       </footer>
+      <aside className="bcCoverWall" aria-hidden="true">
+        {Object.entries(bookCoverPhotos).slice(0, 6).map(([title, src], index) => (
+          <div className="bcCoverSquare" key={index}><img src={src} alt={title} /></div>
+        ))}
+      </aside>
     </main>
   );
 }
