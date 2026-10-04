@@ -630,10 +630,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         }
         .bcCoverWall { display: none; }
         @media(max-width:640px) {
-          .bcCoverWall { display: block; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .14; overflow: hidden; }
+          .bcCoverWall { display: block; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .32; overflow: hidden; }
           .bcCoverSquare { position: absolute; width: 30vw; height: 30vw; left: 6%; top: 24%; }
           .bcCoverSquare:nth-child(2) { left: 62%; top: 64%; }
-          .bcCoverSquare:nth-child(n+3) { display: none; }
+          .bcCoverSquare:nth-child(3) { left: 8%; top: 62%; }
+          .bcCoverSquare:nth-child(4) { left: 60%; top: 22%; }
+          .bcCoverSquare:nth-child(n+5) { display: none; }
           .bcCoverSquare img { width: 100%; height: 100%; object-fit: contain; }
           .bcHero, .bcSection, .bcHostingNote, .bcEnquiries, .bcFooter { position: relative; z-index: 1; }
         }
@@ -654,11 +656,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             (() => {
               if (!window.bcCoverWallTimer) {
                 const covers = ${JSON.stringify(Object.values(bookCoverPhotos))};
+                let coverTurn = 0;
                 window.bcCoverWallTimer = setInterval(() => {
                   if ((!matchMedia('(min-width:1100px)').matches && !matchMedia('(max-width:640px)').matches) || matchMedia('(prefers-reduced-motion: reduce)').matches || document.hidden) return;
                   const slots = [...document.querySelectorAll('.bcCoverSquare img')].filter(img => getComputedStyle(img.parentElement).display !== 'none');
                   if (!slots.length) return;
-                  const slot = slots[Math.floor(Math.random() * slots.length)];
+                  const slot = slots[coverTurn++ % slots.length];
                   const visible = slots.map(img => img.getAttribute('src'));
                   const choices = covers.filter(src => !visible.includes(src));
                   const next = choices[Math.floor(Math.random() * choices.length)];
@@ -668,10 +671,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                     await slot.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.92)'}], {duration:500,fill:'forwards'}).finished;
                     slot.src = next;
                     if (matchMedia('(max-width:640px)').matches) {
-                      const other = slots.find(img => img !== slot)?.parentElement;
-                      const otherLeft = other ? parseFloat(other.style.left || (other.matches(':nth-child(2)') ? '62' : '6')) : 6;
-                      slot.parentElement.style.left = (otherLeft > 40 ? 4 + Math.random()*20 : 52 + Math.random()*14) + '%';
-                      slot.parentElement.style.top = 12 + Math.random()*65 + '%';
+                      const index = slots.indexOf(slot);
+                      slot.parentElement.style.left = ((index % 2 ? 52 : 4) + Math.random()*14) + '%';
+                      slot.parentElement.style.top = ((index < 2 ? 10 : 52) + Math.random()*18) + '%';
                     }
                     slot.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'scale(1)'}], {duration:700,fill:'forwards'});
                   };
