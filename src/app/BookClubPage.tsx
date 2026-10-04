@@ -726,7 +726,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       />
 
       <div className="bcHostingNote">
-        Book Index is a project by <a href="http://farahismail.com/">farahismail.com</a>.
+        Book Index is an open-source library by <a href="http://farahismail.com/">farahismail.com</a>.
       </div>
 
       <p className="bcEnquiries">For enquiries &amp; collaborations, please contact via <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></p>
