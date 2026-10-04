@@ -224,6 +224,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
   const aboutOpen = params.about === 'book-index';
   const lentBook = lentBooks.find((book) => book[1] === lentTitle);
   const currentBook = currentReads.find((book) => book[1] === currentTitle);
+  const borrowBook = availableBooks.find((book) => book[1] === borrowTitle);
   const lentName = lentBook?.[3].replace(/^Lent to\s+/, '') ?? '';
   const submitted = params.borrow === 'submitted';
   const missing = params.error === 'missing';
@@ -333,9 +334,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               <div className="bcSplitCardBody"><div className="bcCardDetails">
               {submitted ? <p className="bcFormMessage">Borrow request received.</p> : null}
               {missing ? <p className="bcFormMessage">Please fill in name, address, and phone.</p> : null}
-              <label className="bcCardRow bcBookRow">
-                <span>Title</span>
-                <input name="bookTitle" defaultValue={borrowTitle} readOnly={Boolean(borrowTitle)} placeholder="Book title" required />
+              <label className="bcCardRow bcBookRow bcIdentityRow">
+                <input aria-label="Book title" name="bookTitle" defaultValue={borrowTitle} readOnly={Boolean(borrowTitle)} placeholder="Book title" required />
+                {borrowBook ? <div className="bcCardValue bcIdentityAuthor">{borrowBook[2]}</div> : null}
               </label>
               <label className="bcCardRow">
                 <span>Name</span>
@@ -373,12 +374,10 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <p id="current-card-title">Book Index: Currently Reading</p>
               </div>
               <div className="bcSplitCardBody"><div className="bcCardDetails">
-              <div className="bcCardRow">
-                <span>Title</span>
+              <div className="bcCardRow bcIdentityRow">
                 <div className="bcCardValue">{currentBook[1]}</div>
               </div>
-              <div className="bcCardRow">
-                <span>Author</span>
+              <div className="bcCardRow bcIdentityRow">
                 <div className="bcCardValue">{currentBook[2]}</div>
               </div>
               <div className="bcCardRow bcNoteRow">
@@ -402,9 +401,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <p id="lent-card-title">Book Index Library Card</p>
               </div>
               <div className="bcSplitCardBody"><div className="bcCardDetails">
-              <div className="bcCardRow">
-                <span>Title</span>
+              <div className="bcCardRow bcIdentityRow">
                 <div className="bcCardValue">{lentBook[1]}</div>
+                <div className="bcCardValue bcIdentityAuthor">{lentBook[2]}</div>
               </div>
               <div className="bcCardRow">
                 <span>Lent to</span>
@@ -543,6 +542,10 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         #borrow-card .bcLibraryCard, #current-card .bcLibraryCard, #lent-card .bcLibraryCard { width: min(680px, 100%); max-height: calc(100dvh - 36px); overflow-y: auto; }
         .bcSplitCardBody { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
         .bcCardDetails { min-width: 0; }
+        .bcLibraryCard .bcIdentityRow { grid-template-columns: 1fr; min-height: 42px; }
+        .bcLibraryCard .bcIdentityRow .bcCardValue, .bcLibraryCard .bcIdentityRow input { font-weight: 700; }
+        .bcBookRow.bcIdentityRow input, #lent-card .bcIdentityRow .bcCardValue { padding-top: 4px; padding-bottom: 4px; }
+        @media(max-width:640px) { .bcLibraryCard .bcIdentityRow { min-height: 67.15625px; } }
         .bcModalCover { display: block; width: 100%; height: auto; object-fit: contain; }
         .bcBookCoverSpace { border-left: 1px solid #16130f; min-height: 220px; }
         .bcCardDetails .bcCardValue { overflow-wrap: anywhere; box-sizing: border-box; }
