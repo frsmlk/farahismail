@@ -330,6 +330,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               <div className="bcCardHeader">
                 <p id="borrow-card-title">Book Index Library Card</p>
               </div>
+              <div className="bcSplitCardBody"><div className="bcCardDetails">
               {submitted ? <p className="bcFormMessage">Borrow request received.</p> : null}
               {missing ? <p className="bcFormMessage">Please fill in name, address, and phone.</p> : null}
               <label className="bcCardRow bcBookRow">
@@ -355,7 +356,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 </div>
               </div>
               <button type="submit">Confirm Details</button>
-            </form>
+            
+              </div><div className="bcBookCoverSpace" aria-label="Book cover space" /></div>
+</form>
           </div>
         </div>
       ) : null}
@@ -369,6 +372,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               <div className="bcCardHeader">
                 <p id="current-card-title">Book Index: Currently Reading</p>
               </div>
+              <div className="bcSplitCardBody"><div className="bcCardDetails">
               <div className="bcCardRow">
                 <span>Title</span>
                 <div className="bcCardValue">{currentBook[1]}</div>
@@ -381,6 +385,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <span>Note</span>
                 <div className="bcCardValue">Mourid Barghouti&apos;s impeccable writing, heart and rage unravels the emotions of exile and where grief goes when it has no vessel to take place.</div>
               </div>
+
+              </div><div className="bcBookCoverSpace" aria-label="Book cover space" /></div>
             </div>
           </div>
         </div>
@@ -395,6 +401,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               <div className="bcCardHeader">
                 <p id="lent-card-title">Book Index Library Card</p>
               </div>
+              <div className="bcSplitCardBody"><div className="bcCardDetails">
               <div className="bcCardRow">
                 <span>Title</span>
                 <div className="bcCardValue">{lentBook[1]}</div>
@@ -403,6 +410,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <span>Lent to</span>
                 <div className="bcCardValue">{lentName}</div>
               </div>
+
+              </div><div className="bcBookCoverSpace" aria-label="Book cover space" /></div>
             </div>
           </div>
         </div>
@@ -502,7 +511,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
         .bcLibraryCard { width: min(440px, 100%); }
         .bcLibraryCard .bcBorrowForm { background: #ff1493; background-image: none; font-family: Arial, Helvetica, sans-serif; }
-        .bcLibraryCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; font-size: 12.54px; letter-spacing: 0; }
+        .bcLibraryCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; font-size: 14.421px; letter-spacing: 0; }
         .bcLibraryCard .bcCardHeader p { padding: 12px 14px; padding-right: 36px; }
         .bcLibraryCard .bcCardRow { grid-template-columns: 100px minmax(0, 1fr); min-height: 42px; }
         .bcLibraryCard .bcCardRow span, .bcLibraryCard .bcCardRow input, .bcLibraryCard .bcCardValue { padding: 10px 12px; }
@@ -529,7 +538,16 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcBookDetails { min-width: 0; }
         .bcBookDetails .bcAuthor, #current .bcBookDetails .bcAuthor { font-weight: 700; margin-top: 2px; }
         .bcHostingNote, .bcFooter { font-size: 18.24px; letter-spacing: 0; }
-        .bcLibraryCard .bcFormMessage { font-size: 11.4pt; }
+        .bcLibraryCard .bcFormMessage { font-size: 13.11pt; }
+
+        #borrow-card .bcLibraryCard, #current-card .bcLibraryCard, #lent-card .bcLibraryCard { width: min(680px, 100%); max-height: calc(100dvh - 36px); overflow-y: auto; }
+        .bcSplitCardBody { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+        .bcCardDetails { min-width: 0; }
+        .bcBookCoverSpace { border-left: 1px solid #16130f; min-height: 220px; }
+        .bcCardDetails .bcCardValue { overflow-wrap: anywhere; box-sizing: border-box; }
+        .bcCardDetails button { width: 100%; }
+        .bcCardDetails .bcCardRow:last-child { border-bottom: 0; }
+        @media(max-width:640px) { .bcCardDetails .bcCardRow span, .bcCardDetails .bcCardRow input, .bcCardDetails .bcCardValue { padding: 8px; } }
 
         .bcHero, .bcSection, .bcSectionHead, .bcListItem { border: 0; }
         .bcHero { padding: 39.2px 5vw 19.6px; min-height: auto; }
