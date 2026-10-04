@@ -148,6 +148,16 @@ async function submitBorrowRequest(formData: FormData) {
   redirect('/?borrow=submitted#borrow-card');
 }
 
+const bookCoverPhotos: Record<string, string> = {
+  "I Saw Ramallah": "/book-covers/ramallah-user.png",
+  "Ornament and Crime": "/book-covers/ornament-user.png",
+};
+
+function BookCover({ title }: { title: string }) {
+  const src = bookCoverPhotos[title];
+  return <div className="bcBookCoverSpace" aria-label="Book cover space">{src ? <img src={src} alt={`${title} book cover`} className="bcModalCover" /> : null}</div>;
+}
+
 const currentReads = [
   ['Memoir', 'I Saw Ramallah', 'Mourid Barghouti', 'Current read'],
 ];
@@ -355,7 +365,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               </div>
               <button type="submit">Confirm Details</button>
             
-              </div><div className="bcBookCoverSpace" aria-label="Book cover space" /></div>
+              </div><BookCover title={borrowTitle} /></div>
 </form>
           </div>
         </div>
@@ -382,7 +392,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <div className="bcCardValue">Mourid Barghouti&apos;s impeccable writing, heart and rage unravels the emotions of exile and where grief goes when it has no vessel to take place.</div>
               </div>
 
-              </div><div className="bcBookCoverSpace" aria-label="Book cover space"><img src="/book-covers/ramallah-user.png" alt="I Saw Ramallah by Mourid Barghouti book cover" className="bcModalCover" /></div></div>
+              </div><BookCover title={currentBook[1]} /></div>
             </div>
           </div>
         </div>
@@ -407,7 +417,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <div className="bcCardValue">{lentName}</div>
               </div>
 
-              </div><div className="bcBookCoverSpace" aria-label="Book cover space" /></div>
+              </div><BookCover title={lentBook[1]} /></div>
             </div>
           </div>
         </div>
