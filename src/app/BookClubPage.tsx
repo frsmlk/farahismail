@@ -149,6 +149,7 @@ async function submitBorrowRequest(formData: FormData) {
 }
 
 const bookCoverPhotos: Record<string, string> = {
+  "Dejavu": "/book-covers/dejavu-user.jpg",
   "After Accountability: A Critical Genealogy of a Concept": "/book-covers/after-accountability-user.png",
   "Nyampah": "/book-covers/nyampah-user.png",
   "Design in Conservative Times": "/book-covers/design-conservative-user.png",
