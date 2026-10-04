@@ -165,7 +165,7 @@ const bookCoverPhotos: Record<string, string> = {
   "Townscape Revisited: Unraveling the Character of the Historic Townscape in Malaysia": "/book-covers/townscape-user.png",
   "Pop Magazine: September Issue": "/book-covers/pop-user.png",
   "Butter": "/book-covers/butter-user-v3.png",
-  "Dejavu": "/book-covers/dejavu-user-v2.jpg",
+  "Dejavu": "/book-covers/dejavu-user-v3.png",
   "After Accountability: A Critical Genealogy of a Concept": "/book-covers/after-accountability-user.png",
   "Nyampah": "/book-covers/nyampah-user.png",
   "Design in Conservative Times": "/book-covers/design-conservative-user.png",
