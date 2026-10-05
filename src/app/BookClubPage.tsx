@@ -767,6 +767,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                   document.body.appendChild(confetti);
                   setTimeout(() => confetti.remove(), 4000);
                 };
+                document.addEventListener('click', (event) => {
+                  if (event.target instanceof Element && event.target.closest('a.bcReturnBook')) celebrate();
+                });
                 const celebrateBorrow = () => {
                   const success = document.querySelector('[data-borrow-success], [data-return-success]');
                   if (success && !success.hasAttribute('data-celebrated')) {
