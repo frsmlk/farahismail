@@ -10,6 +10,7 @@ const pink = '#c2188b', lime = '#b7e52b', paper = '#f7f5ef';
 export default function PlayPage() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const [score, setScore] = useState(0);
+  const [highScores, setHighScores] = useState<number[]>([]);
   const [status, setStatus] = useState('Ready');
   const control = useRef<(action: string) => void>(() => {});
 
@@ -17,6 +18,15 @@ export default function PlayPage() {
     const surface = canvas.current;
     const ctx = surface?.getContext('2d');
     if (!surface || !ctx) return;
+    let records: number[] = [];
+    try { const saved: unknown = JSON.parse(localStorage.getItem('book-index-snake-scores') || '[]'); if (Array.isArray(saved)) records = saved.filter((n): n is number => typeof n === 'number' && Number.isInteger(n) && n > 0 && n <= columns * rows).sort((a,b)=>b-a).slice(0,5); } catch {}
+    setHighScores(records);
+    const saveRun = (value: number) => {
+      if (!value) return;
+      records = [...records,value].sort((a,b)=>b-a).slice(0,5);
+      setHighScores(records);
+      try { localStorage.setItem('book-index-snake-scores',JSON.stringify(records)); } catch {}
+    };
     let snake: Point[] = [];
     let direction = { x: 1, y: 0 }, next = direction;
     let food = { x: 17, y: 5 }, points = 0;
@@ -71,7 +81,7 @@ export default function PlayPage() {
       const eats=head.x===food.x && head.y===food.y;
       const body=eats?snake:snake.slice(0,-1);
       if (head.x<0 || head.x>=columns || head.y<0 || head.y>=rows || body.some(p=>p.x===head.x&&p.y===head.y)) {
-        running=false;over=true;setStatus('Game over');return;
+        running=false;over=true;saveRun(points);setStatus('Game over');return;
       }
       snake.unshift(head);
       if (!eats) snake.pop();
@@ -79,7 +89,7 @@ export default function PlayPage() {
         points++;setScore(points);
         const free: Point[]=[];
         for(let y=0;y<rows;y++) for(let x=0;x<columns;x++) if(!snake.some(p=>p.x===x&&p.y===y)) free.push({x,y});
-        if(!free.length){running=false;over=true;setStatus('You win');draw();return;}
+        if(!free.length){running=false;over=true;saveRun(points);setStatus('You win');draw();return;}
         food=free[Math.floor(Math.random()*free.length)];
       }
       draw();
@@ -93,7 +103,7 @@ export default function PlayPage() {
 
   return <div className="playSite">
     <header><Link href="/">← Book Index</Link><span>farahismail.com/play</span></header>
-    <main>
+    <div className="playLayout"><main>
       <div className="playTop"><h1>Play</h1><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
       <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Tap the arrows or swipe to move</span></p>
       <canvas ref={canvas} width={columns*cell} height={rows*cell} tabIndex={0} aria-label="Snake game. Use arrow keys or swipe. Avoid the edges and your own tail." />
@@ -103,12 +113,23 @@ export default function PlayPage() {
       </div>
       <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
     </main>
+    <aside className="playHighScores" aria-label="High scores">
+      <h2>High Scores</h2>
+      <p>Your best runs on this device</p>
+      {highScores.length ? <ol>{highScores.map((value,index)=><li key={index}><span>{String(index+1).padStart(2,'0')}</span><span>{String(value).padStart(2,'0')}</span></li>)}</ol> : <p>Finish a game to set your first score.</p>}
+    </aside></div>
     <style>{`
       .playSite { min-height:100dvh; background:${pink}; color:${paper}; font-family:Helvetica,'Helvetica Neue',Arial,sans-serif; font-weight:700; }
       .playSite * { box-sizing:border-box; font-family:inherit; font-weight:700; }
       .playSite header { display:flex; justify-content:space-between; gap:16px; padding:28px 5vw; font-size:16px; }
       .playSite a { color:inherit; text-decoration:none; }
-      .playSite main { width:min(720px,90vw); margin:30px 0 0 5vw; padding:24px; background:${paper}; color:${pink}; }
+      .playLayout {display:flex;align-items:flex-end;gap:5vw;padding:30px 5vw 40px;}
+      .playHighScores {flex:1;max-width:320px;padding-bottom:24px;min-width:180px;}
+      .playHighScores h2 {color:${paper};font-size:28px;line-height:1;margin:0 0 12px;}
+      .playHighScores p {font-size:14px;line-height:1.2;margin:0 0 24px;}
+      .playHighScores ol {list-style:none;margin:0;padding:0;}
+      .playHighScores li {display:flex;justify-content:space-between;font-size:28px;line-height:1.1;margin:16px 0;}
+      .playSite main { width:min(720px,65vw); flex-shrink:0; margin:0; padding:24px; background:${paper}; color:${pink}; }
       .playTop { display:flex; justify-content:space-between; align-items:end; margin-bottom:8px; }
       .playTop h1,.playScore { font-size:64px; letter-spacing:-.05em; margin:0; line-height:1; color:${pink}; }
       .playInstructions { font-size:14px; line-height:1.15; margin:0 0 25px; }
@@ -118,7 +139,8 @@ export default function PlayPage() {
       .playSite button { font:inherit; border:0; background:none; color:inherit; cursor:pointer; padding:8px 0; }
       .playSite button:focus-visible,.playSite a:focus-visible,.playSite canvas:focus-visible { outline:2px solid ${pink};outline-offset:4px; }
       .playPad,.phoneInstructions { display:none; }
-      @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playSite main {margin-top:45px;} .playTop h1,.playScore {font-size:54px;}
+      @media(max-width:1000px) {.playLayout {flex-direction:column;align-items:stretch;} .playSite main {width:100%;max-width:720px;} .playHighScores {max-width:720px;padding-top:24px;}}
+      @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playLayout {padding-top:45px;} .playTop h1,.playScore {font-size:54px;}
         .desktopInstructions {display:none;} .phoneInstructions {display:inline;}
         .playPad { display:grid; grid-template-columns:repeat(3,52px); grid-template-rows:repeat(3,52px); justify-content:center; margin:18px auto 0; touch-action:none; user-select:none; }
         .playPad button {background:${pink};color:${paper};padding:0;font-size:28px;line-height:1;touch-action:none;-webkit-tap-highlight-color:transparent;}
