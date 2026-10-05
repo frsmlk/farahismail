@@ -43,7 +43,12 @@ export default function PlayPage() {
       if (over) { reset(); running = true; setStatus('Playing'); }
       else { running = !running; setStatus(running ? 'Playing' : 'Paused'); }
     };
-    control.current = action => { if (action === 'restart') reset(); else toggle(); };
+    const directions: Record<string, Point> = { up:{x:0,y:-1}, down:{x:0,y:1}, left:{x:-1,y:0}, right:{x:1,y:0} };
+    control.current = action => {
+      if (directions[action]) { const d = directions[action]; change(d.x, d.y); }
+      else if (action === 'restart') reset();
+      else toggle();
+    };
     const key = (e: KeyboardEvent) => {
       const directions: Record<string, Point> = { ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0} };
       if (directions[e.key]) { e.preventDefault(); const d = directions[e.key]; change(d.x,d.y); }
@@ -90,8 +95,12 @@ export default function PlayPage() {
     <header><Link href="/">← Book Index</Link><span>farahismail.com/play</span></header>
     <main>
       <div className="playTop"><h1>Play</h1><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
-      <p className="playInstructions">Arrow keys or swipe to move</p>
+      <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Tap the arrows or swipe to move</span></p>
       <canvas ref={canvas} width={columns*cell} height={rows*cell} tabIndex={0} aria-label="Snake game. Use arrow keys or swipe. Avoid the edges and your own tail." />
+      <div className="playPad" role="group" aria-label="Direction controls">
+        {(['up','left','right','down'] as const).map(direction => <button key={direction} className={`pad-${direction}`} aria-label={`Move ${direction}`} onPointerDown={e=>{e.preventDefault();control.current(direction);}} onClick={e=>{if(e.detail===0) control.current(direction);}}>{({up:'↑',left:'←',right:'→',down:'↓'})[direction]}</button>)}
+        <span className="pad-center" aria-hidden="true" />
+      </div>
       <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
     </main>
     <style>{`
@@ -108,7 +117,14 @@ export default function PlayPage() {
       .playSite footer div { display:flex; gap:24px; }
       .playSite button { font:inherit; border:0; background:none; color:inherit; cursor:pointer; padding:8px 0; }
       .playSite button:focus-visible,.playSite a:focus-visible,.playSite canvas:focus-visible { outline:2px solid ${pink};outline-offset:4px; }
-      @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playSite main {margin-top:45px;} .playTop h1,.playScore {font-size:54px;} }
+      .playPad,.phoneInstructions { display:none; }
+      @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playSite main {margin-top:45px;} .playTop h1,.playScore {font-size:54px;}
+        .desktopInstructions {display:none;} .phoneInstructions {display:inline;}
+        .playPad { display:grid; grid-template-columns:repeat(3,52px); grid-template-rows:repeat(3,52px); justify-content:center; margin:18px auto 0; touch-action:none; user-select:none; }
+        .playPad button {background:${pink};color:${paper};padding:0;font-size:28px;line-height:1;touch-action:none;-webkit-tap-highlight-color:transparent;}
+        .playPad button:active {background:#9c136f;}
+        .pad-up {grid-area:1/2;border-radius:8px 8px 0 0;}.pad-left {grid-area:2/1;border-radius:8px 0 0 8px;}.pad-right {grid-area:2/3;border-radius:0 8px 8px 0;}.pad-down {grid-area:3/2;border-radius:0 0 8px 8px;}.pad-center {grid-area:2/2;background:${pink};}
+      }
     `}</style>
   </div>;
 }
