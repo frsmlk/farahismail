@@ -148,6 +148,19 @@ async function submitBorrowRequest(formData: FormData) {
   redirect('/?borrow=submitted#borrow-card');
 }
 
+async function submitReturnRequest(formData: FormData) {
+  'use server';
+  const bookTitle = String(formData.get('bookTitle') ?? '');
+  const book = lentBooks.find((item) => item[1] === bookTitle);
+  const note = String(formData.get('note') ?? '').trim();
+  if (!book || note.length > 2000) redirect('/?error=return');
+  await db.insert(sseEvents).values({
+    type: 'return_request',
+    payload: { type: 'return_request', bookTitle, name: book[3].replace(/^Lent to\s+/, ''), note, submittedAt: new Date().toISOString() },
+  });
+  redirect('/?return=submitted');
+}
+
 const bookCoverPhotos: Record<string, string> = {
   "The Vegetarian": "/book-covers/vegetarian-user-v2.jpg",
   "Soups, Salads, Sandwiches": "/book-covers/soups-user.png",
@@ -244,13 +257,15 @@ function Row({ item, borrowable = false, currentReadable = false }: { item: stri
 }
 
 type BookClubPageProps = {
-  searchParams?: Promise<{ about?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }>;
+  searchParams?: Promise<{ about?: string; return?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }>;
 };
 
 export default async function BookClubPage({ searchParams }: BookClubPageProps) {
   const params = searchParams ? await Promise.resolve(searchParams) : {};
   const borrowTitle = params.borrow && params.borrow !== 'submitted' ? params.borrow : '';
   const lentTitle = params.lent ?? '';
+  const returnBook = lentBooks.find((book) => book[1] === params.return);
+  const returnSubmitted = params.return === 'submitted';
   const currentTitle = params.current ?? '';
   const playlistOpen = params.playlist === 'fun-pop';
   const aboutOpen = params.about === 'book-index';
@@ -417,6 +432,28 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         </div>
       ) : null}
 
+      {(returnBook || returnSubmitted) ? (
+        <div className="bcBorrowModal" id="return-card" role="dialog" aria-modal="true" aria-labelledby="return-card-title">
+          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close return card" />
+          <div className="bcLibraryCard bcReturnCard">
+            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close return card">×</Link>
+            <form className="bcBorrowForm" action={submitReturnRequest}>
+              <div className="bcCardHeader"><p id="return-card-title">Return Book</p></div>
+              <div className="bcReturnMessage">
+                <p>Thank you for reading, we will be in touch to pick up the book.</p>
+                {returnSubmitted ? <p role="status" data-return-success="true">Your return request has been received.</p> : null}
+              </div>
+              {returnBook ? <>
+                <input type="hidden" name="bookTitle" value={returnBook[1]} />
+                <div className="bcCardRow bcIdentityRow"><div className="bcCardValue">{returnBook[1]}</div><div className="bcCardValue bcIdentityAuthor">{returnBook[2]}</div></div>
+                <label className="bcReturnNote"><span>A note for the next reader:</span><textarea name="note" aria-label="A note for the next reader" rows={3} maxLength={2000} /></label>
+                <button type="submit" className="bcReturnBook">Submit</button>
+              </> : null}
+            </form>
+          </div>
+        </div>
+      ) : null}
+
       {lentBook ? (
         <div className="bcBorrowModal" id="lent-card" role="dialog" aria-modal="true" aria-labelledby="lent-card-title">
           <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close lent card" />
@@ -436,7 +473,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <div className="bcCardValue">{lentName}</div>
               </div>
 
-              <button type="button" className="bcReturnBook">Return Book</button>
+              <Link scroll={false} href={`/?return=${encodeURIComponent(lentBook[1])}`} className="bcReturnBook">Return Book</Link>
               </div><BookCover title={lentBook[1]} /></div>
             </div>
           </div>
@@ -445,7 +482,16 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       <style>{`
         @media (pointer: fine) { .bcSite, .bcSite * { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2229%22%20height%3D%2229%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%202%20L2%2020%20L7%2015%20L11%2023%20L15%2021%20L11%2013%20L19%2013%20Z%22%20fill%3D%22%23c2188b%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.4%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 2 2, auto !important; } }
-        .bcReturnBook { display: block; width: 100%; padding: 12px 8px; border: 0; border-top: 1px solid #16130f; background: transparent; color: #16130f; font: inherit; cursor: pointer; }
+        .bcReturnBook { text-align: center; text-decoration: none; display: block; width: 100%; padding: 12px 8px; border: 0; border-top: 1px solid #16130f; background: transparent; color: #16130f; font: inherit; cursor: pointer; }
+        .bcReturnCard { width: min(520px,100%); }
+        .bcReturnCard .bcBorrowForm { background: var(--bc-accent); color: #000; }
+        .bcReturnCard .bcCardHeader p, .bcReturnCard .bcCardClose, .bcReturnCard .bcReturnBook { color: #000; }
+        .bcReturnMessage { padding: 16px 20px; }
+        .bcReturnMessage p { margin: 0 0 10px; }
+        .bcReturnMessage p:last-child { margin-bottom: 0; }
+        .bcReturnNote { display: grid; gap: 10px; padding: 16px 20px; }
+        .bcReturnNote textarea { width: 100%; box-sizing: border-box; resize: vertical; border: 1px solid #000; border-radius: 0; background: transparent; color: #000; font: inherit; padding: 8px; }
+        .bcReturnCard .bcReturnBook:hover, .bcReturnCard .bcReturnBook:focus-visible { color: #000; background: rgba(255,255,255,.15); }
         .bcReturnBook:hover, .bcReturnBook:focus-visible { color: var(--bc-accent); }
         .bcReturnConfetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
         .bcReturnConfetti i { position: absolute; top: -20px; width: 8px; height: 13px; background: var(--bc-accent); animation: bcConfettiFall 2.8s ease-in forwards; }
@@ -706,11 +752,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                   document.body.appendChild(confetti);
                   setTimeout(() => confetti.remove(), 4000);
                 };
-                document.addEventListener('click', (event) => {
-                  if (event.target instanceof Element && event.target.closest('.bcReturnBook')) celebrate();
-                });
                 const celebrateBorrow = () => {
-                  const success = document.querySelector('[data-borrow-success]');
+                  const success = document.querySelector('[data-borrow-success], [data-return-success]');
                   if (success && !success.hasAttribute('data-celebrated')) {
                     success.setAttribute('data-celebrated', 'true');
                     celebrate();

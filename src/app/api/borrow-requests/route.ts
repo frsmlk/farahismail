@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
       createdAt: sseEvents.createdAt,
     })
     .from(sseEvents)
-    .where(eq(sseEvents.type, 'borrow_request'))
+    .where(eq(sseEvents.type, req.nextUrl.searchParams.get('kind') === 'return' ? 'return_request' : 'borrow_request'))
     .orderBy(desc(sseEvents.createdAt))
     .limit(100);
 
