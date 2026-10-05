@@ -687,6 +687,21 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           .bcCoverSquare { display: flex; justify-content: center; align-items: center; min-height: 0; }
           .bcCoverSquare img { display: block; width: 130%; height: 130%; flex-shrink: 0; max-width: min(18.2vw,31.2vh); max-height: min(18.2vw,calc((92vh - 112px) / 3)); object-fit: contain; }
         }
+        .bcLibraryCard.bcReturnCard { border: 0; }
+        .bcLibraryCard.bcReturnCard .bcBorrowForm,
+        .bcLibraryCard.bcReturnCard .bcBorrowForm * { font-size: 18.24px; line-height: 1.1; }
+        .bcLibraryCard.bcReturnCard .bcCardHeader,
+        .bcLibraryCard.bcReturnCard .bcCardRow,
+        .bcLibraryCard.bcReturnCard .bcCardValue,
+        .bcLibraryCard.bcReturnCard .bcReturnBook,
+        .bcLibraryCard.bcReturnCard .bcReturnNote textarea { border: 0; }
+        .bcLibraryCard.bcReturnCard .bcCardHeader p { padding: 12px 16px 6px; padding-right: 40px; margin: 0; }
+        .bcLibraryCard.bcReturnCard .bcReturnMessage { padding: 8px 16px; }
+        .bcLibraryCard.bcReturnCard .bcIdentityRow { display: grid; gap: 3px; padding: 8px 16px; }
+        .bcLibraryCard.bcReturnCard .bcIdentityRow .bcCardValue { padding: 0; }
+        .bcLibraryCard.bcReturnCard .bcReturnNote { gap: 6px; padding: 8px 16px; }
+        .bcLibraryCard.bcReturnCard .bcReturnNote textarea { padding: 6px 0; min-height: 60px; background: rgba(255,255,255,.08); }
+        .bcLibraryCard.bcReturnCard .bcReturnBook { padding: 10px 16px; margin: 0; }
       `}</style>
 
 
