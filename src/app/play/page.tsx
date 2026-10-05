@@ -72,6 +72,7 @@ export default function PlayPage() {
     };
     const startTouch = (e: TouchEvent) => { touch = {x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY}; };
     const moveTouch = (e: TouchEvent) => {
+      if (over || window.matchMedia('(max-width:600px)').matches) return;
       e.preventDefault(); if (!touch) return;
       const dx=e.changedTouches[0].clientX-touch.x,dy=e.changedTouches[0].clientY-touch.y;
       if (Math.max(Math.abs(dx),Math.abs(dy)) < 12) return;
@@ -107,16 +108,16 @@ export default function PlayPage() {
     return () => {clearInterval(timer);window.removeEventListener('keydown',key);document.removeEventListener('visibilitychange',visibility);surface.removeEventListener('touchstart',startTouch);surface.removeEventListener('touchmove',moveTouch);};
   }, []);
 
-  return <div className="playSite">
+  return <div className={`playSite ${(status === 'Game over' || status === 'You win') ? 'playFinished' : ''}`}>
     <header><Link href="/">← Book Index</Link><span>farahismail.com/play</span></header>
     <div className="playLayout"><div className="playGame"><main>
       <div className="playTop"><h1>Play</h1><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
-      <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Tap the arrows or swipe to move</span></p>
+      <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Tap the arrows to move</span></p>
       <canvas ref={canvas} width={columns*cell} height={rows*cell} tabIndex={0} aria-label="Snake game. Use arrow keys or swipe. Avoid the edges and your own tail." />
       <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
     </main>
       <div className="playPad" role="group" aria-label="Direction controls">
-        {(['up','left','right','down'] as const).map(direction => <button key={direction} className={`pad-${direction}`} aria-label={`Move ${direction}`} onPointerDown={e=>{e.preventDefault();control.current(direction);}} onClick={e=>{if(e.detail===0) control.current(direction);}}>{({up:'↑',left:'←',right:'→',down:'↓'})[direction]}</button>)}
+        {(['up','left','right','down'] as const).map(direction => <button key={direction} className={`pad-${direction}`} aria-label={`Move ${direction}`} onPointerDown={()=>control.current(direction)} onClick={e=>{if(e.detail===0) control.current(direction);}}>{({up:'↑',left:'←',right:'→',down:'↓'})[direction]}</button>)}
         <span className="pad-center" aria-hidden="true" />
       </div>
     </div>
@@ -156,12 +157,14 @@ export default function PlayPage() {
       .playSite footer div { display:flex; gap:24px; }
       .playSite button { font:inherit; border:0; background:none; color:inherit; cursor:pointer; padding:8px 0; }
       .playSite button:focus-visible,.playSite a:focus-visible,.playSite canvas:focus-visible { outline:2px solid ${pink};outline-offset:4px; }
+      .playFinished canvas {touch-action:pan-y;}
       .playPad,.phoneInstructions { display:none; }
       @media(max-width:1000px) {.playLayout {flex-direction:column;align-items:stretch;} .playGame {width:100%;max-width:720px;} .playHighScores {max-width:720px;padding-top:24px;}}
       @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playLayout {padding-top:45px;} .playTop h1,.playScore {font-size:54px;}
         .desktopInstructions {display:none;} .phoneInstructions {display:inline;}
-        .playPad { display:grid; grid-template-columns:repeat(3,52px); grid-template-rows:repeat(3,52px); justify-content:center; margin:18px auto 0; touch-action:none; user-select:none; }
-        .playPad button {background:${paper};color:${pink};padding:0;font-size:28px;line-height:1;touch-action:none;-webkit-tap-highlight-color:transparent;}
+        .playSite canvas {touch-action:pan-y;}
+        .playPad { display:grid; grid-template-columns:repeat(3,52px); grid-template-rows:repeat(3,52px); justify-content:center; margin:18px auto 0; touch-action:pan-y; user-select:none; }
+        .playPad button {background:${paper};color:${pink};padding:0;font-size:28px;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
         .playPad button:active {background:#e3ded4;}
         .pad-up {grid-area:1/2;border-radius:8px 8px 0 0;}.pad-left {grid-area:2/1;border-radius:8px 0 0 8px;}.pad-right {grid-area:2/3;border-radius:0 8px 8px 0;}.pad-down {grid-area:3/2;border-radius:0 0 8px 8px;}.pad-center {grid-area:2/2;background:${paper};}
       }
