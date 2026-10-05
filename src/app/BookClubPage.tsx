@@ -205,7 +205,6 @@ const lentBooks = [
 ];
 
 const availableBooks = [
-  ['Novel', 'The Curious Incident of the Dog in the Night-Time', 'Mark Haddon', 'Available'],
   ['Essay', 'The Book of Tea', 'Okakura Kakuzō', 'Available'],
   ['Essays', 'Reluctant Capital: Essays on Kuala Lumpur', 'Badrul Hisham Ismail', 'Available'],
   ['Magazine', 'Pop Magazine: September Issue', 'Pop Magazine', 'Available'],
