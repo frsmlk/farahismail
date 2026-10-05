@@ -1,0 +1,114 @@
+'use client';
+
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+
+type Point = { x: number; y: number };
+const columns = 24, rows = 18, cell = 28;
+const pink = '#c2188b', lime = '#b7e52b', paper = '#f7f5ef';
+
+export default function PlayPage() {
+  const canvas = useRef<HTMLCanvasElement>(null);
+  const [score, setScore] = useState(0);
+  const [status, setStatus] = useState('Ready');
+  const control = useRef<(action: string) => void>(() => {});
+
+  useEffect(() => {
+    const surface = canvas.current;
+    const ctx = surface?.getContext('2d');
+    if (!surface || !ctx) return;
+    let snake: Point[] = [];
+    let direction = { x: 1, y: 0 }, next = direction;
+    let food = { x: 17, y: 5 }, points = 0;
+    let running = false, over = false, turned = false;
+    let touch: Point | null = null;
+    const draw = () => {
+      ctx.fillStyle = paper;
+      ctx.fillRect(0, 0, columns * cell, rows * cell);
+      ctx.fillStyle = pink;
+      snake.forEach(p => ctx.fillRect(p.x * cell, p.y * cell, cell, cell));
+      ctx.fillStyle = lime;
+      ctx.beginPath(); ctx.arc(food.x * cell + cell / 2, food.y * cell + cell / 2, 12, 0, Math.PI * 2); ctx.fill();
+    };
+    const reset = () => {
+      snake = [{x:13,y:5},{x:12,y:5},{x:11,y:5},{x:10,y:5},{x:9,y:5},{x:8,y:5},{x:8,y:6},{x:8,y:7},{x:8,y:8},{x:7,y:8},{x:6,y:8},{x:5,y:8}];
+      direction = {x:1,y:0}; next = direction; food = {x:17,y:5}; points = 0;
+      over = false; running = false; turned = false; setScore(0); setStatus('Ready'); draw();
+    };
+    const change = (x: number, y: number) => {
+      if (over || turned || (x === -direction.x && y === -direction.y)) return;
+      next = { x, y }; turned = true; running = true; setStatus('Playing');
+    };
+    const toggle = () => {
+      if (over) { reset(); running = true; setStatus('Playing'); }
+      else { running = !running; setStatus(running ? 'Playing' : 'Paused'); }
+    };
+    control.current = action => { if (action === 'restart') reset(); else toggle(); };
+    const key = (e: KeyboardEvent) => {
+      const directions: Record<string, Point> = { ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0} };
+      if (directions[e.key]) { e.preventDefault(); const d = directions[e.key]; change(d.x,d.y); }
+      if (e.code === 'Space') { e.preventDefault(); toggle(); }
+    };
+    const startTouch = (e: TouchEvent) => { touch = {x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY}; };
+    const moveTouch = (e: TouchEvent) => {
+      e.preventDefault(); if (!touch) return;
+      const dx=e.changedTouches[0].clientX-touch.x,dy=e.changedTouches[0].clientY-touch.y;
+      if (Math.max(Math.abs(dx),Math.abs(dy)) < 12) return;
+      if (Math.abs(dx)>Math.abs(dy)) change(Math.sign(dx),0); else change(0,Math.sign(dy));
+      touch = null;
+    };
+    const visibility = () => { if (document.hidden && running) {running=false;setStatus('Paused');} };
+    reset();
+    const timer = window.setInterval(() => {
+      if (!running || over) return;
+      direction=next; turned=false;
+      const head={x:snake[0].x+direction.x,y:snake[0].y+direction.y};
+      const eats=head.x===food.x && head.y===food.y;
+      const body=eats?snake:snake.slice(0,-1);
+      if (head.x<0 || head.x>=columns || head.y<0 || head.y>=rows || body.some(p=>p.x===head.x&&p.y===head.y)) {
+        running=false;over=true;setStatus('Game over');return;
+      }
+      snake.unshift(head);
+      if (!eats) snake.pop();
+      else {
+        points++;setScore(points);
+        const free: Point[]=[];
+        for(let y=0;y<rows;y++) for(let x=0;x<columns;x++) if(!snake.some(p=>p.x===x&&p.y===y)) free.push({x,y});
+        if(!free.length){running=false;over=true;setStatus('You win');draw();return;}
+        food=free[Math.floor(Math.random()*free.length)];
+      }
+      draw();
+    },150);
+    window.addEventListener('keydown',key);
+    document.addEventListener('visibilitychange',visibility);
+    surface.addEventListener('touchstart',startTouch,{passive:true});
+    surface.addEventListener('touchmove',moveTouch,{passive:false});
+    return () => {clearInterval(timer);window.removeEventListener('keydown',key);document.removeEventListener('visibilitychange',visibility);surface.removeEventListener('touchstart',startTouch);surface.removeEventListener('touchmove',moveTouch);};
+  }, []);
+
+  return <div className="playSite">
+    <header><Link href="/">← Book Index</Link><span>farahismail.com/play</span></header>
+    <main>
+      <div className="playTop"><h1>Play</h1><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
+      <p className="playInstructions">Arrow keys or swipe to move</p>
+      <canvas ref={canvas} width={columns*cell} height={rows*cell} tabIndex={0} aria-label="Snake game. Use arrow keys or swipe. Avoid the edges and your own tail." />
+      <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
+    </main>
+    <style>{`
+      .playSite { min-height:100dvh; background:${paper}; color:${pink}; font-family:Helvetica,'Helvetica Neue',Arial,sans-serif; font-weight:700; }
+      .playSite * { box-sizing:border-box; font-family:inherit; font-weight:700; }
+      .playSite header { display:flex; justify-content:space-between; gap:16px; padding:28px 5vw; font-size:16px; }
+      .playSite a { color:inherit; text-decoration:none; }
+      .playSite main { max-width:720px; margin:30px auto 0; padding:0 24px 24px; }
+      .playTop { display:flex; justify-content:space-between; align-items:end; margin-bottom:8px; }
+      .playTop h1,.playScore { font-size:64px; letter-spacing:-.05em; margin:0; line-height:1; }
+      .playInstructions { font-size:14px; line-height:1.15; margin:0 0 25px; }
+      .playSite canvas { width:100%; height:auto; display:block; touch-action:none; }
+      .playSite footer { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:24px; font-size:14px; }
+      .playSite footer div { display:flex; gap:24px; }
+      .playSite button { font:inherit; border:0; background:none; color:inherit; cursor:pointer; padding:8px 0; }
+      .playSite button:focus-visible,.playSite a:focus-visible,.playSite canvas:focus-visible { outline:2px solid ${pink};outline-offset:4px; }
+      @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playSite main {margin-top:45px;} .playTop h1,.playScore {font-size:54px;} }
+    `}</style>
+  </div>;
+}

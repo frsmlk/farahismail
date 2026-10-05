@@ -827,7 +827,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       <footer className="bcFooter" id="contact">
         <div>Book Index</div>
-        <div><Link scroll={false} href="/?about=book-index">About</Link> · <a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a></div>
+        <div><Link scroll={false} href="/?about=book-index">About</Link> · <a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a> · <Link href="/play">Play</Link></div>
       </footer>
       <aside className="bcCoverWall" aria-label="Explore book covers">
         {Object.entries(bookCoverPhotos).slice(0, 6).map(([title, src], index) => (
