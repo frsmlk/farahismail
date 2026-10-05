@@ -122,7 +122,6 @@ export default function PlayPage() {
     </div>
     <aside className="playHighScores" aria-label="High scores">
       <h2>High Scores</h2>
-      <p>Shared leaderboard</p>
       {highScores.length ? <ol>{highScores.map((value,index)=><li key={index}><span className="scoreNickname">{index+1}. {value.nickname}</span><span>{String(value.score).padStart(2,'0')}</span></li>)}</ol> : <p>Be the first to set a high score.</p>}
       {(status === 'Game over' || status === 'You win') && score > 0 && !submitted && <form className="scoreForm" onSubmit={submitScore}>
         <label htmlFor="scoreNickname">Add your score</label>
