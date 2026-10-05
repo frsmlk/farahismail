@@ -282,7 +282,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         <div>
           <h1>Book Index</h1>
           <p className="bcIntroText">
-            Book Index is a shared bookshelf in Kuala Lumpur. The index grows over time, and everything marked available is welcome to be borrowed for 45-days at no cost. Please browse the following list, and click borrow to start reading.
+            Book Index is a shared bookshelf by Farah Ismail. The index grows over time, and everything marked available is welcome to be borrowed for 45-days at no cost. Please browse the following list, and click borrow to start reading.
           </p>
         </div>
       </header>
