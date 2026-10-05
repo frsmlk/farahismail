@@ -145,7 +145,7 @@ async function submitBorrowRequest(formData: FormData) {
 
   await notifyBorrowRequest(payload);
 
-  redirect('/?borrow=submitted#borrow-card');
+  redirect('/?borrow=submitted');
 }
 
 async function submitReturnRequest(formData: FormData) {
@@ -368,7 +368,21 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         </div>
       ) : null}
 
-      {(borrowTitle || submitted || missing) ? (
+      {submitted ? (
+        <div className="bcBorrowModal" id="borrow-success-card" role="dialog" aria-modal="true" aria-labelledby="borrow-success-title">
+          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close borrowing confirmation" />
+          <div className="bcLibraryCard bcReturnCard">
+            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close borrowing confirmation">×</Link>
+            <div className="bcBorrowForm">
+              <div className="bcCardHeader"><p id="borrow-success-title">Thank you for borrowing.</p></div>
+              <div className="bcReturnMessage" data-borrow-success="true"><p>Your request has been received. We’ll be in touch to arrange getting the book to you.</p></div>
+              <Link scroll={false} className="bcReturnBook" href="/">Back to the index</Link>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {(borrowTitle || missing) ? (
         <div className="bcBorrowModal" id="borrow-card" role="dialog" aria-modal="true" aria-labelledby="borrow-card-title">
           <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close borrow form" />
           <div className="bcLibraryCard">
@@ -768,7 +782,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                   setTimeout(() => confetti.remove(), 4000);
                 };
                 document.addEventListener('click', (event) => {
-                  if (event.target instanceof Element && event.target.closest('a.bcReturnBook')) celebrate();
+                  if (event.target instanceof Element && event.target.closest('a.bcReturnBook[href*="return="]')) celebrate();
                 });
                 const celebrateBorrow = () => {
                   const success = document.querySelector('[data-borrow-success], [data-return-success]');
