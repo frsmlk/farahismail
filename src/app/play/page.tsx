@@ -95,13 +95,13 @@ export default function PlayPage() {
       <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
     </main>
     <style>{`
-      .playSite { min-height:100dvh; background:${paper}; color:${pink}; font-family:Helvetica,'Helvetica Neue',Arial,sans-serif; font-weight:700; }
+      .playSite { min-height:100dvh; background:${pink}; color:${paper}; font-family:Helvetica,'Helvetica Neue',Arial,sans-serif; font-weight:700; }
       .playSite * { box-sizing:border-box; font-family:inherit; font-weight:700; }
       .playSite header { display:flex; justify-content:space-between; gap:16px; padding:28px 5vw; font-size:16px; }
       .playSite a { color:inherit; text-decoration:none; }
-      .playSite main { max-width:720px; margin:30px auto 0; padding:0 24px 24px; }
+      .playSite main { width:min(720px,90vw); margin:30px 0 0 5vw; padding:24px; background:${paper}; color:${pink}; }
       .playTop { display:flex; justify-content:space-between; align-items:end; margin-bottom:8px; }
-      .playTop h1,.playScore { font-size:64px; letter-spacing:-.05em; margin:0; line-height:1; }
+      .playTop h1,.playScore { font-size:64px; letter-spacing:-.05em; margin:0; line-height:1; color:${pink}; }
       .playInstructions { font-size:14px; line-height:1.15; margin:0 0 25px; }
       .playSite canvas { width:100%; height:auto; display:block; touch-action:none; }
       .playSite footer { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:24px; font-size:14px; }
