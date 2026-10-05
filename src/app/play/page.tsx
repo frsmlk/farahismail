@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 type Point = { x: number; y: number };
 const columns = 24, rows = 18, cell = 28;
@@ -10,7 +10,19 @@ const pink = '#c2188b', lime = '#b7e52b', paper = '#f7f5ef';
 export default function PlayPage() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const [score, setScore] = useState(0);
-  const [highScores, setHighScores] = useState<number[]>([]);
+  const [highScores, setHighScores] = useState<{nickname: string; score: number}[]>([]);
+  const [nickname, setNickname] = useState('');
+  const [runId, setRunId] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [scoreMessage, setScoreMessage] = useState('');
+  const refreshScores = async () => {
+    try { const response = await fetch('/play/scores', {cache:'no-store'}); if (!response.ok) throw new Error(); const data = await response.json(); setHighScores(data.scores); } catch { setScoreMessage('High scores are unavailable. Please try again later.'); }
+  };
+  const submitScore = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); if (saving || submitted) return; setSaving(true); setScoreMessage('');
+    try { const response = await fetch('/play/scores', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nickname,score,runId})}); const data = await response.json(); if (!response.ok) throw new Error(data.error); setSubmitted(true); setScoreMessage('Your score is on the board.'); localStorage.setItem('book-index-snake-nickname',nickname.trim()); await refreshScores(); } catch (error) { setScoreMessage(error instanceof Error ? error.message : 'Please try again.'); } finally { setSaving(false); }
+  };
   const [status, setStatus] = useState('Ready');
   const control = useRef<(action: string) => void>(() => {});
 
@@ -18,15 +30,8 @@ export default function PlayPage() {
     const surface = canvas.current;
     const ctx = surface?.getContext('2d');
     if (!surface || !ctx) return;
-    let records: number[] = [];
-    try { const saved: unknown = JSON.parse(localStorage.getItem('book-index-snake-scores') || '[]'); if (Array.isArray(saved)) records = saved.filter((n): n is number => typeof n === 'number' && Number.isInteger(n) && n > 0 && n <= columns * rows).sort((a,b)=>b-a).slice(0,5); } catch {}
-    setHighScores(records);
-    const saveRun = (value: number) => {
-      if (!value) return;
-      records = [...records,value].sort((a,b)=>b-a).slice(0,5);
-      setHighScores(records);
-      try { localStorage.setItem('book-index-snake-scores',JSON.stringify(records)); } catch {}
-    };
+    void refreshScores();
+    try { setNickname(localStorage.getItem('book-index-snake-nickname') || ''); } catch {}
     let snake: Point[] = [];
     let direction = { x: 1, y: 0 }, next = direction;
     let food = { x: 17, y: 5 }, points = 0;
@@ -43,7 +48,7 @@ export default function PlayPage() {
     const reset = () => {
       snake = [{x:13,y:5},{x:12,y:5},{x:11,y:5},{x:10,y:5},{x:9,y:5},{x:8,y:5},{x:8,y:6},{x:8,y:7},{x:8,y:8},{x:7,y:8},{x:6,y:8},{x:5,y:8}];
       direction = {x:1,y:0}; next = direction; food = {x:17,y:5}; points = 0;
-      over = false; running = false; turned = false; setScore(0); setStatus('Ready'); draw();
+      over = false; running = false; turned = false; setRunId(crypto.randomUUID()); setSubmitted(false); setScoreMessage(''); setScore(0); setStatus('Ready'); draw();
     };
     const change = (x: number, y: number) => {
       if (over || turned || (x === -direction.x && y === -direction.y)) return;
@@ -60,6 +65,7 @@ export default function PlayPage() {
       else toggle();
     };
     const key = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLElement && (e.target.isContentEditable || /^(INPUT|TEXTAREA|BUTTON)$/.test(e.target.tagName))) return;
       const directions: Record<string, Point> = { ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0} };
       if (directions[e.key]) { e.preventDefault(); const d = directions[e.key]; change(d.x,d.y); }
       if (e.code === 'Space') { e.preventDefault(); toggle(); }
@@ -81,7 +87,7 @@ export default function PlayPage() {
       const eats=head.x===food.x && head.y===food.y;
       const body=eats?snake:snake.slice(0,-1);
       if (head.x<0 || head.x>=columns || head.y<0 || head.y>=rows || body.some(p=>p.x===head.x&&p.y===head.y)) {
-        running=false;over=true;saveRun(points);setStatus('Game over');return;
+        running=false;over=true;setStatus('Game over');return;
       }
       snake.unshift(head);
       if (!eats) snake.pop();
@@ -89,7 +95,7 @@ export default function PlayPage() {
         points++;setScore(points);
         const free: Point[]=[];
         for(let y=0;y<rows;y++) for(let x=0;x<columns;x++) if(!snake.some(p=>p.x===x&&p.y===y)) free.push({x,y});
-        if(!free.length){running=false;over=true;saveRun(points);setStatus('You win');draw();return;}
+        if(!free.length){running=false;over=true;setStatus('You win');draw();return;}
         food=free[Math.floor(Math.random()*free.length)];
       }
       draw();
@@ -116,8 +122,14 @@ export default function PlayPage() {
     </div>
     <aside className="playHighScores" aria-label="High scores">
       <h2>High Scores</h2>
-      <p>Your best runs on this device</p>
-      {highScores.length ? <ol>{highScores.map((value,index)=><li key={index}><span>{String(index+1).padStart(2,'0')}</span><span>{String(value).padStart(2,'0')}</span></li>)}</ol> : <p>Finish a game to set your first score.</p>}
+      <p>Shared leaderboard</p>
+      {highScores.length ? <ol>{highScores.map((value,index)=><li key={index}><span className="scoreNickname">{index+1}. {value.nickname}</span><span>{String(value.score).padStart(2,'0')}</span></li>)}</ol> : <p>Be the first to set a high score.</p>}
+      {(status === 'Game over' || status === 'You win') && score > 0 && !submitted && <form className="scoreForm" onSubmit={submitScore}>
+        <label htmlFor="scoreNickname">Add your score</label>
+        <input id="scoreNickname" value={nickname} onChange={e=>setNickname(e.target.value)} maxLength={24} required placeholder="Your nickname" autoComplete="nickname" disabled={saving} />
+        <button type="submit" disabled={saving}>{saving ? 'Saving…' : 'Submit score'}</button>
+      </form>}
+      <p role="status">{scoreMessage}</p>
     </aside></div>
     <style>{`
       .playSite { min-height:100dvh; background:${pink}; color:${paper}; font-family:Helvetica,'Helvetica Neue',Arial,sans-serif; font-weight:700; }
@@ -130,6 +142,11 @@ export default function PlayPage() {
       .playHighScores p {font-size:14px;line-height:1.2;margin:0 0 24px;}
       .playHighScores ol {list-style:none;margin:0;padding:0;}
       .playHighScores li {display:flex;justify-content:space-between;font-size:28px;line-height:1.1;margin:16px 0;}
+      .scoreNickname {overflow-wrap:anywhere;font-size:20px;min-width:0;} .playHighScores li {gap:16px;}
+      .scoreForm {display:grid;gap:12px;margin-top:24px;font-size:16px;}
+      .scoreForm input {min-width:0;width:100%;background:${paper};color:${pink};border:0;padding:12px;font:inherit;}
+      .scoreForm button {text-align:left;} .scoreForm button:disabled {opacity:.6;}
+      .playHighScores input:focus-visible,.playHighScores button:focus-visible {outline:2px solid ${paper};outline-offset:4px;}
       .playGame {width:min(720px,65vw);flex-shrink:0;}
       .playSite main { width:100%; margin:0; padding:24px; background:${paper}; color:${pink}; }
       .playTop { display:flex; justify-content:space-between; align-items:end; margin-bottom:8px; }
