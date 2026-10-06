@@ -819,7 +819,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       />
 
       <div className="bcHostingNote">
-        Book Index is a shared bookshelf by <a href="http://farahismail.com/">farahismail.com</a>.
+        Book Index is hosted by <a href="https://farahismail.com/">farahismail.com</a>.
       </div>
 
 
