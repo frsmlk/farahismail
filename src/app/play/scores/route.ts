@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const rows = await db.select({ payload: sseEvents.payload }).from(sseEvents)
       .where(eq(sseEvents.type, 'snake_score'))
-      .orderBy(sql`(${sseEvents.payload}->>'score')::integer desc`, desc(sseEvents.createdAt)).limit(10);
+      .orderBy(sql`(${sseEvents.payload}->>'score')::integer desc`, desc(sseEvents.createdAt)).limit(15);
     return NextResponse.json({ scores: rows.map(row => {
       const value = row.payload as { nickname: string; score: number };
       return { nickname: value.nickname, score: value.score };
