@@ -330,10 +330,10 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
             <Link scroll={false} className="bcCardClose" href="/" aria-label="Close about card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader bcAboutCardHeader">
-                <p id="about-card-title">About Book Index</p>
+                <p id="about-card-title">About</p>
               </div>
               <div className="bcAboutCardText">
-                <p>Book Index is a shared bookshelf by Farah Ismail. It brings together a growing personal collection of books, made available for others to read.</p>
+                <p>Book Index is an indexing exercise &amp; a shared bookshelf by Farah Ismail. It brings together a growing personal collection of books, made available for others to read.</p>
                 <p>Farah Ismail is an architectural designer in Kuala, working across urban context, architecture &amp; interiors.</p>
                 <p>Get in touch via <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a>.</p>
               </div>
