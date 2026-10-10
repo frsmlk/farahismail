@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 type Point = { x: number; y: number };
 const columns = 24, rows = 18, cell = 28;
-const accent = '#2b1c45', raspberry = '#742930', mustard = '#896d23', paper = '#f7f5ef';
+const accent = '#571531', raspberry = '#742930', mustard = '#896d23', paper = '#ffcbcf';
 
 export default function PlayPage() {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -143,7 +143,7 @@ export default function PlayPage() {
       <p role="status">{scoreMessage}</p>
     </aside></div>
     <style>{`
-html,body {background:#2b1c45;}
+html,body {background:#571531;}
 .worldPlayHome{padding:10px 5vw;font:18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif;font-weight:400;}
 .worldPlayHome a{font-weight:400;}
 

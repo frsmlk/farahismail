@@ -64,6 +64,10 @@ body {background:#f7f5ef;color:#000;}
 .worldAbout h1,.worldAbout h1 a,.worldAbout p,.worldAbout p a {color:#f7f5ef;}
 .worldAbout p,.worldAbout p a {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;font-weight:400;font-size:36px;line-height:1.15;letter-spacing:0;text-decoration:none;}
 @media(max-width:600px){.worldAbout p,.worldAbout p a {font-size:36px;}}
+
+body{background:#ebdd94;color:#571531;}
+.worldLanding,.worldAbout,.previewPage,.frameHeader{background:#ebdd94;color:#571531;}
+.worldLanding nav a,.worldLanding nav .worldMood,.worldLanding footer,.worldLanding footer a,.worldAbout h1,.worldAbout h1 a,.worldAbout p,.worldAbout p a,.previewPage h1,.previewPage>a{color:#571531;}
 `}</style>
   </main>;
 }

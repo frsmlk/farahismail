@@ -495,7 +495,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       ) : null}
 
       <style>{`
-        @media (pointer: fine) { .bcSite, .bcSite * { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2229%22%20height%3D%2229%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%202%20L2%2020%20L7%2015%20L11%2023%20L15%2021%20L11%2013%20L19%2013%20Z%22%20fill%3D%22%232b1c45%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.4%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 2 2, auto !important; } }
+        @media (pointer: fine) { .bcSite, .bcSite * { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2229%22%20height%3D%2229%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%202%20L2%2020%20L7%2015%20L11%2023%20L15%2021%20L11%2013%20L19%2013%20Z%22%20fill%3D%22%23571531%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.4%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 2 2, auto !important; } }
         .bcReturnBook { text-align: center; text-decoration: none; display: block; width: 100%; padding: 12px 8px; border: 0; border-top: 1px solid #16130f; background: transparent; color: #16130f; font: inherit; cursor: pointer; }
         .bcReturnCard { width: min(520px,100%); }
         .bcLibraryCard.bcReturnCard .bcBorrowForm { background: var(--bc-accent); color: var(--bc-paper); }
@@ -524,7 +524,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @keyframes bcPulse { from { scale: 0.88; } to { scale: 1.08; } }
         @media (prefers-reduced-motion: reduce) { .bcButterflies, .bcCursorButterfly { display: none; } .bcButterfly { animation: none; } }
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
-        .bcSite { --bc-paper: #f7f5ef; --bc-accent: #2b1c45; background: #f7f5ef; }
+        .bcSite { --bc-paper: #ebdd94; --bc-accent: #571531; background: #ebdd94; }
         .bcSite > header, .bcSite > section, .bcSite > footer, .bcHostingNote { position: relative; z-index: 2; }
         .bcTopTabs { position: fixed; top: 0; right: 18px; z-index: 10; display: flex; align-items: flex-end; gap: 0; padding-top: 5px; }
         .bcTopTabs::before { content: ''; position: fixed; top: 35px; left: 0; right: 0; border-top: 1.5px solid rgba(0, 0, 0, 0.62); pointer-events: none; }
@@ -544,7 +544,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcListItemClickable:hover .bcTitle,
         .bcListItemClickable:focus-within .bcTitle,
         .bcListItemClickable:active .bcTitle { color: var(--bc-accent); }
-        .bcListItemLink:focus-visible { outline: 1px solid #2b1c45; outline-offset: -4px; }
+        .bcListItemLink:focus-visible { outline: 1px solid #571531; outline-offset: -4px; }
         #current,
         #current * { color: #000000; font-weight: 400; }
         #current .bcSectionHead h2 { font-weight: 700; }
@@ -686,7 +686,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         }
         .bcCoverWall { display: none; z-index: 3; }
         .bcCoverSquare { border: 0; padding: 0; background: transparent; pointer-events: auto; cursor: pointer; }
-        .bcCoverSquare:focus-visible { outline: 2px solid #2b1c45; outline-offset: 2px; }
+        .bcCoverSquare:focus-visible { outline: 2px solid #571531; outline-offset: 2px; }
         @media(max-width:640px) {
           .bcCoverWall { display: grid; position: relative; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; padding: 10px 4px calc(10px + env(safe-area-inset-bottom)); background: var(--bc-paper); pointer-events: none; opacity: 1; overflow: hidden; }
           .bcCoverSquare { display: flex; justify-content: center; align-items: center; min-width: 0; aspect-ratio: 1 / 1.2; }
@@ -720,7 +720,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
 @media(min-width:1100px){.bcCoverWall{top:0;height:100vh;padding-top:0;padding-bottom:0;gap:12px}.bcCoverSquare img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain}}
 
-.worldBookHome {position:fixed;top:10px;left:5vw;z-index:10;color:#2b1c45;font:18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif;}
+.worldBookHome {position:fixed;top:10px;left:5vw;z-index:10;color:#571531;font:18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif;}
 
 .bcHero h1,.worldAbout h1,.previewPage h1,.playTop h1 {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif!important;font-size:clamp(55.44px,10.56vw,126.72px)!important;font-weight:700!important;line-height:.85!important;letter-spacing:-.05em!important;transform:none!important;}
 .worldBookHome,.worldPlayHome,.worldPageHome {position:absolute!important;top:10px!important;left:5vw!important;z-index:10;padding:0!important;margin:0!important;font:400 18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif!important;text-decoration:none!important;}
@@ -734,6 +734,12 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 .bcHero {padding-top:54px!important;}
 
 .bcIntroText {font-weight:400;}
+
+.bcSite,.bcSite *{color:#571531;}
+#current *{color:#571531;}
+.bcLibraryCard .bcBorrowForm,.bcAboutCard .bcBorrowForm{background:#ffcbcf;}
+.bcLibraryCard.bcReturnCard .bcBorrowForm{background:#571531;color:#ffcbcf;}
+.bcReturnCard .bcBorrowForm *{color:#ffcbcf;}
 `}</style>
 
 

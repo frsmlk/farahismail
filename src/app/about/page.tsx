@@ -71,4 +71,8 @@ body {background:#f7f5ef;color:#000;}
 .bcHero h1,.worldAbout h1,.worldAbout h1 a,.previewPage h1 {font-weight:400!important;}
 
 .aboutUnderline {text-decoration:underline;text-underline-offset:.1em;text-decoration-thickness:1px;}
+
+body{background:#ebdd94;color:#571531;}
+.worldLanding,.worldAbout,.previewPage,.frameHeader{background:#ebdd94;color:#571531;}
+.worldLanding nav a,.worldLanding nav .worldMood,.worldLanding footer,.worldLanding footer a,.worldAbout h1,.worldAbout h1 a,.worldAbout p,.worldAbout p a,.previewPage h1,.previewPage>a{color:#571531;}
 `}</style></main>}
