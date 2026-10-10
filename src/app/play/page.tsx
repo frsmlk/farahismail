@@ -122,9 +122,9 @@ export default function PlayPage() {
 
     <div className="worldPlayHome"><Link href="/">← Home</Link></div>
     <h1 className="playTitle">Play</h1>
+    <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Tap the arrows to move</span></p>
     <div className="playLayout"><div className="playGame"><main>
       <div className="playTop"><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
-      <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Tap the arrows to move</span></p>
       <canvas ref={canvas} width={columns*cell} height={rows*cell} tabIndex={0} aria-label="Snake game. Use arrow keys or swipe. Avoid the edges and your own tail." />
       <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
     </main>
@@ -195,10 +195,12 @@ html,body {background:#efe4aa;}
 .playTitle {font-weight:400!important;}
 .playScore {color:#efe4aa;}
 .playSite {background:#efe4aa;color:${accent};padding:clamp(28px,4.6vw,88px);padding-top:clamp(100px,13.3vw,252px);}
-.playTitle {margin:0 0 48px;}
+.playTitle {margin:0 0 20px;}
 .playLayout {padding:0 0 40px;}
 .playTop {justify-content:flex-end;}
-@media(max-width:600px){.playSite {padding-top:12vh;}.playTitle {margin-bottom:40px;}.playLayout {padding-top:0;}}
+.playInstructions,.playInstructions span {font:400 28.8px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif;letter-spacing:0;}
+.playInstructions {margin:0 0 40px;}
+@media(max-width:600px){.playSite {padding-top:12vh;}.playTitle {margin-bottom:20px;}.playLayout {padding-top:0;}}
 `}</style>
   </div>;
 }
