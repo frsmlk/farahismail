@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 type Point = { x: number; y: number };
 const columns = 24, rows = 18, cell = 28;
-const accent = '#2b1c45', raspberry = '#742930', paper = '#f7f5ef';
+const accent = '#2b1c45', raspberry = '#742930', snakeColour = '#896d23', paper = '#f7f5ef';
 
 export default function PlayPage() {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -40,7 +40,7 @@ export default function PlayPage() {
     const draw = () => {
       ctx.fillStyle = paper;
       ctx.fillRect(0, 0, columns * cell, rows * cell);
-      ctx.fillStyle = accent;
+      ctx.fillStyle = snakeColour;
       snake.forEach(p => ctx.fillRect(p.x * cell, p.y * cell, cell, cell));
       ctx.fillStyle = raspberry;
       ctx.beginPath(); ctx.arc(food.x * cell + cell / 2, food.y * cell + cell / 2, 12, 0, Math.PI * 2); ctx.fill();
