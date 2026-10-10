@@ -60,6 +60,4 @@ body {background:#f7f5ef;color:#000;}
 .worldAbout h1,.worldAbout h1 a,.worldAbout p,.worldAbout p a {color:#f7f5ef;}
 .worldAbout p,.worldAbout p a {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;font-weight:400;font-size:36px;line-height:1.15;letter-spacing:0;text-decoration:none;}
 @media(max-width:600px){.worldAbout p,.worldAbout p a {font-size:36px;}}
-
-.worldLanding,.worldLanding *,.worldAbout,.worldAbout *,.previewPage,.previewPage * {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif!important;font-weight:400!important;}
 `}</style></main>}

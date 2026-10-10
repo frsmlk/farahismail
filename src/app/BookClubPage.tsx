@@ -277,6 +277,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
   return (
     <main className="bcSite">
+      <Link className="worldBookHome" href="/">← Home</Link>
       <header className="bcHero" id="about">
         <div>
           <h1>Book Index</h1>
@@ -716,8 +717,10 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcLibraryCard.bcReturnCard .bcReturnNote textarea { padding: 6px 0; min-height: 60px; background: rgba(255,255,255,.08); color: var(--bc-paper); }
         .bcLibraryCard.bcReturnCard .bcReturnBook { padding: 10px 16px; margin: 0; }
       
-.bcSite,.bcSite * {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif!important;font-weight:400!important;}
+
 @media(min-width:1100px){.bcCoverWall{top:0;height:100vh;padding-top:0;padding-bottom:0;gap:12px}.bcCoverSquare img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain}}
+
+.worldBookHome {position:fixed;top:10px;left:5vw;z-index:10;color:#2b1c45;font:18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif;}
 `}</style>
 
 
