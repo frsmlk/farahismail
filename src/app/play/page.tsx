@@ -194,13 +194,13 @@ html,body {background:#efe4aa;}
 
 .playTitle {font-weight:400!important;}
 .playScore {color:#efe4aa;}
-.playSite {background:#efe4aa;color:${accent};padding:clamp(28px,4.6vw,88px);padding-top:clamp(100px,13.3vw,252px);}
+.playSite {background:#efe4aa;color:${accent};padding:clamp(28px,4.6vw,88px);padding-top:clamp(40px,5.32vw,100.8px);}
 .playTitle {margin:0 0 20px;}
 .playLayout {padding:0 0 40px;}
 .playTop {justify-content:flex-end;}
 .playInstructions,.playInstructions span {font:400 28.8px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif;letter-spacing:0;}
 .playInstructions {margin:0 0 40px;}
-@media(max-width:600px){.playSite {padding-top:12vh;}.playTitle {margin-bottom:20px;}.playLayout {padding-top:0;}}
+@media(max-width:600px){.playSite {padding-top:4.8vh;}.playTitle {margin-bottom:20px;}.playLayout {padding-top:0;}}
 `}</style>
   </div>;
 }
