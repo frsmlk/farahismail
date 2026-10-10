@@ -494,17 +494,17 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
       ) : null}
 
       <style>{`
-        @media (pointer: fine) { .bcSite, .bcSite * { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2229%22%20height%3D%2229%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%202%20L2%2020%20L7%2015%20L11%2023%20L15%2021%20L11%2013%20L19%2013%20Z%22%20fill%3D%22%23c2188b%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.4%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 2 2, auto !important; } }
+        @media (pointer: fine) { .bcSite, .bcSite * { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2229%22%20height%3D%2229%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M2%202%20L2%2020%20L7%2015%20L11%2023%20L15%2021%20L11%2013%20L19%2013%20Z%22%20fill%3D%22%232b1c45%22%20stroke%3D%22%23000000%22%20stroke-width%3D%221.4%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E") 2 2, auto !important; } }
         .bcReturnBook { text-align: center; text-decoration: none; display: block; width: 100%; padding: 12px 8px; border: 0; border-top: 1px solid #16130f; background: transparent; color: #16130f; font: inherit; cursor: pointer; }
         .bcReturnCard { width: min(520px,100%); }
-        .bcLibraryCard.bcReturnCard .bcBorrowForm { background: var(--bc-accent); color: #000; }
-        .bcLibraryCard.bcReturnCard .bcCardHeader p, .bcReturnCard .bcCardClose, .bcReturnCard .bcReturnBook { color: #000; }
+        .bcLibraryCard.bcReturnCard .bcBorrowForm { background: var(--bc-accent); color: var(--bc-paper); }
+        .bcLibraryCard.bcReturnCard .bcCardHeader p, .bcReturnCard .bcCardClose, .bcReturnCard .bcReturnBook { color: var(--bc-paper); }
         .bcReturnMessage { padding: 16px 20px; }
         .bcReturnMessage p { margin: 0 0 10px; }
         .bcReturnMessage p:last-child { margin-bottom: 0; }
         .bcReturnNote { display: grid; gap: 10px; padding: 16px 20px; }
         .bcReturnNote textarea { width: 100%; box-sizing: border-box; resize: vertical; border: 1px solid #000; border-radius: 0; background: transparent; color: #000; font: inherit; padding: 8px; }
-        .bcReturnCard .bcReturnBook:hover, .bcReturnCard .bcReturnBook:focus-visible { color: #000; background: rgba(255,255,255,.15); }
+        .bcReturnCard .bcReturnBook:hover, .bcReturnCard .bcReturnBook:focus-visible { color: var(--bc-paper); background: rgba(255,255,255,.15); }
         .bcReturnBook:hover, .bcReturnBook:focus-visible { color: var(--bc-accent); }
         .bcReturnConfetti { position: fixed; inset: 0; pointer-events: none; z-index: 9999; overflow: hidden; }
         .bcReturnConfetti i { position: absolute; top: -20px; width: 8px; height: 13px; background: var(--bc-accent); animation: bcConfettiFall 2.8s ease-in forwards; }
@@ -523,7 +523,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @keyframes bcPulse { from { scale: 0.88; } to { scale: 1.08; } }
         @media (prefers-reduced-motion: reduce) { .bcButterflies, .bcCursorButterfly { display: none; } .bcButterfly { animation: none; } }
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
-        .bcSite { --bc-paper: #f7f5ef; --bc-accent: #c2188b; background: #f7f5ef; }
+        .bcSite { --bc-paper: #f7f5ef; --bc-accent: #2b1c45; background: #f7f5ef; }
         .bcSite > header, .bcSite > section, .bcSite > footer, .bcHostingNote { position: relative; z-index: 2; }
         .bcTopTabs { position: fixed; top: 0; right: 18px; z-index: 10; display: flex; align-items: flex-end; gap: 0; padding-top: 5px; }
         .bcTopTabs::before { content: ''; position: fixed; top: 35px; left: 0; right: 0; border-top: 1.5px solid rgba(0, 0, 0, 0.62); pointer-events: none; }
@@ -543,7 +543,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcListItemClickable:hover .bcTitle,
         .bcListItemClickable:focus-within .bcTitle,
         .bcListItemClickable:active .bcTitle { color: var(--bc-accent); }
-        .bcListItemLink:focus-visible { outline: 1px solid #c2188b; outline-offset: -4px; }
+        .bcListItemLink:focus-visible { outline: 1px solid #2b1c45; outline-offset: -4px; }
         #current,
         #current * { color: #000000; font-weight: 400; }
         #current .bcSectionHead h2 { font-weight: 700; }
@@ -685,7 +685,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         }
         .bcCoverWall { display: none; z-index: 3; }
         .bcCoverSquare { border: 0; padding: 0; background: transparent; pointer-events: auto; cursor: pointer; }
-        .bcCoverSquare:focus-visible { outline: 2px solid #c2188b; outline-offset: 2px; }
+        .bcCoverSquare:focus-visible { outline: 2px solid #2b1c45; outline-offset: 2px; }
         @media(max-width:640px) {
           .bcCoverWall { display: grid; position: relative; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; padding: 10px 4px calc(10px + env(safe-area-inset-bottom)); background: var(--bc-paper); pointer-events: none; opacity: 1; overflow: hidden; }
           .bcCoverSquare { display: flex; justify-content: center; align-items: center; min-width: 0; aspect-ratio: 1 / 1.2; }

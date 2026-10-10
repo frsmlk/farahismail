@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 type Point = { x: number; y: number };
 const columns = 24, rows = 18, cell = 28;
-const pink = '#c2188b', lime = '#b7e52b', paper = '#f7f5ef';
+const accent = '#2b1c45', lime = '#b7e52b', paper = '#f7f5ef';
 
 export default function PlayPage() {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -40,7 +40,7 @@ export default function PlayPage() {
     const draw = () => {
       ctx.fillStyle = paper;
       ctx.fillRect(0, 0, columns * cell, rows * cell);
-      ctx.fillStyle = pink;
+      ctx.fillStyle = accent;
       snake.forEach(p => ctx.fillRect(p.x * cell, p.y * cell, cell, cell));
       ctx.fillStyle = lime;
       ctx.beginPath(); ctx.arc(food.x * cell + cell / 2, food.y * cell + cell / 2, 12, 0, Math.PI * 2); ctx.fill();
@@ -132,7 +132,7 @@ export default function PlayPage() {
       <p role="status">{scoreMessage}</p>
     </aside></div>
     <style>{`
-      .playSite { min-height:100dvh; background:${pink}; color:${paper}; font-family:Helvetica,'Helvetica Neue',Arial,sans-serif; font-weight:700; }
+      .playSite { min-height:100dvh; background:${accent}; color:${paper}; font-family:Helvetica,'Helvetica Neue',Arial,sans-serif; font-weight:700; }
       .playSite * { box-sizing:border-box; font-family:inherit; font-weight:700; }
       .playSite header { display:flex; justify-content:space-between; gap:16px; padding:28px 5vw; font-size:16px; }
       .playSite a { color:inherit; text-decoration:none; }
@@ -144,19 +144,19 @@ export default function PlayPage() {
       .playHighScores li {display:flex;justify-content:space-between;font-size:28px;line-height:1.1;margin:16px 0;}
       .scoreNickname {overflow-wrap:anywhere;font-size:20px;min-width:0;} .playHighScores li {gap:16px;}
       .scoreForm {display:grid;gap:12px;margin-top:24px;font-size:16px;}
-      .scoreForm input {min-width:0;width:100%;background:${paper};color:${pink};border:0;padding:12px;font:inherit;}
+      .scoreForm input {min-width:0;width:100%;background:${paper};color:${accent};border:0;padding:12px;font:inherit;}
       .scoreForm button {text-align:left;} .scoreForm button:disabled {opacity:.6;}
       .playHighScores input:focus-visible,.playHighScores button:focus-visible {outline:2px solid ${paper};outline-offset:4px;}
       .playGame {width:min(720px,65vw);flex-shrink:0;}
-      .playSite main { width:100%; margin:0; padding:24px; background:${paper}; color:${pink}; }
+      .playSite main { width:100%; margin:0; padding:24px; background:${paper}; color:${accent}; }
       .playTop { display:flex; justify-content:space-between; align-items:end; margin-bottom:8px; }
-      .playTop h1,.playScore { font-size:64px; letter-spacing:-.05em; margin:0; line-height:1; color:${pink}; }
+      .playTop h1,.playScore { font-size:64px; letter-spacing:-.05em; margin:0; line-height:1; color:${accent}; }
       .playInstructions { font-size:14px; line-height:1.15; margin:0 0 25px; }
       .playSite canvas { width:100%; height:auto; display:block; touch-action:none; }
       .playSite footer { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:24px; font-size:14px; }
       .playSite footer div { display:flex; gap:24px; }
       .playSite button { font:inherit; border:0; background:none; color:inherit; cursor:pointer; padding:8px 0; }
-      .playSite button:focus-visible,.playSite a:focus-visible,.playSite canvas:focus-visible { outline:2px solid ${pink};outline-offset:4px; }
+      .playSite button:focus-visible,.playSite a:focus-visible,.playSite canvas:focus-visible { outline:2px solid ${accent};outline-offset:4px; }
       .playFinished canvas {touch-action:pan-y;}
       .playPad,.phoneInstructions { display:none; }
       @media(max-width:1000px) {.playLayout {flex-direction:column;align-items:stretch;} .playGame {width:100%;max-width:720px;} .playHighScores {max-width:720px;padding-top:24px;}}
@@ -164,7 +164,7 @@ export default function PlayPage() {
         .desktopInstructions {display:none;} .phoneInstructions {display:inline;}
         .playSite canvas {touch-action:pan-y;}
         .playPad { display:grid; grid-template-columns:repeat(3,52px); grid-template-rows:repeat(3,52px); justify-content:center; margin:18px auto 0; touch-action:pan-y; user-select:none; }
-        .playPad button {background:${paper};color:${pink};padding:0;font-size:28px;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+        .playPad button {background:${paper};color:${accent};padding:0;font-size:28px;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
         .playPad button:active {background:#e3ded4;}
         .pad-up {grid-area:1/2;border-radius:8px 8px 0 0;}.pad-left {grid-area:2/1;border-radius:8px 0 0 8px;}.pad-right {grid-area:2/3;border-radius:0 8px 8px 0;}.pad-down {grid-area:3/2;border-radius:0 0 8px 8px;}.pad-center {grid-area:2/2;background:${paper};}
       }
