@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 export const metadata: Metadata = { title: 'About Farah Ismail', alternates: {canonical:'/about'} };
-export default function AboutPage(){return <main className="worldAbout"><h1><Link href="/">About</Link></h1><div><p>Welcome to farahismail.com</p><p><Link href="/play">Play some games</Link>, <Link href="/bookindex">borrow some books</Link>, or explore Farah’s design footprint through <Link href="/maps">Maps</Link>.</p><p>Farah Ismail is an architectural designer based in Kuala Lumpur, working across urban spaces, architecture and interiors.</p></div><style>{`body{margin:0}*{box-sizing:border-box}.view[hidden]{display:none!important}
+export default function AboutPage(){return <main className="worldAbout"><Link className="worldPageHome" href="/">← Home</Link><h1><Link href="/">About</Link></h1><div><p>Welcome to farahismail.com</p><p><Link href="/play">Play some games</Link>, <Link href="/bookindex">borrow some books</Link>, or explore Farah’s design footprint through <Link href="/maps">Maps</Link>.</p><p>Farah Ismail is an architectural designer based in Kuala Lumpur, working across urban spaces, architecture and interiors.</p></div><style>{`body{margin:0}*{box-sizing:border-box}.view[hidden]{display:none!important}
       .worldLanding {box-sizing:border-box;min-height:100svh;background:#100756;color:#cdc2ed;padding:clamp(28px,4.6vw,88px);font-family:Helvetica,Arial,sans-serif;display:flex;flex-direction:column;}
       .worldLanding nav {display:flex;flex-direction:column;align-items:flex-start;padding-top:clamp(40px,8vw,154px);}
       .worldLanding nav a {font-size:clamp(64px,8.3vw,160px);line-height:.86;letter-spacing:-.055em;font-weight:400;text-decoration:none;color:inherit;}
@@ -60,4 +60,11 @@ body {background:#f7f5ef;color:#000;}
 .worldAbout h1,.worldAbout h1 a,.worldAbout p,.worldAbout p a {color:#f7f5ef;}
 .worldAbout p,.worldAbout p a {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;font-weight:400;font-size:36px;line-height:1.15;letter-spacing:0;text-decoration:none;}
 @media(max-width:600px){.worldAbout p,.worldAbout p a {font-size:36px;}}
+
+.bcHero h1,.worldAbout h1,.previewPage h1,.playTop h1 {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif!important;font-size:clamp(55.44px,10.56vw,126.72px)!important;font-weight:700!important;line-height:.85!important;letter-spacing:-.05em!important;transform:none!important;}
+.worldBookHome,.worldPlayHome,.worldPageHome {position:absolute!important;top:10px!important;left:5vw!important;z-index:10;padding:0!important;margin:0!important;font:400 18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif!important;text-decoration:none!important;}
+.worldPlayHome a {font:inherit!important;text-decoration:none!important;}
+.worldAbout,.playSite,#maps,.bcSite {position:relative;}
+.worldPageHome {color:inherit;}
+.playSite {padding-top:41px;}
 `}</style></main>}

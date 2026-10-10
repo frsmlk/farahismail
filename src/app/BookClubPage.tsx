@@ -721,6 +721,13 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 @media(min-width:1100px){.bcCoverWall{top:0;height:100vh;padding-top:0;padding-bottom:0;gap:12px}.bcCoverSquare img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain}}
 
 .worldBookHome {position:fixed;top:10px;left:5vw;z-index:10;color:#2b1c45;font:18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif;}
+
+.bcHero h1,.worldAbout h1,.previewPage h1,.playTop h1 {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif!important;font-size:clamp(55.44px,10.56vw,126.72px)!important;font-weight:700!important;line-height:.85!important;letter-spacing:-.05em!important;transform:none!important;}
+.worldBookHome,.worldPlayHome,.worldPageHome {position:absolute!important;top:10px!important;left:5vw!important;z-index:10;padding:0!important;margin:0!important;font:400 18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif!important;text-decoration:none!important;}
+.worldPlayHome a {font:inherit!important;text-decoration:none!important;}
+.worldAbout,.playSite,#maps,.bcSite {position:relative;}
+.worldPageHome {color:inherit;}
+.playSite {padding-top:41px;}
 `}</style>
 
 
