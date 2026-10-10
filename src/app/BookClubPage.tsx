@@ -739,6 +739,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 .bcSite,.bcSite *{color:#571531;}
 #current *{color:#000000;}
 .bcSection,.bcSection *{color:#000000;}
+@media(hover:hover){.bcListItem:hover,.bcListItem:hover *{color:#ff69b4!important;}}
+.bcListItem:focus-within,.bcListItem:focus-within *{color:#ff69b4!important;}
 .bcLibraryCard .bcBorrowForm,.bcAboutCard .bcBorrowForm{background:#ffcbcf;}
 .bcAboutCardHeader{background:#ffcbcf;}
 .bcLibraryCard.bcReturnCard .bcBorrowForm{background:#571531;color:#ffcbcf;}
