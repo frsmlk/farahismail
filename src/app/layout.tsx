@@ -54,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <style>{`html,body { background-color:#efe4aa; } html:has(.playSite),body:has(.playSite) { background-color:#571531; }`}</style>
+        <style>{`html,body { background-color:#efe4aa; } html:has(.playSite),body:has(.playSite) { background-color:#efe4aa; }`}</style>
       </head>
       <body>{children}</body>
     </html>

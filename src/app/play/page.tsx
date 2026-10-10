@@ -121,8 +121,9 @@ export default function PlayPage() {
   return <div className={`playSite ${(status === 'Game over' || status === 'You win') ? 'playFinished' : ''}`}>
 
     <div className="worldPlayHome"><Link href="/">← Home</Link></div>
+    <h1 className="playTitle">Play</h1>
     <div className="playLayout"><div className="playGame"><main>
-      <div className="playTop"><h1>Play</h1><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
+      <div className="playTop"><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
       <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Tap the arrows to move</span></p>
       <canvas ref={canvas} width={columns*cell} height={rows*cell} tabIndex={0} aria-label="Snake game. Use arrow keys or swipe. Avoid the edges and your own tail." />
       <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
@@ -143,7 +144,7 @@ export default function PlayPage() {
       <p role="status">{scoreMessage}</p>
     </aside></div>
     <style>{`
-html,body {background:#571531;}
+html,body {background:#efe4aa;}
 .worldPlayHome{padding:10px 5vw;font:18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif;font-weight:400;}
 .worldPlayHome a{font-weight:400;}
 
@@ -153,7 +154,7 @@ html,body {background:#571531;}
       .playSite a { color:inherit; text-decoration:none; }
       .playLayout {display:flex;align-items:flex-end;gap:5vw;padding:30px 5vw 40px;}
       .playHighScores {flex:1;max-width:320px;padding-bottom:24px;min-width:180px;}
-      .playHighScores h2 {color:${paper};font-size:28px;line-height:1;margin:0 0 12px;}
+      .playHighScores h2 {color:${accent};font-size:28px;line-height:1;margin:0 0 12px;}
       .playHighScores p {font-size:14px;line-height:1.2;margin:0 0 24px;}
       .playHighScores ol {list-style:none;margin:0;padding:0;}
       .playHighScores li {display:flex;justify-content:space-between;font-size:28px;line-height:1.1;margin:16px 0;}
@@ -165,7 +166,7 @@ html,body {background:#571531;}
       .playGame {width:min(720px,65vw);flex-shrink:0;}
       .playSite main { width:100%; margin:0; padding:24px; background:${paper}; color:${accent}; }
       .playTop { display:flex; justify-content:space-between; align-items:end; margin-bottom:8px; }
-      .playTop h1,.playScore { font-size:64px; letter-spacing:-.05em; margin:0; line-height:1; color:${accent}; }
+      .playTitle,.playScore { font-size:64px; letter-spacing:-.05em; margin:0; line-height:1; color:${accent}; }
       .playInstructions { font-size:14px; line-height:1.15; margin:0 0 25px; }
       .playSite canvas { width:100%; height:auto; display:block; touch-action:none; }
       .playSite footer { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:24px; font-size:14px; }
@@ -175,7 +176,7 @@ html,body {background:#571531;}
       .playFinished canvas {touch-action:pan-y;}
       .playPad,.phoneInstructions { display:none; }
       @media(max-width:1000px) {.playLayout {flex-direction:column;align-items:stretch;} .playGame {width:100%;max-width:720px;} .playHighScores {max-width:720px;padding-top:24px;}}
-      @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playLayout {padding-top:45px;} .playTop h1,.playScore {font-size:54px;}
+      @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playLayout {padding-top:45px;} .playTitle,.playScore {font-size:54px;}
         .desktopInstructions {display:none;} .phoneInstructions {display:inline;}
         .playSite canvas {touch-action:pan-y;}
         .playPad { display:grid; grid-template-columns:repeat(3,52px); grid-template-rows:repeat(3,52px); justify-content:center; margin:18px auto 0; touch-action:pan-y; user-select:none; }
@@ -184,15 +185,20 @@ html,body {background:#571531;}
         .pad-up {grid-area:1/2;border-radius:8px 8px 0 0;}.pad-left {grid-area:2/1;border-radius:8px 0 0 8px;}.pad-right {grid-area:2/3;border-radius:0 8px 8px 0;}.pad-down {grid-area:3/2;border-radius:0 0 8px 8px;}.pad-center {grid-area:2/2;background:${paper};}
       }
     
-.bcHero h1,.worldAbout h1,.previewPage h1,.playTop h1 {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif!important;font-size:clamp(55.44px,10.56vw,126.72px)!important;font-weight:700!important;line-height:.85!important;letter-spacing:-.05em!important;transform:none!important;}
+.bcHero h1,.worldAbout h1,.previewPage h1,.playTitle {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif!important;font-size:clamp(55.44px,10.56vw,126.72px)!important;font-weight:700!important;line-height:.85!important;letter-spacing:-.05em!important;transform:none!important;}
 .worldBookHome,.worldPlayHome,.worldPageHome {position:absolute!important;top:10px!important;left:5vw!important;z-index:10;padding:0!important;margin:0!important;font:400 18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif!important;text-decoration:none!important;}
 .worldPlayHome a {font:inherit!important;text-decoration:none!important;}
 .worldAbout,.playSite,#maps,.bcSite {position:relative;}
 .worldPageHome {color:inherit;}
 .playSite {padding-top:41px;}
 
-.playTop h1 {font-weight:400!important;}
+.playTitle {font-weight:400!important;}
 .playScore {color:#efe4aa;}
+.playSite {background:#efe4aa;color:${accent};padding:clamp(28px,4.6vw,88px);padding-top:clamp(100px,13.3vw,252px);}
+.playTitle {margin:0 0 48px;}
+.playLayout {padding:0 0 40px;}
+.playTop {justify-content:flex-end;}
+@media(max-width:600px){.playSite {padding-top:12vh;}.playTitle {margin-bottom:40px;}.playLayout {padding-top:0;}}
 `}</style>
   </div>;
 }
