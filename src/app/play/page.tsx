@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 type Point = { x: number; y: number };
 const columns = 24, rows = 18, cell = 28;
-const accent = '#2b1c45', raspberry = '#742930', snakeColour = '#896d23', paper = '#f7f5ef';
+const accent = '#2b1c45', raspberry = '#742930', mustard = '#896d23', paper = '#f7f5ef';
 
 export default function PlayPage() {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -37,12 +37,22 @@ export default function PlayPage() {
     let food = { x: 17, y: 5 }, points = 0;
     let running = false, over = false, turned = false;
     let touch: Point | null = null;
+    const stripeTile = document.createElement('canvas');
+    stripeTile.width = 28; stripeTile.height = 14;
+    const stripeContext = stripeTile.getContext('2d');
+    if (!stripeContext) return;
+    stripeContext.fillStyle = raspberry;
+    stripeContext.fillRect(0, 0, 28, 14);
+    stripeContext.fillStyle = '#e8d4bd';
+    stripeContext.fillRect(0, 4, 28, 3);
+    stripeContext.fillRect(0, 11, 28, 3);
+    const snakePattern = ctx.createPattern(stripeTile, 'repeat');
     const draw = () => {
       ctx.fillStyle = paper;
       ctx.fillRect(0, 0, columns * cell, rows * cell);
-      ctx.fillStyle = snakeColour;
+      ctx.fillStyle = snakePattern || raspberry;
       snake.forEach(p => ctx.fillRect(p.x * cell, p.y * cell, cell, cell));
-      ctx.fillStyle = raspberry;
+      ctx.fillStyle = mustard;
       ctx.beginPath(); ctx.arc(food.x * cell + cell / 2, food.y * cell + cell / 2, 12, 0, Math.PI * 2); ctx.fill();
     };
     const reset = () => {
