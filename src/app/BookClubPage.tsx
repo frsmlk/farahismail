@@ -713,7 +713,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcLibraryCard.bcReturnCard .bcIdentityRow { display: grid; gap: 3px; padding: 8px 16px; }
         .bcLibraryCard.bcReturnCard .bcIdentityRow .bcCardValue { padding: 0; }
         .bcLibraryCard.bcReturnCard .bcReturnNote { gap: 6px; padding: 8px 16px; }
-        .bcLibraryCard.bcReturnCard .bcReturnNote textarea { padding: 6px 0; min-height: 60px; background: rgba(255,255,255,.08); }
+        .bcLibraryCard.bcReturnCard .bcReturnNote textarea { padding: 6px 0; min-height: 60px; background: rgba(255,255,255,.08); color: var(--bc-paper); }
         .bcLibraryCard.bcReturnCard .bcReturnBook { padding: 10px 16px; margin: 0; }
       `}</style>
 
