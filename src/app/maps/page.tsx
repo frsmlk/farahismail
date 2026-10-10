@@ -42,9 +42,9 @@ body {background:#f7f5ef;color:#000;}
 #play > .frameHeader {background:#2b1c45;color:#f7f5ef;padding:10px 5vw;}
 #play > .frameHeader a {color:#f7f5ef;}
 #play > .previewFrame {height:calc(100svh - 41px);background:#2b1c45;}
-#maps .previewPage {min-height:100svh;padding:clamp(28px,4.6vw,88px);padding-top:clamp(100px,13.3vw,252px);}
-#maps .previewPage h1 {margin-top:40px;}
-@media(max-width:600px){#maps .previewPage{padding-top:12vh;}}
+#maps .previewPage {min-height:100svh;padding:clamp(28px,4.6vw,88px);padding-top:clamp(40px,5.32vw,100.8px);}
+#maps .previewPage h1 {margin-top:16px;}
+@media(max-width:600px){#maps .previewPage{padding-top:4.8vh;}}
 
 .worldAbout p a {color:inherit;text-underline-offset:3px;font-weight:400;}
 
