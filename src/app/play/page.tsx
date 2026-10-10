@@ -192,7 +192,7 @@ html,body {background:#571531;}
 .playSite {padding-top:41px;}
 
 .playTop h1 {font-weight:400!important;}
-.playScore {color:#ebdd94;}
+.playScore {color:#efe4aa;}
 `}</style>
   </div>;
 }
