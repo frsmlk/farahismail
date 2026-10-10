@@ -5,6 +5,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
+  themeColor: '#efe4aa',
 };
 
 const siteTitle = 'Farah Ismail';
@@ -52,7 +53,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head />
+      <head>
+        <style>{`html,body { background-color:#efe4aa; } html:has(.playSite),body:has(.playSite) { background-color:#571531; }`}</style>
+      </head>
       <body>{children}</body>
     </html>
   );
