@@ -190,6 +190,9 @@ html,body {background:#571531;}
 .worldAbout,.playSite,#maps,.bcSite {position:relative;}
 .worldPageHome {color:inherit;}
 .playSite {padding-top:41px;}
+
+.playTop h1 {font-weight:400!important;}
+.playScore {color:#ebdd94;}
 `}</style>
   </div>;
 }
