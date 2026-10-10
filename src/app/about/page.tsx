@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 export const metadata: Metadata = { title: 'About Farah Ismail', alternates: {canonical:'/about'} };
-export default function AboutPage(){return <main className="worldAbout"><Link className="worldPageHome" href="/">← Home</Link><h1><Link href="/">About</Link></h1><div><p>Welcome to farahismail.com</p><p><Link href="/play">Play some games</Link>, <Link href="/bookindex">borrow some books</Link>, or explore Farah’s design footprint through <Link href="/maps">Maps</Link>.</p><p>Farah Ismail is an architectural designer based in Kuala Lumpur, working across urban spaces, architecture and interiors.</p></div><style>{`body{margin:0}*{box-sizing:border-box}.view[hidden]{display:none!important}
+export default function AboutPage(){return <main className="worldAbout"><Link className="worldPageHome" href="/">← Home</Link><h1><Link href="/">About</Link></h1><div><p>Welcome to farahismail.com</p><p><Link href="/play">Play some <span className="aboutUnderline">games</span></Link>, <Link href="/bookindex">borrow some <span className="aboutUnderline">books</span></Link>, or explore Farah’s design footprint through <Link href="/maps"><span className="aboutUnderline">Maps</span></Link>.</p><p>Farah Ismail is an architectural designer based in Kuala Lumpur, working across urban spaces, architecture and interiors.</p></div><style>{`body{margin:0}*{box-sizing:border-box}.view[hidden]{display:none!important}
       .worldLanding {box-sizing:border-box;min-height:100svh;background:#100756;color:#cdc2ed;padding:clamp(28px,4.6vw,88px);font-family:Helvetica,Arial,sans-serif;display:flex;flex-direction:column;}
       .worldLanding nav {display:flex;flex-direction:column;align-items:flex-start;padding-top:clamp(40px,8vw,154px);}
       .worldLanding nav a {font-size:clamp(64px,8.3vw,160px);line-height:.86;letter-spacing:-.055em;font-weight:400;text-decoration:none;color:inherit;}
@@ -69,4 +69,6 @@ body {background:#f7f5ef;color:#000;}
 .playSite {padding-top:41px;}
 
 .bcHero h1,.worldAbout h1,.worldAbout h1 a,.previewPage h1 {font-weight:400!important;}
+
+.aboutUnderline {text-decoration:underline;text-underline-offset:.1em;text-decoration-thickness:1px;}
 `}</style></main>}
