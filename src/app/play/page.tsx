@@ -119,7 +119,7 @@ export default function PlayPage() {
   }, []);
 
   return <div className={`playSite ${(status === 'Game over' || status === 'You win') ? 'playFinished' : ''}`}>
-    <header><Link href="/">← Book Index</Link><span>farahismail.com/play</span></header>
+    <header><Link href="/bookindex">← Book Index</Link><span>farahismail.com/play</span></header>
     <div className="playLayout"><div className="playGame"><main>
       <div className="playTop"><h1>Play</h1><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
       <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Tap the arrows to move</span></p>

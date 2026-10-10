@@ -11,10 +11,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: 'https://www.farahismail.com/book-club',
+      url: 'https://www.farahismail.com/bookindex',
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    ...['about', 'play', 'mood'].map(path => ({url: `https://www.farahismail.com/${path}`, lastModified: now})),
   ];
 }

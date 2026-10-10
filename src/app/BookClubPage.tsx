@@ -11,13 +11,13 @@ export const metadata: Metadata = {
   title: siteTitle,
   description: siteDescription,
   alternates: {
-    canonical: '/',
+    canonical: '/bookindex',
   },
   openGraph: {
     title: siteTitle,
     description: siteDescription,
     siteName: siteTitle,
-    url: '/',
+    url: '/bookindex',
     type: 'website',
   },
   twitter: {
@@ -126,7 +126,7 @@ async function submitBorrowRequest(formData: FormData) {
   const phone = String(formData.get('phone') ?? '').trim();
 
   if (!bookTitle || !name || !address || !phone) {
-    redirect(`/?borrow=${encodeURIComponent(bookTitle)}&error=missing#borrow-card`);
+    redirect(`/bookindex?borrow=${encodeURIComponent(bookTitle)}&error=missing#borrow-card`);
   }
 
   const payload: BorrowRequestPayload = {
@@ -145,7 +145,7 @@ async function submitBorrowRequest(formData: FormData) {
 
   await notifyBorrowRequest(payload);
 
-  redirect('/?borrow=submitted');
+  redirect('/bookindex?borrow=submitted');
 }
 
 async function submitReturnRequest(formData: FormData) {
@@ -153,12 +153,12 @@ async function submitReturnRequest(formData: FormData) {
   const bookTitle = String(formData.get('bookTitle') ?? '');
   const book = lentBooks.find((item) => item[1] === bookTitle);
   const note = String(formData.get('note') ?? '').trim();
-  if (!book || note.length > 2000) redirect('/?error=return');
+  if (!book || note.length > 2000) redirect('/bookindex?error=return');
   await db.insert(sseEvents).values({
     type: 'return_request',
     payload: { type: 'return_request', bookTitle, name: book[3].replace(/^Lent to\s+/, ''), note, submittedAt: new Date().toISOString() },
   });
-  redirect('/?return=submitted');
+  redirect('/bookindex?return=submitted');
 }
 
 const bookCoverPhotos: Record<string, string> = {
@@ -325,9 +325,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {aboutOpen ? (
         <div className="bcBorrowModal" id="about-card" role="dialog" aria-modal="true" aria-labelledby="about-card-title">
-          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close about card" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/bookindex" aria-label="Close about card" />
           <div className="bcLibraryCard bcAboutCard">
-            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close about card">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/bookindex" aria-label="Close about card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader bcAboutCardHeader">
                 <p id="about-card-title">About</p>
@@ -344,9 +344,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {playlistOpen ? (
         <div className="bcBorrowModal" id="playlist-card" role="dialog" aria-modal="true" aria-labelledby="playlist-card-title">
-          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close playlist" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/bookindex" aria-label="Close playlist" />
           <div className="bcLibraryCard">
-            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close playlist">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/bookindex" aria-label="Close playlist">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
                 <p id="playlist-card-title">Book Index</p>
@@ -369,13 +369,13 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {submitted ? (
         <div className="bcBorrowModal" id="borrow-success-card" role="dialog" aria-modal="true" aria-labelledby="borrow-success-title">
-          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close borrowing confirmation" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/bookindex" aria-label="Close borrowing confirmation" />
           <div className="bcLibraryCard bcReturnCard">
-            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close borrowing confirmation">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/bookindex" aria-label="Close borrowing confirmation">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader"><p id="borrow-success-title">Thank you for borrowing.</p></div>
               <div className="bcReturnMessage" data-borrow-success="true"><p>Your request has been received. We’ll be in touch to arrange getting the book to you.</p></div>
-              <Link scroll={false} className="bcReturnBook" href="/">Back to the index</Link>
+              <Link scroll={false} className="bcReturnBook" href="/bookindex">Back to the index</Link>
             </div>
           </div>
         </div>
@@ -383,9 +383,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {(borrowTitle || missing) ? (
         <div className="bcBorrowModal" id="borrow-card" role="dialog" aria-modal="true" aria-labelledby="borrow-card-title">
-          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close borrow form" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/bookindex" aria-label="Close borrow form" />
           <div className="bcLibraryCard">
-            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close borrow form">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/bookindex" aria-label="Close borrow form">×</Link>
             <form className="bcBorrowForm" action={submitBorrowRequest}>
               <div className="bcCardHeader">
                 <p id="borrow-card-title">Book Index</p>
@@ -422,9 +422,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {currentBook ? (
         <div className="bcBorrowModal" id="current-card" role="dialog" aria-modal="true" aria-labelledby="current-card-title">
-          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close current read card" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/bookindex" aria-label="Close current read card" />
           <div className="bcLibraryCard">
-            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close current read card">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/bookindex" aria-label="Close current read card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
                 <p id="current-card-title">Book Index</p>
@@ -447,9 +447,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {(returnBook || returnSubmitted) ? (
         <div className="bcBorrowModal" id="return-card" role="dialog" aria-modal="true" aria-labelledby="return-card-title">
-          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close return card" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/bookindex" aria-label="Close return card" />
           <div className="bcLibraryCard bcReturnCard">
-            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close return card">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/bookindex" aria-label="Close return card">×</Link>
             <form className="bcBorrowForm" action={submitReturnRequest}>
               <div className="bcCardHeader"><p id="return-card-title">Return Book</p></div>
               <div className="bcReturnMessage">
@@ -469,9 +469,9 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       {lentBook ? (
         <div className="bcBorrowModal" id="lent-card" role="dialog" aria-modal="true" aria-labelledby="lent-card-title">
-          <Link scroll={false} className="bcBorrowBackdrop" href="/" aria-label="Close lent card" />
+          <Link scroll={false} className="bcBorrowBackdrop" href="/bookindex" aria-label="Close lent card" />
           <div className="bcLibraryCard">
-            <Link scroll={false} className="bcCardClose" href="/" aria-label="Close lent card">×</Link>
+            <Link scroll={false} className="bcCardClose" href="/bookindex" aria-label="Close lent card">×</Link>
             <div className="bcBorrowForm">
               <div className="bcCardHeader">
                 <p id="lent-card-title">Book Index</p>
@@ -486,7 +486,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <div className="bcCardValue">{lentName}</div>
               </div>
 
-              <Link scroll={false} href={`/?return=${encodeURIComponent(lentBook[1])}`} className="bcReturnBook">Return Book</Link>
+              <Link scroll={false} href={`/bookindex?return=${encodeURIComponent(lentBook[1])}`} className="bcReturnBook">Return Book</Link>
               </div><BookCover title={lentBook[1]} /></div>
             </div>
           </div>
@@ -826,7 +826,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
       <footer className="bcFooter" id="contact">
         <div>Book Index</div>
-        <div><Link scroll={false} href="/?about=book-index">About</Link> · <a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a> · <Link href="/play">Play</Link></div>
+        <div><Link scroll={false} href="/bookindex?about=book-index">About</Link> · <a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a> · <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a> · <Link href="/play">Play</Link></div>
       </footer>
       <aside className="bcCoverWall" aria-label="Explore book covers">
         {Object.entries(bookCoverPhotos).slice(0, 6).map(([title, src], index) => (

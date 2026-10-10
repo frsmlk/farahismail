@@ -7,14 +7,14 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
-const siteTitle = 'Book Index';
-const siteDescription = 'Book Index';
+const siteTitle = 'Farah Ismail';
+const siteDescription = 'An archive and playground by Farah Ismail.';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.farahismail.com'),
   title: {
     default: siteTitle,
-    template: '%s | Book Index',
+    template: '%s | Farah Ismail',
   },
   description: siteDescription,
   applicationName: siteTitle,
