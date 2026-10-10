@@ -4,7 +4,7 @@ export const metadata: Metadata = { title: 'Farah Ismail', description: 'An arch
 export default function HomePage() {
   return <main className="worldLanding">
     <nav aria-label="Explore"><Link href="/about">About</Link><Link href="/bookindex">Book Index</Link><Link href="/play">Play</Link><Link className="worldMood" href="/maps">Maps</Link></nav>
-    <footer><div><a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a></div><p>For architecture &amp; design enquiries, click <a href="https://aaakl.co">here.</a></p></footer>
+    <footer><div><a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a></div><p>farahismail.com</p></footer>
     <style>{`body{margin:0}*{box-sizing:border-box}.view[hidden]{display:none!important}
       .worldLanding {box-sizing:border-box;min-height:100svh;background:#100756;color:#cdc2ed;padding:clamp(28px,4.6vw,88px);font-family:Helvetica,Arial,sans-serif;display:flex;flex-direction:column;}
       .worldLanding nav {display:flex;flex-direction:column;align-items:flex-start;padding-top:clamp(40px,8vw,154px);}
