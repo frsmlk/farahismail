@@ -1,6 +1,6 @@
 import Link from 'next/link';
 export const metadata = {title:'Maps',alternates:{canonical:'/maps'}};
-export default function MapsPage(){return <main className="previewPage"><Link href="/">← Home</Link><h1>Maps</h1><p>Coming soon.</p><style>{`body{margin:0}*{box-sizing:border-box}.view[hidden]{display:none!important}
+export default function MapsPage(){return <section id="maps"><main className="previewPage"><Link href="/">← Home</Link><h1>Maps</h1><p>Coming soon.</p><style>{`body{margin:0}*{box-sizing:border-box}.view[hidden]{display:none!important}
       .worldLanding {box-sizing:border-box;min-height:100svh;background:#100756;color:#cdc2ed;padding:clamp(28px,4.6vw,88px);font-family:Helvetica,Arial,sans-serif;display:flex;flex-direction:column;}
       .worldLanding nav {display:flex;flex-direction:column;align-items:flex-start;padding-top:clamp(40px,8vw,154px);}
       .worldLanding nav a {font-size:clamp(64px,8.3vw,160px);line-height:.86;letter-spacing:-.055em;font-weight:400;text-decoration:none;color:inherit;}
@@ -61,4 +61,4 @@ body {background:#f7f5ef;color:#000;}
 @media(max-width:600px){.worldAbout p,.worldAbout p a {font-size:36px;}}
 
 .worldLanding,.worldLanding *,.worldAbout,.worldAbout *,.previewPage,.previewPage * {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif!important;font-weight:400!important;}
-`}</style></main>}
+`}</style></main></section>}

@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 type Point = { x: number; y: number };
