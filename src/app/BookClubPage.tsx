@@ -736,7 +736,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 .bcIntroText {font-weight:400;font-size:28.8px;}
 
 .bcSite,.bcSite *{color:#571531;}
-#current *{color:#571531;}
+#current *{color:#000000;}
+.bcSection,.bcSection *{color:#000000;}
 .bcLibraryCard .bcBorrowForm,.bcAboutCard .bcBorrowForm{background:#ffcbcf;}
 .bcLibraryCard.bcReturnCard .bcBorrowForm{background:#571531;color:#ffcbcf;}
 .bcReturnCard .bcBorrowForm *{color:#ffcbcf;}
