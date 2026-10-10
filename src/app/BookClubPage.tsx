@@ -728,6 +728,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 .worldAbout,.playSite,#maps,.bcSite {position:relative;}
 .worldPageHome {color:inherit;}
 .playSite {padding-top:41px;}
+
+.bcHero h1,.worldAbout h1,.worldAbout h1 a,.previewPage h1 {font-weight:400!important;}
 `}</style>
 
 

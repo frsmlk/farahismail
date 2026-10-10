@@ -67,4 +67,6 @@ body {background:#f7f5ef;color:#000;}
 .worldAbout,.playSite,#maps,.bcSite {position:relative;}
 .worldPageHome {color:inherit;}
 .playSite {padding-top:41px;}
+
+.bcHero h1,.worldAbout h1,.worldAbout h1 a,.previewPage h1 {font-weight:400!important;}
 `}</style></main>}
