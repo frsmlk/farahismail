@@ -5,7 +5,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 type Point = { x: number; y: number };
 const columns = 24, rows = 18, cell = 28;
-const accent = '#571531', raspberry = '#742930', mustard = '#896d23', paper = '#ffcbcf';
+const accent = '#571531', raspberry = '#c43132', mustard = '#efe4aa', paper = '#f7f5ef';
 
 export default function PlayPage() {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -43,7 +43,7 @@ export default function PlayPage() {
     if (!stripeContext) return;
     stripeContext.fillStyle = raspberry;
     stripeContext.fillRect(0, 0, 28, 14);
-    stripeContext.fillStyle = '#e8d4bd';
+    stripeContext.fillStyle = paper;
     stripeContext.fillRect(0, 4, 28, 3);
     stripeContext.fillRect(0, 11, 28, 3);
     const snakePattern = ctx.createPattern(stripeTile, 'repeat');
