@@ -524,7 +524,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         @keyframes bcPulse { from { scale: 0.88; } to { scale: 1.08; } }
         @media (prefers-reduced-motion: reduce) { .bcButterflies, .bcCursorButterfly { display: none; } .bcButterfly { animation: none; } }
         @media (pointer: coarse) { .bcCursorButterfly { display: none; } }
-        .bcSite { --bc-paper: #ebdd94; --bc-accent: #571531; background: #ebdd94; }
+        .bcSite { --bc-paper: #efe4aa; --bc-accent: #571531; background: #efe4aa; }
         .bcSite > header, .bcSite > section, .bcSite > footer, .bcHostingNote { position: relative; z-index: 2; }
         .bcTopTabs { position: fixed; top: 0; right: 18px; z-index: 10; display: flex; align-items: flex-end; gap: 0; padding-top: 5px; }
         .bcTopTabs::before { content: ''; position: fixed; top: 35px; left: 0; right: 0; border-top: 1.5px solid rgba(0, 0, 0, 0.62); pointer-events: none; }
