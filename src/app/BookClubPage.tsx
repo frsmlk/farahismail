@@ -718,7 +718,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         .bcLibraryCard.bcReturnCard .bcReturnBook { padding: 10px 16px; margin: 0; }
       
 
-@media(min-width:1100px){.bcCoverWall{top:0;height:100vh;padding-top:0;padding-bottom:0;gap:12px}.bcCoverSquare img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain}}
+@media(min-width:1100px){.bcCoverWall{top:4vh;height:92vh;padding-top:0;padding-bottom:0;gap:12px}.bcCoverSquare img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain}}
 
 .worldBookHome {position:fixed;top:10px;left:5vw;z-index:10;color:#571531;font:18.24px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif;}
 
