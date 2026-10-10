@@ -732,6 +732,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 .bcHero h1,.worldAbout h1,.worldAbout h1 a,.previewPage h1 {font-weight:400!important;}
 
 .bcHero {padding-top:54px!important;}
+
+.bcIntroText {font-weight:400;}
 `}</style>
 
 
