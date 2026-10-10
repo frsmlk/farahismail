@@ -12,9 +12,9 @@ export default function AboutPage(){return <main className="worldAbout"><Link cl
       @media(max-width:600px){.worldLanding nav {padding-top:12vh;}.worldLanding nav a {font-size:clamp(54px,14vw,84px);}.worldLanding footer {padding-top:90px;font-size:17px;}.worldLanding footer p {max-width:330px;margin-top:30px;}}
     
 
-.worldAbout {box-sizing:border-box;min-height:100svh;background:#3f3857;color:#c9bfd0;padding:clamp(28px,4.6vw,88px);padding-top:clamp(100px,13.3vw,252px);display:grid;grid-template-columns:33% 1fr;gap:2%;align-content:start;font-family:Helvetica,Arial,sans-serif;}
+.worldAbout {box-sizing:border-box;min-height:100svh;background:#3f3857;color:#c9bfd0;padding:clamp(28px,4.6vw,88px);padding-top:clamp(40px,5.32vw,100.8px);display:grid;grid-template-columns:33% 1fr;gap:2%;align-content:start;font-family:Helvetica,Arial,sans-serif;}
 .worldAbout h1 {font-size:clamp(64px,8.3vw,160px);font-weight:400;line-height:.86;letter-spacing:-.055em;margin:0;} .worldAbout h1 a{color:inherit;text-decoration:none;} .worldAbout p{font-size:clamp(18px,1.5vw,29px);line-height:1.05;letter-spacing:-.035em;margin:0 0 30px;max-width:840px;} .worldAbout a:focus-visible{outline:2px solid currentColor;outline-offset:5px;}
-@media(max-width:600px){.worldAbout{display:block;padding-top:12vh;}.worldAbout h1{margin-bottom:44px;}.worldAbout p{font-size:20px;line-height:1.15;}}
+@media(max-width:600px){.worldAbout{display:block;padding-top:4.8vh;}.worldAbout h1{margin-bottom:44px;}.worldAbout p{font-size:20px;line-height:1.15;}}
  .previewPage{min-height:100svh;background:#100756;color:#cdc2ed;padding:12vh 5vw;font-family:Helvetica,Arial,sans-serif}.previewPage a{color:inherit}.previewPage h1{font-size:clamp(64px,8vw,160px);font-weight:400;letter-spacing:-.055em;margin:40px 0 20px}.previewPage p{font-size:24px}.previewFrame{display:block;border:0;width:100%;height:80vh}.frameHeader{padding:15px 5vw;background:#100756;color:#cdc2ed;font-family:Arial}.frameHeader a{color:inherit}
 /* Shared Book Index palette and typography. */
 body {background:#f7f5ef;color:#000;}
@@ -43,7 +43,7 @@ body {background:#f7f5ef;color:#000;}
 #play > .frameHeader {background:#2b1c45;color:#f7f5ef;padding:10px 5vw;}
 #play > .frameHeader a {color:#f7f5ef;}
 #play > .previewFrame {height:calc(100svh - 41px);background:#2b1c45;}
-#maps .previewPage {min-height:100svh;padding:clamp(28px,4.6vw,88px);padding-top:clamp(100px,13.3vw,252px);}
+#maps .previewPage {min-height:100svh;padding:clamp(28px,4.6vw,88px);padding-top:clamp(40px,5.32vw,100.8px);}
 #maps .previewPage h1 {margin-top:40px;}
 @media(max-width:600px){#maps .previewPage{padding-top:12vh;}}
 
