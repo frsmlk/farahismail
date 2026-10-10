@@ -730,6 +730,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 .playSite {padding-top:41px;}
 
 .bcHero h1,.worldAbout h1,.worldAbout h1 a,.previewPage h1 {font-weight:400!important;}
+
+.bcHero {padding-top:54px!important;}
 `}</style>
 
 
