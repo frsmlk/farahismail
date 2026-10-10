@@ -119,7 +119,7 @@ export default function PlayPage() {
   }, []);
 
   return <div className={`playSite ${(status === 'Game over' || status === 'You win') ? 'playFinished' : ''}`}>
-    <header><Link href="/bookindex">← Book Index</Link><span>farahismail.com/play</span></header>
+
     <div className="playLayout"><div className="playGame"><main>
       <div className="playTop"><h1>Play</h1><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
       <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Tap the arrows to move</span></p>
@@ -142,8 +142,10 @@ export default function PlayPage() {
       <p role="status">{scoreMessage}</p>
     </aside></div>
     <style>{`
-      .playSite { min-height:100dvh; background:${accent}; color:${paper}; font-family:Helvetica,'Helvetica Neue',Arial,sans-serif; font-weight:700; }
-      .playSite * { box-sizing:border-box; font-family:inherit; font-weight:700; }
+html,body {background:#2b1c45;}
+
+      .playSite { min-height:100dvh; background:${accent}; color:${paper}; font-family:Helvetica,'Helvetica Neue',Arial,sans-serif; font-weight:400; }
+      .playSite * { box-sizing:border-box; font-family:inherit; font-weight:400; }
       .playSite header { display:flex; justify-content:space-between; gap:16px; padding:28px 5vw; font-size:16px; }
       .playSite a { color:inherit; text-decoration:none; }
       .playLayout {display:flex;align-items:flex-end;gap:5vw;padding:30px 5vw 40px;}

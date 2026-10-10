@@ -16,6 +16,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
-    ...['about', 'play', 'mood'].map(path => ({url: `https://www.farahismail.com/${path}`, lastModified: now})),
+    ...['about', 'play', 'maps'].map(path => ({url: `https://www.farahismail.com/${path}`, lastModified: now})),
   ];
 }
