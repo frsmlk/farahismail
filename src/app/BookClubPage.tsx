@@ -739,6 +739,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 #current *{color:#000000;}
 .bcSection,.bcSection *{color:#000000;}
 .bcLibraryCard .bcBorrowForm,.bcAboutCard .bcBorrowForm{background:#ffcbcf;}
+.bcAboutCardHeader{background:#ffcbcf;}
 .bcLibraryCard.bcReturnCard .bcBorrowForm{background:#571531;color:#ffcbcf;}
 .bcReturnCard .bcBorrowForm *{color:#ffcbcf;}
 `}</style>
