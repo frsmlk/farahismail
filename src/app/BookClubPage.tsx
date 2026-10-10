@@ -733,7 +733,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
 .bcHero {padding-top:54px!important;}
 
-.bcIntroText {font-weight:400;}
+.bcIntroText {font-weight:400;font-size:28.8px;}
 
 .bcSite,.bcSite *{color:#571531;}
 #current *{color:#571531;}
