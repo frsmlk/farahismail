@@ -720,6 +720,8 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
 .bcLibraryCard.bcReturnCard .bcBorrowForm{background:#571531;color:#ffcbcf;}
 .bcReturnCard .bcBorrowForm *{color:#ffcbcf;}
+#return-card .bcCardHeader{background:#571531;}
+#return-card .bcCardHeader p,#return-card .bcCardClose{color:#f7f5ef!important;}
 `}</style>
 
 
