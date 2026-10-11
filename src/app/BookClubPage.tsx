@@ -743,6 +743,22 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 .bcListItem:focus-within,.bcListItem:focus-within *{color:#ff69b4!important;}
 .bcLibraryCard .bcBorrowForm,.bcAboutCard .bcBorrowForm{background:#ffcbcf;}
 .bcAboutCardHeader{background:#ffcbcf;}
+.bcLibraryCard .bcCardHeader{background:#ffcbcf;}
+#borrow-card .bcCardRow input,
+#borrow-card .bcCardRow input:focus{background:#ffcbcf;}
+#borrow-card input:-webkit-autofill,
+#borrow-card input:-webkit-autofill:hover,
+#borrow-card input:-webkit-autofill:focus{
+  -webkit-box-shadow:0 0 0 1000px #ffcbcf inset!important;
+  box-shadow:0 0 0 1000px #ffcbcf inset!important;
+  -webkit-text-fill-color:#000!important;
+  caret-color:#000;
+}
+#borrow-card input:autofill{
+  box-shadow:0 0 0 1000px #ffcbcf inset!important;
+  color:#000!important;
+}
+
 .bcLibraryCard.bcReturnCard .bcBorrowForm{background:#571531;color:#ffcbcf;}
 .bcReturnCard .bcBorrowForm *{color:#ffcbcf;}
 `}</style>
