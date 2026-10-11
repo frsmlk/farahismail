@@ -26,11 +26,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v9', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v10', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v9') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v10') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -70,9 +70,11 @@ export default function EntrySplash() {
       const verticalOffset = (range.getBoundingClientRect().top-origin.rect.top)/sourceSize;
       return { verticalOffset, letter, origin, target, rgb: palette[Math.floor(Math.random()*palette.length)], alpha: .55 + Math.random()*.35, delay: i*4 };
     });
+    const logoTints = source.map(() => ({rgb:palette[Math.floor(Math.random()*palette.length)],alpha:.55+Math.random()*.35}));
     const logoLetters = source.map(({c,rect}) => {
       const letter = document.createElement('span');
       letter.textContent = c; letter.style.display = 'inline-block'; letter.style.width = `${rect.width}px`;
+      letter.style.transition = 'color 120ms ease, opacity 120ms ease';
       return letter;
     });
     logo.replaceChildren(...logoLetters);
@@ -88,6 +90,10 @@ export default function EntrySplash() {
           const started = elapsed-500 >= i*40;
           const pool = Array.from(new Set('farahismail')).filter(c=>c!==source[i].c).join('');
           letter.textContent = i >= 11 || !started ? source[i].c : pool[(i*3+step)%pool.length];
+          if (i < 11 && started) {
+            letter.style.setProperty('color',`rgb(${logoTints[i].rgb.join(',')})`,'important');
+            letter.style.opacity = `${logoTints[i].alpha}`;
+          }
         });
       } else {
         // Continuous glyph travel: no fading the source out and the targets in.
