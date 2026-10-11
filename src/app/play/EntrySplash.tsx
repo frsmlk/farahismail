@@ -18,11 +18,11 @@ export default function EntrySplash() {
     function finish() {
       links.forEach((el, i) => { el.textContent = originals[i]; el.style.removeProperty('visibility'); el.removeAttribute('aria-label'); });
       content.forEach(el => { el.inert = false; });
-      try { sessionStorage.setItem('farah-entered', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-colour-v2', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-colour-v2') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -51,7 +51,7 @@ export default function EntrySplash() {
     let lastTick = -1;
     function tick(now: number) {
       if (cancelled) return;
-      const elapsed = (now - start) * 12.5;
+      const elapsed = (now - start) * (3750 / 900);
       const step = Math.floor(elapsed / 650);
       if (elapsed < 1400) {
         if (step !== lastTick) {
