@@ -257,7 +257,7 @@ function Row({ item, borrowable = false, currentReadable = false }: { item: stri
 }
 
 type BookClubPageProps = {
-  searchParams?: Promise<{ about?: string; return?: string; borrow?: string; lent?: string; current?: string; playlist?: string; error?: string }>;
+  searchParams?: Promise<{ about?: string; return?: string; borrow?: string; lent?: string; current?: string; error?: string }>;
 };
 
 export default async function BookClubPage({ searchParams }: BookClubPageProps) {
@@ -267,7 +267,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
   const returnBook = lentBooks.find((book) => book[1] === params.return);
   const returnSubmitted = params.return === 'submitted';
   const currentTitle = params.current ?? '';
-  const playlistOpen = params.playlist === 'fun-pop';
   const aboutOpen = params.about === 'book-index';
   const lentBook = lentBooks.find((book) => book[1] === lentTitle);
   const currentBook = currentReads.find((book) => book[1] === currentTitle);
@@ -287,20 +286,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
           </p>
         </div>
       </header>
-
-      <section className="bcSection" id="playlist">
-        <div className="bcSectionHead"><h2>Playlist</h2></div>
-        <div className="bcList">
-          <article className="bcListItem bcListItemClickable">
-            <Link scroll={false} className="bcListItemLink" href="?playlist=fun-pop" aria-label="Play Fun Pop playlist">
-              <span className="bcScreenReaderText">Play Fun Pop playlist</span>
-            </Link>
-            <div className="bcType">Playlist</div>
-            <div className="bcBookDetails"><div className="bcTitle">Fun Pop</div><div className="bcAuthor">Spotify</div></div>
-            <div className="bcStatus">Playlist</div>
-          </article>
-        </div>
-      </section>
 
       <section className="bcSection" id="current">
         <div className="bcSectionHead"><h2>Currently Reading</h2></div>
@@ -338,31 +323,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
                 <p>Book Index is an indexing exercise &amp; a shared bookshelf by Farah Ismail. It brings together a growing personal collection of books, made available for others to read.</p>
                 <p>Farah Ismail is an architectural designer in Kuala, working across urban context, architecture &amp; interiors.</p>
                 <p>Get in touch via <a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a>.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null}
-
-      {playlistOpen ? (
-        <div className="bcBorrowModal" id="playlist-card" role="dialog" aria-modal="true" aria-labelledby="playlist-card-title">
-          <Link scroll={false} className="bcBorrowBackdrop" href="/bookindex" aria-label="Close playlist" />
-          <div className="bcLibraryCard">
-            <Link scroll={false} className="bcCardClose" href="/bookindex" aria-label="Close playlist">×</Link>
-            <div className="bcBorrowForm">
-              <div className="bcCardHeader">
-                <p id="playlist-card-title">Book Index</p>
-              </div>
-              <div className="bcPlaylistEmbedRow">
-                <iframe
-                  className="bcSpotifyEmbed"
-                  title="Fun Pop Spotify playlist"
-                  src="https://open.spotify.com/embed/playlist/64pIJTT6N8h2lDk3uUg9g2?utm_source=generator&theme=0"
-                  width="100%"
-                  height="352"
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
-                />
               </div>
             </div>
           </div>
@@ -558,8 +518,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         #current .bcListItemLink:focus-visible { outline-color: var(--bc-accent); }
         .bcBorrowModal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 18px; }
         .bcBorrowBackdrop { position: absolute; inset: 0; background: rgba(40, 34, 28, 0.28); backdrop-filter: blur(3px); }
-        .bcPlaylistEmbedRow { padding: 16px; }
-        .bcSpotifyEmbed { display: block; width: 100%; border: 0; border-radius: 0; background: #111; }
         .bcAboutCard { width: min(520px, 100%); }
         .bcAboutCard .bcBorrowForm { background: var(--bc-paper); background-image: none; font-family: Arial, Helvetica, sans-serif; color: var(--bc-accent); }
         .bcAboutCard .bcBorrowForm, .bcAboutCard .bcBorrowForm * { font-family: Arial, Helvetica, sans-serif; }
