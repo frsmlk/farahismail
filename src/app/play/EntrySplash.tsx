@@ -25,11 +25,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v18', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v19', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v18') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v19') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -132,10 +132,14 @@ export default function EntrySplash() {
           letter.style.fontSize = `${size}px`;
           letter.style.top = `${origin.rect.top-verticalOffset*size}px`;
           letter.style.letterSpacing = target.tracking;
-          const step = Math.floor((elapsed-500)/90);
+          // Ease the scramble cadence down continuously during the final settling.
+          const finalElapsed = Math.min(720,Math.max(0,elapsed-1900));
+          const scrambleClock = Math.min(elapsed-500,1400)+finalElapsed-.25*finalElapsed*finalElapsed/720;
+          const step = Math.floor(scrambleClock/90);
           // One uninterrupted scramble clock spans travel and the final 400ms.
           // Each row finishes before the next starts, reading from top to bottom.
-          const stopAt = 2000+target.group*100+80*target.column/Math.max(1,target.count-1);
+          const order = (target.group+.8*target.column/Math.max(1,target.count-1))/3.8;
+          const stopAt = 2000+520*(.65*order+.35*order*order);
           const settled = elapsed >= stopAt;
           if (progress === 0) {
             letter.textContent = logoLetters[sourceIndex].textContent;
@@ -153,7 +157,7 @@ export default function EntrySplash() {
           }
         });
       }
-      if (elapsed >= 2480) { finish(); return; }
+      if (elapsed >= 2620) { finish(); return; }
       frame = requestAnimationFrame(tick);
     }
     frame = requestAnimationFrame(tick);
