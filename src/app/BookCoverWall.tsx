@@ -9,7 +9,7 @@ export default function BookCoverWall({ photos }: { photos: Record<string, strin
     let active = true;
     const covers = Object.values(photos);
     const titles = Object.fromEntries(Object.entries(photos).map(([title, src]) => [src, title]));
-    const timer = window.setInterval(() => {
+    const rotate = () => {
       if (document.hidden || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const slots = Array.from(element.querySelectorAll('img')).filter(img => img.parentElement && getComputedStyle(img.parentElement).display !== 'none');
       const visible = new Set(slots.map(img => img.getAttribute('src')));
@@ -34,8 +34,11 @@ export default function BookCoverWall({ photos }: { photos: Record<string, strin
         };
         preload.src = next;
       });
-    }, 4000);
-    return () => { active = false; window.clearInterval(timer); element.querySelectorAll('img').forEach(img => img.getAnimations().forEach(animation => animation.cancel())); };
+    };
+    // Start the first swap promptly; keep the established four-second rhythm.
+    const firstSwap = window.setTimeout(rotate, 250);
+    const timer = window.setInterval(rotate, 4000);
+    return () => { active = false; window.clearTimeout(firstSwap); window.clearInterval(timer); element.querySelectorAll('img').forEach(img => img.getAnimations().forEach(animation => animation.cancel())); };
   }, [photos]);
   return <aside ref={wall} className="bcCoverWall" aria-label="Explore book covers" onClick={event => {
     const button = (event.target as Element).closest('button');
