@@ -1,105 +1,98 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-// Letterforms from Norwegian, Swedish and German.
 const glyphs = 'æøåäöüß';
 const palette = [[239,228,170], [255,203,207], [87,21,49]];
 export default function EntrySplash() {
   const [visible, setVisible] = useState(true);
   const splash = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!visible) return;
+    if (!visible || !splash.current) return;
     const overlay = splash.current;
-    if (!overlay) return;
-    let frame = 0;
-    let cancelled = false;
-    const content = Array.from(document.querySelectorAll<HTMLElement>('.worldLanding nav,.worldLanding footer'));
+    const logo = overlay.querySelector('h1')!;
     const links = Array.from(document.querySelectorAll<HTMLAnchorElement>('.worldLanding nav a'));
     const originals = links.map(el => el.textContent || '');
-    function finish() {
-      links.forEach((el, i) => { el.textContent = originals[i]; el.style.removeProperty('visibility'); el.removeAttribute('aria-label'); });
+    const content = Array.from(document.querySelectorAll<HTMLElement>('.worldLanding nav,.worldLanding footer'));
+    let frame = 0;
+    let cancelled = false;
+    function restore() {
+      links.forEach((el,i) => { el.textContent = originals[i]; el.style.removeProperty('visibility'); el.removeAttribute('aria-label'); });
       content.forEach(el => { el.inert = false; });
-      try { sessionStorage.setItem('farah-entered-colour-v2', 'yes'); } catch {}
+    }
+    function finish() {
+      restore();
+      try { sessionStorage.setItem('farah-entered-flight-v3', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-colour-v2') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v3') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     content.forEach(el => { el.inert = true; });
-    links.forEach((el, i) => { el.style.visibility = 'hidden'; el.setAttribute('aria-label', originals[i]); });
-    const logo = overlay.querySelector('h1')!;
-    const title = 'farahismail.com';
-    const styles = Array.from({length: 50}, () => ({ rgb: palette[Math.floor(Math.random()*palette.length)], opacity: .5 + Math.random()*.4 }));
-    function tint(letter: HTMLElement, index: number, settle = 0) {
-      const style = styles[index % styles.length];
-      letter.style.setProperty('color', `rgb(${style.rgb.map(c=>Math.round(c*(1-settle))).join(',')})`, 'important');
-      letter.style.opacity = `${style.opacity + (1-style.opacity)*settle}`;
+    // Measure each glyph in the actual text flow, including Helvetica kerning.
+    function measure(el: HTMLElement, text: string) {
+      const node = document.createTextNode(text);
+      el.replaceChildren(node);
+      return Array.from(text).map((c,i) => {
+        const range = document.createRange(); range.setStart(node,i); range.setEnd(node,i+1);
+        return { c, rect: range.getBoundingClientRect() };
+      });
     }
-    
-    const destinations = links.map(el => el.getBoundingClientRect());
-    const pieces = destinations.map((rect, i) => {
-      const word = document.createElement('span');
-      word.className = 'entryWord'; word.setAttribute('aria-hidden', 'true');
-      word.style.left = `${rect.left}px`; word.style.top = `${rect.top}px`;
-      const computed = getComputedStyle(links[i]);
-      word.style.fontSize = computed.fontSize; word.style.lineHeight = computed.lineHeight; word.style.letterSpacing = computed.letterSpacing;
-      overlay.append(word);
-      return { word, rect };
+    const source = measure(logo, 'farahismail.com');
+    const logoStyle = getComputedStyle(logo);
+    const sourceSize = parseFloat(logoStyle.fontSize);
+    const sourceTracking = logoStyle.letterSpacing;
+    const targets = links.flatMap((el,i) => {
+      const computed = getComputedStyle(el);
+      const size = parseFloat(computed.fontSize);
+      const tracking = computed.letterSpacing;
+      const letters = measure(el, originals[i]).filter(letter => letter.c !== ' ');
+      el.style.visibility = 'hidden'; el.setAttribute('aria-label', originals[i]);
+      return letters.map(letter => ({ ...letter, size, tracking }));
+    });
+    const flights = targets.map((target,i) => {
+      const origin = source[i % source.length];
+      const letter = document.createElement('span');
+      letter.className = 'entryLetter'; letter.setAttribute('aria-hidden','true');
+      letter.style.left = `${origin.rect.left}px`; letter.style.top = `${origin.rect.top}px`;
+      letter.style.fontSize = `${sourceSize}px`; letter.style.letterSpacing = sourceTracking;
+      // Extra destination letters split from existing logo letters when motion starts.
+      letter.textContent = origin.c;
+      letter.style.visibility = 'hidden';
+      overlay.append(letter);
+      return { letter, origin, target, rgb: palette[Math.floor(Math.random()*palette.length)], alpha: .55 + Math.random()*.35, delay: i*4 };
     });
     const start = performance.now();
-    let lastTick = -1;
     function tick(now: number) {
       if (cancelled) return;
-      const elapsed = (now - start) * (3750 / 900);
-      const step = Math.floor(elapsed / 650);
-      if (elapsed < 1400) {
-        if (step !== lastTick) {
-          const fragment = document.createDocumentFragment();
-          Array.from(title).forEach((c,i) => {
-            const letter = document.createElement('span');
-            letter.textContent = i < Math.max(0, 14 - elapsed / 95) ? c : glyphs[(step + i*3)%glyphs.length];
-            tint(letter, i);
-            fragment.append(letter);
-          });
-          logo.replaceChildren(fragment);
-        }
-      } else {
-        logo.style.opacity = `${Math.max(0, 1 - (elapsed - 1400) / 650)}`;
-        pieces.forEach(({word}, i) => {
-          const progress = Math.min(1, Math.max(0, (elapsed - 1400 - i * 150) / 1600));
-          const eased = progress * progress * (3 - 2 * progress);
-          const dx = 0;
-          const dy = 4;
-          word.style.transform = `translate(${dx * (1-eased)}px,${dy * (1-eased)}px) scale(${.995 + .005 * eased})`;
-          word.style.opacity = `${Math.min(1, progress * 2)}`;
-          if (step !== lastTick) {
-            const fragment = document.createDocumentFragment();
-            Array.from(originals[i]).forEach((c,j) => {
-              const letter = document.createElement('span');
-              letter.style.unicodeBidi = 'isolate';
-              const resolve = Math.max(0, Math.min(1, progress * (originals[i].length + 3) - j));
-              letter.textContent = c === ' ' || resolve >= 1 ? c : glyphs[(step + j * 3 + i) % glyphs.length];
-              tint(letter, 14 + i*10 + j, Math.max(0, (progress-.65)/.35));
-              fragment.append(letter);
-            });
-            word.replaceChildren(fragment);
-          }
+      const elapsed = now - start;
+      if (elapsed >= 700) {
+        // Continuous glyph travel: no fading the source out and the targets in.
+        logo.style.visibility = 'hidden';
+        flights.forEach(({letter,origin,target,rgb,alpha,delay},i) => {
+          const progress = Math.min(1,Math.max(0,(elapsed-700-delay)/800));
+          const eased = progress*progress*(3-2*progress);
+          letter.style.visibility = 'visible';
+          letter.style.transform = `translate(${(target.rect.left-origin.rect.left)*eased}px,${(target.rect.top-origin.rect.top)*eased}px)`;
+          letter.style.fontSize = `${sourceSize+(target.size-sourceSize)*eased}px`;
+          letter.style.letterSpacing = target.tracking;
+          const settle = Math.max(0,(progress-.7)/.3);
+          const strength = Math.sin(Math.PI*progress);
+          letter.style.setProperty('color',`rgb(${rgb.map(c=>Math.round(c*strength)).join(',')})`,'important');
+          letter.style.opacity = `${1-(1-alpha)*strength*(1-settle)}`;
+          letter.textContent = progress < .12 ? origin.c : progress < .7 ? glyphs[(Math.floor((elapsed-700)/100)+i)%glyphs.length] : target.c;
         });
       }
-      lastTick = step;
-      if (elapsed >= 3750) { finish(); return; }
+      if (elapsed >= 1600) { finish(); return; }
       frame = requestAnimationFrame(tick);
     }
     frame = requestAnimationFrame(tick);
     return () => {
       cancelled = true; cancelAnimationFrame(frame);
       document.body.style.overflow = previous;
-      links.forEach((el,i) => { el.textContent = originals[i]; el.style.removeProperty('visibility'); el.removeAttribute('aria-label'); });
-      content.forEach(el => { el.inert = false; });
-      pieces.forEach(({word}) => word.remove());
+      restore(); flights.forEach(({letter})=>letter.remove());
     };
   }, [visible]);
   if (!visible) return null;
-  return <div ref={splash} className="entrySplash" role="status" aria-label="Welcome to farahismail.com"><h1 aria-hidden="true">farahismail.com</h1><style>{`.entrySplash{position:fixed;inset:0;z-index:10000;background:#efe4aa;display:grid;place-items:center;text-align:center;padding:28px;font-family:Helvetica,Arial,sans-serif}.entrySplash h1{font-weight:400;font-size:clamp(36px,7vw,100px);letter-spacing:-.05em;line-height:1;margin:0;direction:ltr;unicode-bidi:isolate}.entryWord{position:absolute;font-weight:400;text-align:left;white-space:pre;direction:ltr;unicode-bidi:isolate;transform-origin:top left;pointer-events:none}.entryWord span{transition:opacity 40ms ease}`}</style></div>;
+  return <div ref={splash} className="entrySplash" role="status" aria-label="Welcome to farahismail.com"><h1 aria-hidden="true">farahismail.com</h1><style>{`.entrySplash{position:fixed;inset:0;z-index:10000;background:#efe4aa;display:grid;place-items:center;text-align:center;padding:28px;font-family:Helvetica,Arial,sans-serif}.entrySplash h1{font-weight:400;font-size:clamp(36px,7vw,100px);letter-spacing:-.05em;line-height:1;margin:0;direction:ltr;unicode-bidi:isolate}.entryLetter{position:absolute;font-weight:400;line-height:1;text-align:left;direction:ltr;unicode-bidi:isolate;pointer-events:none;will-change:transform}`}</style></div>;
 }
