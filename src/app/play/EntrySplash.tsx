@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-const glyphs = 'abcdefghijklmnopqrstuvwxyz./_';
+const glyphs = 'aeioulnrst';
 export default function EntrySplash() {
   const [visible, setVisible] = useState(true);
   const splash = useRef<HTMLDivElement>(null);
@@ -32,7 +32,7 @@ export default function EntrySplash() {
     const destinations = links.map(el => el.getBoundingClientRect());
     const pieces = destinations.map((rect, i) => {
       const word = document.createElement('span');
-      word.className = 'entryWord';
+      word.className = 'entryWord'; word.setAttribute('aria-hidden', 'true');
       word.style.left = `${rect.left}px`; word.style.top = `${rect.top}px`;
       const computed = getComputedStyle(links[i]);
       word.style.fontSize = computed.fontSize; word.style.lineHeight = computed.lineHeight; word.style.letterSpacing = computed.letterSpacing;
@@ -44,23 +44,33 @@ export default function EntrySplash() {
     function tick(now: number) {
       if (cancelled) return;
       const elapsed = now - start;
-      const step = Math.floor(elapsed / 65);
-      if (elapsed < 800) {
-        if (step !== lastTick) logo.textContent = Array.from(title).map((c, i) => i < Math.max(0, 14 - elapsed / 45) ? c : glyphs[Math.floor(Math.random() * glyphs.length)]).join('');
+      const step = Math.floor(elapsed / 140);
+      if (elapsed < 1400) {
+        if (step !== lastTick) logo.textContent = Array.from(title).map((c, i) => i < Math.max(0, 14 - elapsed / 95) ? c : glyphs[(step + i * 3) % glyphs.length]).join('');
       } else {
-        logo.style.visibility = 'hidden';
+        logo.style.opacity = `${Math.max(0, 1 - (elapsed - 1400) / 650)}`;
         pieces.forEach(({word,rect}, i) => {
-          const progress = Math.min(1, Math.max(0, (elapsed - 800 - i * 90) / 900));
-          const eased = 1 - Math.pow(1 - progress, 3);
+          const progress = Math.min(1, Math.max(0, (elapsed - 1400 - i * 150) / 1600));
+          const eased = progress * progress * (3 - 2 * progress);
           const dx = source.left - rect.left;
           const dy = source.top - rect.top;
           word.style.transform = `translate(${dx * (1-eased)}px,${dy * (1-eased)}px) scale(${.65 + .35 * eased})`;
-          word.style.opacity = `${Math.min(1, progress * 5)}`;
-          if (step !== lastTick) word.textContent = Array.from(originals[i]).map((c,j) => c === ' ' || j < progress * (originals[i].length + 3) - 3 ? c : glyphs[Math.floor(Math.random()*glyphs.length)]).join('');
+          word.style.opacity = `${Math.min(1, progress * 2)}`;
+          if (step !== lastTick) {
+            const fragment = document.createDocumentFragment();
+            Array.from(originals[i]).forEach((c,j) => {
+              const letter = document.createElement('span');
+              const resolve = Math.max(0, Math.min(1, progress * (originals[i].length + 3) - j));
+              letter.textContent = c === ' ' || resolve >= 1 ? c : glyphs[(step + j * 3 + i) % glyphs.length];
+              letter.style.opacity = `${.35 + .65 * resolve}`;
+              fragment.append(letter);
+            });
+            word.replaceChildren(fragment);
+          }
         });
       }
       lastTick = step;
-      if (elapsed >= 2050) { finish(); return; }
+      if (elapsed >= 3750) { finish(); return; }
       frame = requestAnimationFrame(tick);
     }
     frame = requestAnimationFrame(tick);
@@ -73,5 +83,5 @@ export default function EntrySplash() {
     };
   }, [visible]);
   if (!visible) return null;
-  return <div ref={splash} className="entrySplash" role="status" aria-label="Welcome to farahismail.com"><h1 aria-hidden="true">farahismail.com</h1><style>{`.entrySplash{position:fixed;inset:0;z-index:10000;background:#efe4aa;display:grid;place-items:center;text-align:center;padding:28px;font-family:Helvetica,Arial,sans-serif}.entrySplash h1{font-weight:400;font-size:clamp(36px,7vw,100px);letter-spacing:-.05em;line-height:1;margin:0}.entryWord{position:absolute;font-weight:400;text-align:left;white-space:pre;transform-origin:top left;pointer-events:none}`}</style></div>;
+  return <div ref={splash} className="entrySplash" role="status" aria-label="Welcome to farahismail.com"><h1 aria-hidden="true">farahismail.com</h1><style>{`.entrySplash{position:fixed;inset:0;z-index:10000;background:#efe4aa;display:grid;place-items:center;text-align:center;padding:28px;font-family:Helvetica,Arial,sans-serif}.entrySplash h1{font-weight:400;font-size:clamp(36px,7vw,100px);letter-spacing:-.05em;line-height:1;margin:0}.entryWord{position:absolute;font-weight:400;text-align:left;white-space:pre;transform-origin:top left;pointer-events:none}.entryWord span{transition:opacity 240ms ease}`}</style></div>;
 }
