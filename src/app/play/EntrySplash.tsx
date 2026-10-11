@@ -1,14 +1,11 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-const variants: Record<string,string> = { a:'aåäæ', o:'oøö', u:'uü', s:'sß' };
 function scrambleGlyph(source: string, destination: string, progress: number, index: number, step: number) {
   const blend = progress*progress*(3-2*progress);
   const threshold = ((index*37+step*17)%100)/100;
   const pool = threshold < blend ? destination : source;
   const letter = pool[(index*3+step)%pool.length];
-  // Accented variations stay related to the current word, then fall away.
-  const family = variants[letter] || letter;
-  return progress < .55 ? family[(index+step)%family.length] : letter;
+  return letter;
 }
 const palette = [[239,228,170], [255,203,207], [87,21,49]];
 export default function EntrySplash() {
@@ -29,11 +26,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v5', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v6', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v5') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v6') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -73,11 +70,22 @@ export default function EntrySplash() {
       const verticalOffset = (range.getBoundingClientRect().top-origin.rect.top)/sourceSize;
       return { verticalOffset, letter, origin, target, rgb: palette[Math.floor(Math.random()*palette.length)], alpha: .55 + Math.random()*.35, delay: i*4 };
     });
+    const logoLetters = source.map(({c,rect}) => {
+      const letter = document.createElement('span');
+      letter.textContent = c; letter.style.display = 'inline-block'; letter.style.width = `${rect.width}px`;
+      return letter;
+    });
+    logo.replaceChildren(...logoLetters);
     const start = performance.now();
     function tick(now: number) {
       if (cancelled) return;
       const elapsed = now - start;
-      if (elapsed >= 500) {
+      if (elapsed < 500) {
+        const step = Math.floor(elapsed/100);
+        logoLetters.forEach((letter,i) => {
+          letter.textContent = source[i].c === '.' ? '.' : 'farahismail'[(i*3+step)%11];
+        });
+      } else {
         // Continuous glyph travel: no fading the source out and the targets in.
         logo.style.visibility = 'hidden';
         flights.forEach(({verticalOffset,letter,origin,target,rgb,alpha,delay},i) => {
@@ -95,7 +103,7 @@ export default function EntrySplash() {
           letter.style.opacity = `${1-(1-alpha)*strength*(1-settle)}`;
           const step = Math.floor((elapsed-500)/100);
           const lock = .58 + (i%6)*.045;
-          letter.textContent = progress < .12 ? origin.c : progress < lock ? scrambleGlyph('farahismail', target.pool, progress, i, step) : target.c;
+          letter.textContent = progress < .12 ? (origin.c === '.' ? '.' : 'farahismail'[((i%source.length)*3+4)%11]) : progress < lock ? scrambleGlyph('farahismail', target.pool, progress, i, step) : target.c;
         });
       }
       if (elapsed >= 1400) { finish(); return; }
