@@ -25,11 +25,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v17', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v18', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v17') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v18') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -134,7 +134,8 @@ export default function EntrySplash() {
           letter.style.letterSpacing = target.tracking;
           const step = Math.floor((elapsed-500)/90);
           // One uninterrupted scramble clock spans travel and the final 400ms.
-          const stopAt = 2000+200*i/(flights.length-1);
+          // Each row finishes before the next starts, reading from top to bottom.
+          const stopAt = 2000+target.group*100+80*target.column/Math.max(1,target.count-1);
           const settled = elapsed >= stopAt;
           if (progress === 0) {
             letter.textContent = logoLetters[sourceIndex].textContent;
@@ -152,7 +153,7 @@ export default function EntrySplash() {
           }
         });
       }
-      if (elapsed >= 2300) { finish(); return; }
+      if (elapsed >= 2480) { finish(); return; }
       frame = requestAnimationFrame(tick);
     }
     frame = requestAnimationFrame(tick);
