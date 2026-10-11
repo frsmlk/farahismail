@@ -44,7 +44,7 @@ export default function EntrySplash() {
     let lastTick = -1;
     function tick(now: number) {
       if (cancelled) return;
-      const elapsed = now - start;
+      const elapsed = (now - start) * 1.6;
       const step = Math.floor(elapsed / 140);
       if (elapsed < 1400) {
         if (step !== lastTick) logo.textContent = Array.from(title).map((c, i) => i < Math.max(0, 14 - elapsed / 95) ? c : glyphs[(step + i * 3) % glyphs.length]).join('');
