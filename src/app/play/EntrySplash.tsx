@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-// Letterforms from Norwegian, Swedish, German and Arabic.
-const glyphs = 'æøåäöüßابتثجحخدذرزسشصضطظعغفقكلمنهوي';
+// Letterforms from Norwegian, Swedish and German.
+const glyphs = 'æøåäöüß';
 export default function EntrySplash() {
   const [visible, setVisible] = useState(true);
   const splash = useRef<HTMLDivElement>(null);
