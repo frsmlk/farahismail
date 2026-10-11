@@ -7,7 +7,6 @@ function scrambleGlyph(source: string, destination: string, progress: number, in
   const letter = pool[(index*3+step)%pool.length];
   return letter;
 }
-const palette = [[239,228,170], [255,203,207], [87,21,49]];
 export default function EntrySplash() {
   const [visible, setVisible] = useState(true);
   const splash = useRef<HTMLDivElement>(null);
@@ -26,11 +25,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v11', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v12', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v11') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v12') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -68,13 +67,11 @@ export default function EntrySplash() {
       overlay.append(letter);
       const range = document.createRange(); range.selectNodeContents(letter);
       const verticalOffset = (range.getBoundingClientRect().top-origin.rect.top)/sourceSize;
-      return { verticalOffset, letter, origin, target, rgb: palette[Math.floor(Math.random()*palette.length)], alpha: .55 + Math.random()*.35, delay: i*4 };
+      return { verticalOffset, letter, origin, target, delay: i*4 };
     });
-    const logoTints = source.map(() => ({rgb:palette[Math.floor(Math.random()*palette.length)],alpha:.75+Math.random()*.15}));
     const logoLetters = source.map(({c,rect}) => {
       const letter = document.createElement('span');
       letter.textContent = c; letter.style.display = 'inline-block'; letter.style.width = `${rect.width}px`;
-      letter.style.transition = 'color 180ms ease, opacity 180ms ease';
       return letter;
     });
     logo.replaceChildren(...logoLetters);
@@ -91,15 +88,11 @@ export default function EntrySplash() {
           const pool = Array.from(new Set('farahismailcom')).filter(c=>c!==source[i].c).join('');
           // One quiet substitution per letter instead of repeated flickering.
           letter.textContent = !started ? source[i].c : pool[(i*3)%pool.length];
-          if (started) {
-            letter.style.setProperty('color',`rgb(${logoTints[i].rgb.join(',')})`,'important');
-            letter.style.opacity = `${logoTints[i].alpha}`;
-          }
         });
       } else {
         // Continuous glyph travel: no fading the source out and the targets in.
         logo.style.visibility = 'hidden';
-        flights.forEach(({verticalOffset,letter,origin,target,rgb,alpha,delay},i) => {
+        flights.forEach(({verticalOffset,letter,origin,target,delay},i) => {
           const progress = Math.min(1,Math.max(0,(elapsed-1000-delay)/800));
           const eased = progress*progress*(3-2*progress);
           letter.style.visibility = 'visible';
@@ -108,10 +101,6 @@ export default function EntrySplash() {
           letter.style.fontSize = `${size}px`;
           letter.style.top = `${origin.rect.top-verticalOffset*size}px`;
           letter.style.letterSpacing = target.tracking;
-          const settle = Math.max(0,(progress-.7)/.3);
-          const strength = Math.sin(Math.PI*progress);
-          letter.style.setProperty('color',`rgb(${rgb.map(c=>Math.round(c*strength)).join(',')})`,'important');
-          letter.style.opacity = `${1-(1-alpha)*strength*(1-settle)}`;
           const step = Math.floor((elapsed-1000)/180);
           const lock = .58 + (i%6)*.045;
           letter.textContent = progress < .12 ? logoLetters[i%source.length].textContent : progress < lock ? scrambleGlyph('farahismail', target.pool, progress, i, step) : target.c;
