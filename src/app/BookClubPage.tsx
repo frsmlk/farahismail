@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import BookCoverWall from './BookCoverWall';
 import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
 import { sseEvents } from '@/lib/db/schema';
@@ -768,45 +769,6 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         dangerouslySetInnerHTML={{
           __html: `
             (() => {
-              if (!window.bcCoverClickBound) {
-                window.bcCoverClickBound = true;
-                const coverTitles = ${JSON.stringify(Object.fromEntries(Object.entries(bookCoverPhotos).map(([title,src]) => [src,title])))};
-                document.addEventListener('click', event => {
-                  const button = event.target.closest?.('.bcCoverSquare');
-                  if (!button) return;
-                  const title = coverTitles[button.querySelector('img').getAttribute('src')];
-                  const row = [...document.querySelectorAll('[data-book-title]')].find(row => row.dataset.bookTitle === title);
-                  if (!row) return;
-                  row.scrollIntoView({block:'center',behavior:'instant'});
-                  row.querySelector('.bcListItemLink')?.click();
-                });
-              }
-              if (!window.bcCoverWallTimer) {
-                const covers = ${JSON.stringify(Object.values(bookCoverPhotos))};
-                window.bcCoverWallTimer = setInterval(() => {
-                  if ((!matchMedia('(min-width:1100px)').matches && !matchMedia('(max-width:640px)').matches) || matchMedia('(prefers-reduced-motion: reduce)').matches || document.hidden) return;
-                  const slots = [...document.querySelectorAll('.bcCoverSquare img')].filter(img => getComputedStyle(img.parentElement).display !== 'none');
-                  if (!slots.length) return;
-                  const visible = slots.map(img => img.getAttribute('src'));
-                  slots.forEach((slot, slotIndex) => {
-                  const choices = covers.filter(src => !visible.includes(src));
-                  const next = choices[Math.floor(Math.random() * choices.length)];
-                  if (!next) return;
-                  visible.push(next);
-                  const preload = new Image();
-                  preload.onload = async () => {
-                    await new Promise(resolve => setTimeout(resolve, slotIndex * 180));
-                    await slot.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(.92)'}], {duration:500,fill:'forwards'}).finished;
-                    slot.src = next;
-                    const title = ${JSON.stringify(Object.fromEntries(Object.entries(bookCoverPhotos).map(([title,src]) => [src,title])))}[next];
-                    slot.alt = title;
-                    slot.parentElement.setAttribute("aria-label", "View " + title);
-                    slot.animate([{opacity:0,transform:'scale(.92)'},{opacity:1,transform:'scale(1)'}], {duration:700,fill:'forwards'});
-                  };
-                  preload.src = next;
-                  });
-                }, 4000);
-              }
               if (!window.bcReturnConfettiBound) {
                 window.bcReturnConfettiBound = true;
                 const celebrate = () => {
@@ -864,11 +826,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
         }}
       />
 
-      <aside className="bcCoverWall" aria-label="Explore book covers">
-        {Object.entries(bookCoverPhotos).slice(0, 6).map(([title, src], index) => (
-          <button type="button" className="bcCoverSquare" key={index} aria-label={`View ${title}`}><img src={src} alt={title} /></button>
-        ))}
-      </aside>
+      <BookCoverWall photos={bookCoverPhotos} />
     </main>
   );
 }
