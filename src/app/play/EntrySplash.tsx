@@ -26,11 +26,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v6', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v7', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v6') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v7') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -81,7 +81,9 @@ export default function EntrySplash() {
       if (cancelled) return;
       const elapsed = now - start;
       if (elapsed < 500) {
-        const step = Math.floor(elapsed/100);
+        // Keep the complete logo legible before any scrambling.
+      } else if (elapsed < 1000) {
+        const step = Math.floor((elapsed-500)/100);
         logoLetters.forEach((letter,i) => {
           letter.textContent = source[i].c === '.' ? '.' : 'farahismail'[(i*3+step)%11];
         });
@@ -89,7 +91,7 @@ export default function EntrySplash() {
         // Continuous glyph travel: no fading the source out and the targets in.
         logo.style.visibility = 'hidden';
         flights.forEach(({verticalOffset,letter,origin,target,rgb,alpha,delay},i) => {
-          const progress = Math.min(1,Math.max(0,(elapsed-500-delay)/800));
+          const progress = Math.min(1,Math.max(0,(elapsed-1000-delay)/800));
           const eased = progress*progress*(3-2*progress);
           letter.style.visibility = 'visible';
           letter.style.transform = `translate(${(target.rect.left-origin.rect.left)*eased}px,${(target.rect.top-origin.rect.top)*eased}px)`;
@@ -101,12 +103,12 @@ export default function EntrySplash() {
           const strength = Math.sin(Math.PI*progress);
           letter.style.setProperty('color',`rgb(${rgb.map(c=>Math.round(c*strength)).join(',')})`,'important');
           letter.style.opacity = `${1-(1-alpha)*strength*(1-settle)}`;
-          const step = Math.floor((elapsed-500)/100);
+          const step = Math.floor((elapsed-1000)/100);
           const lock = .58 + (i%6)*.045;
           letter.textContent = progress < .12 ? (origin.c === '.' ? '.' : 'farahismail'[((i%source.length)*3+4)%11]) : progress < lock ? scrambleGlyph('farahismail', target.pool, progress, i, step) : target.c;
         });
       }
-      if (elapsed >= 1400) { finish(); return; }
+      if (elapsed >= 1900) { finish(); return; }
       frame = requestAnimationFrame(tick);
     }
     frame = requestAnimationFrame(tick);
