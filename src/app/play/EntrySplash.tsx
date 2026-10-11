@@ -20,11 +20,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v3', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v4', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v3') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v4') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -68,11 +68,11 @@ export default function EntrySplash() {
     function tick(now: number) {
       if (cancelled) return;
       const elapsed = now - start;
-      if (elapsed >= 700) {
+      if (elapsed >= 500) {
         // Continuous glyph travel: no fading the source out and the targets in.
         logo.style.visibility = 'hidden';
         flights.forEach(({verticalOffset,letter,origin,target,rgb,alpha,delay},i) => {
-          const progress = Math.min(1,Math.max(0,(elapsed-700-delay)/800));
+          const progress = Math.min(1,Math.max(0,(elapsed-500-delay)/800));
           const eased = progress*progress*(3-2*progress);
           letter.style.visibility = 'visible';
           letter.style.transform = `translate(${(target.rect.left-origin.rect.left)*eased}px,${(target.rect.top-origin.rect.top)*eased}px)`;
@@ -84,10 +84,10 @@ export default function EntrySplash() {
           const strength = Math.sin(Math.PI*progress);
           letter.style.setProperty('color',`rgb(${rgb.map(c=>Math.round(c*strength)).join(',')})`,'important');
           letter.style.opacity = `${1-(1-alpha)*strength*(1-settle)}`;
-          letter.textContent = progress < .12 ? origin.c : progress < .7 ? glyphs[(Math.floor((elapsed-700)/100)+i)%glyphs.length] : target.c;
+          letter.textContent = progress < .12 ? origin.c : progress < .7 ? glyphs[(Math.floor((elapsed-500)/100)+i)%glyphs.length] : target.c;
         });
       }
-      if (elapsed >= 1600) { finish(); return; }
+      if (elapsed >= 1400) { finish(); return; }
       frame = requestAnimationFrame(tick);
     }
     frame = requestAnimationFrame(tick);
