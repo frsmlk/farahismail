@@ -60,7 +60,9 @@ export default function EntrySplash() {
       letter.textContent = origin.c;
       letter.style.visibility = 'hidden';
       overlay.append(letter);
-      return { letter, origin, target, rgb: palette[Math.floor(Math.random()*palette.length)], alpha: .55 + Math.random()*.35, delay: i*4 };
+      const range = document.createRange(); range.selectNodeContents(letter);
+      const verticalOffset = (range.getBoundingClientRect().top-origin.rect.top)/sourceSize;
+      return { verticalOffset, letter, origin, target, rgb: palette[Math.floor(Math.random()*palette.length)], alpha: .55 + Math.random()*.35, delay: i*4 };
     });
     const start = performance.now();
     function tick(now: number) {
@@ -69,12 +71,14 @@ export default function EntrySplash() {
       if (elapsed >= 700) {
         // Continuous glyph travel: no fading the source out and the targets in.
         logo.style.visibility = 'hidden';
-        flights.forEach(({letter,origin,target,rgb,alpha,delay},i) => {
+        flights.forEach(({verticalOffset,letter,origin,target,rgb,alpha,delay},i) => {
           const progress = Math.min(1,Math.max(0,(elapsed-700-delay)/800));
           const eased = progress*progress*(3-2*progress);
           letter.style.visibility = 'visible';
           letter.style.transform = `translate(${(target.rect.left-origin.rect.left)*eased}px,${(target.rect.top-origin.rect.top)*eased}px)`;
-          letter.style.fontSize = `${sourceSize+(target.size-sourceSize)*eased}px`;
+          const size = sourceSize+(target.size-sourceSize)*eased;
+          letter.style.fontSize = `${size}px`;
+          letter.style.top = `${origin.rect.top-verticalOffset*size}px`;
           letter.style.letterSpacing = target.tracking;
           const settle = Math.max(0,(progress-.7)/.3);
           const strength = Math.sin(Math.PI*progress);
