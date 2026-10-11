@@ -26,11 +26,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v8', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v9', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v8') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v9') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -85,7 +85,9 @@ export default function EntrySplash() {
       } else if (elapsed < 1000) {
         const step = Math.floor((elapsed-500)/100);
         logoLetters.forEach((letter,i) => {
-          letter.textContent = i >= 11 ? source[i].c : 'farahismail'[(i*3+step)%11];
+          const started = elapsed-500 >= i*40;
+          const pool = Array.from(new Set('farahismail')).filter(c=>c!==source[i].c).join('');
+          letter.textContent = i >= 11 || !started ? source[i].c : pool[(i*3+step)%pool.length];
         });
       } else {
         // Continuous glyph travel: no fading the source out and the targets in.
@@ -105,7 +107,7 @@ export default function EntrySplash() {
           letter.style.opacity = `${1-(1-alpha)*strength*(1-settle)}`;
           const step = Math.floor((elapsed-1000)/100);
           const lock = .58 + (i%6)*.045;
-          letter.textContent = progress < .12 ? (origin.c === '.' ? '.' : 'farahismail'[((i%source.length)*3+4)%11]) : progress < lock ? scrambleGlyph('farahismail', target.pool, progress, i, step) : target.c;
+          letter.textContent = progress < .12 ? logoLetters[i%source.length].textContent : progress < lock ? scrambleGlyph('farahismail', target.pool, progress, i, step) : target.c;
         });
       }
       if (elapsed >= 1900) { finish(); return; }
