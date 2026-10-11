@@ -25,11 +25,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v13', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v14', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v13') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v14') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -107,8 +107,13 @@ export default function EntrySplash() {
           const eased = progress*progress*(3-2*progress);
           letter.style.visibility = 'visible';
           const horizontal = 1-Math.pow(1-progress,3);
-          letter.style.transform = `translate(${(target.rect.left-origin.rect.left)*horizontal}px,${(target.rect.top-origin.rect.top)*eased}px)`;
-          const size = sourceSize+(target.size-sourceSize)*eased;
+          const spread = 1-Math.pow(1-Math.min(1,progress/.4),3);
+          const rowOffset = target.rect.top-targets[0].rect.top;
+          const y = (targets[0].rect.top-origin.rect.top)*eased+rowOffset*spread;
+          letter.style.transform = `translate(${(target.rect.left-origin.rect.left)*horizontal}px,${y}px)`;
+          // Separate the rows before growing their glyphs to the final heading size.
+          const growth = Math.max(0,(progress-.2)/.8);
+          const size = sourceSize+(target.size-sourceSize)*growth*growth*(3-2*growth);
           letter.style.fontSize = `${size}px`;
           letter.style.top = `${origin.rect.top-verticalOffset*size}px`;
           letter.style.letterSpacing = target.tracking;
