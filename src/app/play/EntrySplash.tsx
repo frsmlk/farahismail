@@ -25,11 +25,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v12', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v13', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v12') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v13') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -47,16 +47,26 @@ export default function EntrySplash() {
     const logoStyle = getComputedStyle(logo);
     const sourceSize = parseFloat(logoStyle.fontSize);
     const sourceTracking = logoStyle.letterSpacing;
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d')!;
+    function restrainedGlyph(original: string, index: number) {
+      context.font = `${sourceSize}px Helvetica, Arial, sans-serif`;
+      const width = context.measureText(original).width;
+      const pool = Array.from(new Set('farahismailcom')).filter(c => c !== original && Math.abs(context.measureText(c).width-width) < sourceSize*.12);
+      return pool.length ? pool[index%pool.length] : original;
+    }
     const targets = links.flatMap((el,i) => {
       const computed = getComputedStyle(el);
       const size = parseFloat(computed.fontSize);
       const tracking = computed.letterSpacing;
       const letters = measure(el, originals[i]).filter(letter => letter.c !== ' ');
       el.style.visibility = 'hidden'; el.setAttribute('aria-label', originals[i]);
-      return letters.map(letter => ({ ...letter, size, tracking, pool: originals[i].replace(/\s/g,'').toLowerCase() }));
+      return letters.map((letter, column) => ({ ...letter, group: i, column, count: letters.length, size, tracking, pool: originals[i].replace(/\s/g,'').toLowerCase() }));
     });
     const flights = targets.map((target,i) => {
-      const origin = source[i % source.length];
+      // Monotonic origins avoid wrapping back across the logo and crossing paths.
+      const sourceIndex = Math.round(i*(source.length-1)/(targets.length-1));
+      const origin = source[sourceIndex];
       const letter = document.createElement('span');
       letter.className = 'entryLetter'; letter.setAttribute('aria-hidden','true');
       letter.style.left = `${origin.rect.left}px`; letter.style.top = `${origin.rect.top}px`;
@@ -67,7 +77,7 @@ export default function EntrySplash() {
       overlay.append(letter);
       const range = document.createRange(); range.selectNodeContents(letter);
       const verticalOffset = (range.getBoundingClientRect().top-origin.rect.top)/sourceSize;
-      return { verticalOffset, letter, origin, target, delay: i*4 };
+      return { verticalOffset, letter, origin, sourceIndex, target, delay: target.group*24 };
     });
     const logoLetters = source.map(({c,rect}) => {
       const letter = document.createElement('span');
@@ -85,25 +95,26 @@ export default function EntrySplash() {
         logoLetters.forEach((letter,i) => {
           const local = elapsed-500-i*30;
           const started = local >= 0;
-          const pool = Array.from(new Set('farahismailcom')).filter(c=>c!==source[i].c).join('');
+          const replacement = restrainedGlyph(source[i].c, i);
           // One quiet substitution per letter instead of repeated flickering.
-          letter.textContent = !started ? source[i].c : pool[(i*3)%pool.length];
+          letter.textContent = !started ? source[i].c : replacement;
         });
       } else {
         // Continuous glyph travel: no fading the source out and the targets in.
         logo.style.visibility = 'hidden';
-        flights.forEach(({verticalOffset,letter,origin,target,delay},i) => {
+        flights.forEach(({verticalOffset,letter,origin,sourceIndex,target,delay},i) => {
           const progress = Math.min(1,Math.max(0,(elapsed-1000-delay)/800));
           const eased = progress*progress*(3-2*progress);
           letter.style.visibility = 'visible';
-          letter.style.transform = `translate(${(target.rect.left-origin.rect.left)*eased}px,${(target.rect.top-origin.rect.top)*eased}px)`;
+          const horizontal = 1-Math.pow(1-progress,3);
+          letter.style.transform = `translate(${(target.rect.left-origin.rect.left)*horizontal}px,${(target.rect.top-origin.rect.top)*eased}px)`;
           const size = sourceSize+(target.size-sourceSize)*eased;
           letter.style.fontSize = `${size}px`;
           letter.style.top = `${origin.rect.top-verticalOffset*size}px`;
           letter.style.letterSpacing = target.tracking;
           const step = Math.floor((elapsed-1000)/180);
-          const lock = .58 + (i%6)*.045;
-          letter.textContent = progress < .12 ? logoLetters[i%source.length].textContent : progress < lock ? scrambleGlyph('farahismail', target.pool, progress, i, step) : target.c;
+          const lock = .32 + (target.column/target.count)*.12;
+          letter.textContent = progress < .12 ? logoLetters[sourceIndex].textContent : progress < lock ? scrambleGlyph('farahismail', target.pool, progress, i, step) : target.c;
         });
       }
       if (elapsed >= 1900) { finish(); return; }
