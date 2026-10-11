@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-const glyphs = 'aeioulnrst';
+// Letterforms from Norwegian, Swedish, German and Arabic.
+const glyphs = 'æøåäöüßابتثجحخدذرزسشصضطظعغفقكلمنهوي';
 export default function EntrySplash() {
   const [visible, setVisible] = useState(true);
   const splash = useRef<HTMLDivElement>(null);
@@ -60,6 +61,7 @@ export default function EntrySplash() {
             const fragment = document.createDocumentFragment();
             Array.from(originals[i]).forEach((c,j) => {
               const letter = document.createElement('span');
+              letter.style.unicodeBidi = 'isolate';
               const resolve = Math.max(0, Math.min(1, progress * (originals[i].length + 3) - j));
               letter.textContent = c === ' ' || resolve >= 1 ? c : glyphs[(step + j * 3 + i) % glyphs.length];
               letter.style.opacity = `${.35 + .65 * resolve}`;
@@ -83,5 +85,5 @@ export default function EntrySplash() {
     };
   }, [visible]);
   if (!visible) return null;
-  return <div ref={splash} className="entrySplash" role="status" aria-label="Welcome to farahismail.com"><h1 aria-hidden="true">farahismail.com</h1><style>{`.entrySplash{position:fixed;inset:0;z-index:10000;background:#efe4aa;display:grid;place-items:center;text-align:center;padding:28px;font-family:Helvetica,Arial,sans-serif}.entrySplash h1{font-weight:400;font-size:clamp(36px,7vw,100px);letter-spacing:-.05em;line-height:1;margin:0}.entryWord{position:absolute;font-weight:400;text-align:left;white-space:pre;transform-origin:top left;pointer-events:none}.entryWord span{transition:opacity 240ms ease}`}</style></div>;
+  return <div ref={splash} className="entrySplash" role="status" aria-label="Welcome to farahismail.com"><h1 aria-hidden="true">farahismail.com</h1><style>{`.entrySplash{position:fixed;inset:0;z-index:10000;background:#efe4aa;display:grid;place-items:center;text-align:center;padding:28px;font-family:Helvetica,Arial,sans-serif}.entrySplash h1{font-weight:400;font-size:clamp(36px,7vw,100px);letter-spacing:-.05em;line-height:1;margin:0;direction:ltr;unicode-bidi:isolate}.entryWord{position:absolute;font-weight:400;text-align:left;white-space:pre;direction:ltr;unicode-bidi:isolate;transform-origin:top left;pointer-events:none}.entryWord span{transition:opacity 240ms ease}`}</style></div>;
 }
