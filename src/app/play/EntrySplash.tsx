@@ -26,11 +26,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v10', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v11', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v10') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v11') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -70,11 +70,11 @@ export default function EntrySplash() {
       const verticalOffset = (range.getBoundingClientRect().top-origin.rect.top)/sourceSize;
       return { verticalOffset, letter, origin, target, rgb: palette[Math.floor(Math.random()*palette.length)], alpha: .55 + Math.random()*.35, delay: i*4 };
     });
-    const logoTints = source.map(() => ({rgb:palette[Math.floor(Math.random()*palette.length)],alpha:.55+Math.random()*.35}));
+    const logoTints = source.map(() => ({rgb:palette[Math.floor(Math.random()*palette.length)],alpha:.75+Math.random()*.15}));
     const logoLetters = source.map(({c,rect}) => {
       const letter = document.createElement('span');
       letter.textContent = c; letter.style.display = 'inline-block'; letter.style.width = `${rect.width}px`;
-      letter.style.transition = 'color 120ms ease, opacity 120ms ease';
+      letter.style.transition = 'color 180ms ease, opacity 180ms ease';
       return letter;
     });
     logo.replaceChildren(...logoLetters);
@@ -85,12 +85,13 @@ export default function EntrySplash() {
       if (elapsed < 500) {
         // Keep the complete logo legible before any scrambling.
       } else if (elapsed < 1000) {
-        const step = Math.floor((elapsed-500)/100);
         logoLetters.forEach((letter,i) => {
-          const started = elapsed-500 >= i*40;
-          const pool = Array.from(new Set('farahismail')).filter(c=>c!==source[i].c).join('');
-          letter.textContent = i >= 11 || !started ? source[i].c : pool[(i*3+step)%pool.length];
-          if (i < 11 && started) {
+          const local = elapsed-500-i*30;
+          const started = local >= 0;
+          const pool = Array.from(new Set('farahismailcom')).filter(c=>c!==source[i].c).join('');
+          // One quiet substitution per letter instead of repeated flickering.
+          letter.textContent = !started ? source[i].c : pool[(i*3)%pool.length];
+          if (started) {
             letter.style.setProperty('color',`rgb(${logoTints[i].rgb.join(',')})`,'important');
             letter.style.opacity = `${logoTints[i].alpha}`;
           }
@@ -111,7 +112,7 @@ export default function EntrySplash() {
           const strength = Math.sin(Math.PI*progress);
           letter.style.setProperty('color',`rgb(${rgb.map(c=>Math.round(c*strength)).join(',')})`,'important');
           letter.style.opacity = `${1-(1-alpha)*strength*(1-settle)}`;
-          const step = Math.floor((elapsed-1000)/100);
+          const step = Math.floor((elapsed-1000)/180);
           const lock = .58 + (i%6)*.045;
           letter.textContent = progress < .12 ? logoLetters[i%source.length].textContent : progress < lock ? scrambleGlyph('farahismail', target.pool, progress, i, step) : target.c;
         });
