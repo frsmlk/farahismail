@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 // Letterforms from Norwegian, Swedish and German.
 const glyphs = 'æøåäöüß';
+const palette = [[239,228,170], [255,203,207], [87,21,49]];
 export default function EntrySplash() {
   const [visible, setVisible] = useState(true);
   const splash = useRef<HTMLDivElement>(null);
@@ -29,6 +30,12 @@ export default function EntrySplash() {
     links.forEach((el, i) => { el.style.visibility = 'hidden'; el.setAttribute('aria-label', originals[i]); });
     const logo = overlay.querySelector('h1')!;
     const title = 'farahismail.com';
+    const styles = Array.from({length: 50}, () => ({ rgb: palette[Math.floor(Math.random()*palette.length)], opacity: .5 + Math.random()*.4 }));
+    function tint(letter: HTMLElement, index: number, settle = 0) {
+      const style = styles[index % styles.length];
+      letter.style.setProperty('color', `rgb(${style.rgb.map(c=>Math.round(c*(1-settle))).join(',')})`, 'important');
+      letter.style.opacity = `${style.opacity + (1-style.opacity)*settle}`;
+    }
     
     const destinations = links.map(el => el.getBoundingClientRect());
     const pieces = destinations.map((rect, i) => {
@@ -47,7 +54,16 @@ export default function EntrySplash() {
       const elapsed = (now - start) * 12.5;
       const step = Math.floor(elapsed / 650);
       if (elapsed < 1400) {
-        if (step !== lastTick) logo.textContent = Array.from(title).map((c, i) => i < Math.max(0, 14 - elapsed / 95) ? c : glyphs[(step + i * 3) % glyphs.length]).join('');
+        if (step !== lastTick) {
+          const fragment = document.createDocumentFragment();
+          Array.from(title).forEach((c,i) => {
+            const letter = document.createElement('span');
+            letter.textContent = i < Math.max(0, 14 - elapsed / 95) ? c : glyphs[(step + i*3)%glyphs.length];
+            tint(letter, i);
+            fragment.append(letter);
+          });
+          logo.replaceChildren(fragment);
+        }
       } else {
         logo.style.opacity = `${Math.max(0, 1 - (elapsed - 1400) / 650)}`;
         pieces.forEach(({word}, i) => {
@@ -64,7 +80,7 @@ export default function EntrySplash() {
               letter.style.unicodeBidi = 'isolate';
               const resolve = Math.max(0, Math.min(1, progress * (originals[i].length + 3) - j));
               letter.textContent = c === ' ' || resolve >= 1 ? c : glyphs[(step + j * 3 + i) % glyphs.length];
-              letter.style.opacity = `${.35 + .65 * resolve}`;
+              tint(letter, 14 + i*10 + j, Math.max(0, (progress-.65)/.35));
               fragment.append(letter);
             });
             word.replaceChildren(fragment);
