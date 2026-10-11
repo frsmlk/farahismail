@@ -25,11 +25,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v15', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v16', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v15') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v16') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -49,10 +49,10 @@ export default function EntrySplash() {
     const sourceTracking = logoStyle.letterSpacing;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d')!;
-    function restrainedGlyph(original: string) {
-      context.font = `${sourceSize}px Helvetica, Arial, sans-serif`;
+    function restrainedGlyph(original: string, size = sourceSize, letters = 'farahismailcom') {
+      context.font = `${size}px Helvetica, Arial, sans-serif`;
       const width = context.measureText(original).width;
-      const pool = Array.from(new Set('farahismailcom')).filter(c => c !== original && Math.abs(context.measureText(c).width-width) < sourceSize*.12);
+      const pool = Array.from(new Set(letters)).filter(c => c !== original && Math.abs(context.measureText(c).width-width) < size*.12);
       return pool.length ? pool[Math.floor(Math.random()*pool.length)] : original;
     }
     const targets = links.flatMap((el,i) => {
@@ -137,17 +137,31 @@ export default function EntrySplash() {
           if (progress === 0) {
             letter.style.setProperty('color', logoLetters[sourceIndex].style.color, 'important');
             letter.style.opacity = logoLetters[sourceIndex].style.opacity;
-          } else { tint(letter, step, progress > .8); }
+          } else if (elapsed < 1900) { tint(letter, step, progress > .8); }
           const lock = .32 + (target.column/target.count)*.12;
-          if (progress === 0) { letter.textContent = logoLetters[sourceIndex].textContent; }
+          if (elapsed >= 1900) { /* Final pass below owns the stationary glyph. */ }
+          else if (progress === 0) { letter.textContent = logoLetters[sourceIndex].textContent; }
           else if (progress >= lock) { letter.textContent = target.c; }
           else if (glyphSteps.get(letter) !== step) {
             glyphSteps.set(letter, step);
             letter.textContent = scrambleGlyph('farahismailcom', target.pool, progress, i, step);
           }
+          if (elapsed >= 1900) {
+            // A stationary final pass resolves from left to right across the menu.
+            const settlingTime = elapsed-1900;
+            const stopAt = 100+200*i/(flights.length-1);
+            const finalStep = 1000+Math.floor(settlingTime/70);
+            const settled = settlingTime >= stopAt;
+            tint(letter, finalStep, settled);
+            if (settled) { letter.textContent = target.c; }
+            else if (glyphSteps.get(letter) !== finalStep) {
+              glyphSteps.set(letter, finalStep);
+              letter.textContent = restrainedGlyph(target.c, target.size, target.pool);
+            }
+          }
         });
       }
-      if (elapsed >= 1900) { finish(); return; }
+      if (elapsed >= 2300) { finish(); return; }
       frame = requestAnimationFrame(tick);
     }
     frame = requestAnimationFrame(tick);
