@@ -29,7 +29,7 @@ export default function EntrySplash() {
     links.forEach((el, i) => { el.style.visibility = 'hidden'; el.setAttribute('aria-label', originals[i]); });
     const logo = overlay.querySelector('h1')!;
     const title = 'farahismail.com';
-    const source = logo.getBoundingClientRect();
+    
     const destinations = links.map(el => el.getBoundingClientRect());
     const pieces = destinations.map((rect, i) => {
       const word = document.createElement('span');
@@ -44,18 +44,18 @@ export default function EntrySplash() {
     let lastTick = -1;
     function tick(now: number) {
       if (cancelled) return;
-      const elapsed = (now - start) * 1.6;
-      const step = Math.floor(elapsed / 140);
+      const elapsed = (now - start) * 12.5;
+      const step = Math.floor(elapsed / 650);
       if (elapsed < 1400) {
         if (step !== lastTick) logo.textContent = Array.from(title).map((c, i) => i < Math.max(0, 14 - elapsed / 95) ? c : glyphs[(step + i * 3) % glyphs.length]).join('');
       } else {
         logo.style.opacity = `${Math.max(0, 1 - (elapsed - 1400) / 650)}`;
-        pieces.forEach(({word,rect}, i) => {
+        pieces.forEach(({word}, i) => {
           const progress = Math.min(1, Math.max(0, (elapsed - 1400 - i * 150) / 1600));
           const eased = progress * progress * (3 - 2 * progress);
-          const dx = source.left - rect.left;
-          const dy = source.top - rect.top;
-          word.style.transform = `translate(${dx * (1-eased)}px,${dy * (1-eased)}px) scale(${.65 + .35 * eased})`;
+          const dx = 0;
+          const dy = 4;
+          word.style.transform = `translate(${dx * (1-eased)}px,${dy * (1-eased)}px) scale(${.995 + .005 * eased})`;
           word.style.opacity = `${Math.min(1, progress * 2)}`;
           if (step !== lastTick) {
             const fragment = document.createDocumentFragment();
@@ -85,5 +85,5 @@ export default function EntrySplash() {
     };
   }, [visible]);
   if (!visible) return null;
-  return <div ref={splash} className="entrySplash" role="status" aria-label="Welcome to farahismail.com"><h1 aria-hidden="true">farahismail.com</h1><style>{`.entrySplash{position:fixed;inset:0;z-index:10000;background:#efe4aa;display:grid;place-items:center;text-align:center;padding:28px;font-family:Helvetica,Arial,sans-serif}.entrySplash h1{font-weight:400;font-size:clamp(36px,7vw,100px);letter-spacing:-.05em;line-height:1;margin:0;direction:ltr;unicode-bidi:isolate}.entryWord{position:absolute;font-weight:400;text-align:left;white-space:pre;direction:ltr;unicode-bidi:isolate;transform-origin:top left;pointer-events:none}.entryWord span{transition:opacity 240ms ease}`}</style></div>;
+  return <div ref={splash} className="entrySplash" role="status" aria-label="Welcome to farahismail.com"><h1 aria-hidden="true">farahismail.com</h1><style>{`.entrySplash{position:fixed;inset:0;z-index:10000;background:#efe4aa;display:grid;place-items:center;text-align:center;padding:28px;font-family:Helvetica,Arial,sans-serif}.entrySplash h1{font-weight:400;font-size:clamp(36px,7vw,100px);letter-spacing:-.05em;line-height:1;margin:0;direction:ltr;unicode-bidi:isolate}.entryWord{position:absolute;font-weight:400;text-align:left;white-space:pre;direction:ltr;unicode-bidi:isolate;transform-origin:top left;pointer-events:none}.entryWord span{transition:opacity 40ms ease}`}</style></div>;
 }
