@@ -277,7 +277,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
 
   return (
     <main className="bcSite">
-      <Link className="worldBookHome" href="/">← Home</Link>
+      <Link className="worldBookHome" href="/" aria-label="Home"><svg className="homeCursorIcon" aria-hidden="true" width="29" height="29" viewBox="0 0 32 32"><path d="M2 2 L2 20 L7 15 L11 23 L15 21 L11 13 L19 13 Z" transform="translate(16 16) rotate(-45) translate(-10 -12)" fill="#571531" stroke="#000000" strokeWidth="1.4" strokeLinejoin="round" /></svg></Link>
       <header className="bcHero" id="about">
         <div>
           <h1>Book Index</h1>

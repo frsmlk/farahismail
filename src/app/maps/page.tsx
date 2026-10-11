@@ -1,6 +1,6 @@
 import Link from 'next/link';
 export const metadata = {title:'Maps',alternates:{canonical:'/maps'}};
-export default function MapsPage(){return <section id="maps"><main className="previewPage"><Link className="worldPageHome" href="/">← Home</Link><h1>Maps</h1><p>Coming soon.</p><style>{`body{margin:0}*{box-sizing:border-box}.view[hidden]{display:none!important}
+export default function MapsPage(){return <section id="maps"><main className="previewPage"><Link className="worldPageHome" href="/" aria-label="Home"><svg className="homeCursorIcon" aria-hidden="true" width="29" height="29" viewBox="0 0 32 32"><path d="M2 2 L2 20 L7 15 L11 23 L15 21 L11 13 L19 13 Z" transform="translate(16 16) rotate(-45) translate(-10 -12)" fill="#571531" stroke="#000000" strokeWidth="1.4" strokeLinejoin="round" /></svg></Link><h1>Maps</h1><p>Coming soon.</p><style>{`body{margin:0}*{box-sizing:border-box}.view[hidden]{display:none!important}
       .worldLanding {box-sizing:border-box;min-height:100svh;background:#100756;color:#cdc2ed;padding:clamp(28px,4.6vw,88px);font-family:Helvetica,Arial,sans-serif;display:flex;flex-direction:column;}
       .worldLanding nav {display:flex;flex-direction:column;align-items:flex-start;padding-top:clamp(40px,8vw,154px);}
       .worldLanding nav a {font-size:clamp(64px,8.3vw,160px);line-height:.86;letter-spacing:-.055em;font-weight:400;text-decoration:none;color:inherit;}
