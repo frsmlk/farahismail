@@ -25,11 +25,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v16', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v17', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v16') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v17') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -133,30 +133,21 @@ export default function EntrySplash() {
           letter.style.top = `${origin.rect.top-verticalOffset*size}px`;
           letter.style.letterSpacing = target.tracking;
           const step = Math.floor((elapsed-500)/90);
-          // Carry the source tint into flight without a blank or frozen handoff.
+          // One uninterrupted scramble clock spans travel and the final 400ms.
+          const stopAt = 2000+200*i/(flights.length-1);
+          const settled = elapsed >= stopAt;
           if (progress === 0) {
+            letter.textContent = logoLetters[sourceIndex].textContent;
             letter.style.setProperty('color', logoLetters[sourceIndex].style.color, 'important');
             letter.style.opacity = logoLetters[sourceIndex].style.opacity;
-          } else if (elapsed < 1900) { tint(letter, step, progress > .8); }
-          const lock = .32 + (target.column/target.count)*.12;
-          if (elapsed >= 1900) { /* Final pass below owns the stationary glyph. */ }
-          else if (progress === 0) { letter.textContent = logoLetters[sourceIndex].textContent; }
-          else if (progress >= lock) { letter.textContent = target.c; }
-          else if (glyphSteps.get(letter) !== step) {
-            glyphSteps.set(letter, step);
-            letter.textContent = scrambleGlyph('farahismailcom', target.pool, progress, i, step);
-          }
-          if (elapsed >= 1900) {
-            // A stationary final pass resolves from left to right across the menu.
-            const settlingTime = elapsed-1900;
-            const stopAt = 100+200*i/(flights.length-1);
-            const finalStep = 1000+Math.floor(settlingTime/70);
-            const settled = settlingTime >= stopAt;
-            tint(letter, finalStep, settled);
+          } else {
+            tint(letter, step, settled);
             if (settled) { letter.textContent = target.c; }
-            else if (glyphSteps.get(letter) !== finalStep) {
-              glyphSteps.set(letter, finalStep);
-              letter.textContent = restrainedGlyph(target.c, target.size, target.pool);
+            else if (glyphSteps.get(letter) !== step) {
+              glyphSteps.set(letter, step);
+              letter.textContent = progress < .5
+                ? scrambleGlyph('farahismailcom', target.pool, progress, i, step)
+                : restrainedGlyph(target.c, target.size, target.pool);
             }
           }
         });
