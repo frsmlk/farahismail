@@ -2,9 +2,9 @@
 import { useEffect, useRef, useState } from 'react';
 function scrambleGlyph(source: string, destination: string, progress: number, index: number, step: number) {
   const blend = progress*progress*(3-2*progress);
-  const threshold = ((index*37+step*17)%100)/100;
+  const threshold = Math.random();
   const pool = threshold < blend ? destination : source;
-  const letter = pool[(index*3+step)%pool.length];
+  const letter = pool[(index+step+Math.floor(Math.random()*pool.length))%pool.length];
   return letter;
 }
 export default function EntrySplash() {
@@ -25,11 +25,11 @@ export default function EntrySplash() {
     }
     function finish() {
       restore();
-      try { sessionStorage.setItem('farah-entered-flight-v14', 'yes'); } catch {}
+      try { sessionStorage.setItem('farah-entered-flight-v15', 'yes'); } catch {}
       setVisible(false);
     }
     let skip = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    try { skip ||= sessionStorage.getItem('farah-entered-flight-v14') === 'yes'; } catch {}
+    try { skip ||= sessionStorage.getItem('farah-entered-flight-v15') === 'yes'; } catch {}
     if (skip) { frame = requestAnimationFrame(finish); return () => cancelAnimationFrame(frame); }
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
@@ -49,11 +49,11 @@ export default function EntrySplash() {
     const sourceTracking = logoStyle.letterSpacing;
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d')!;
-    function restrainedGlyph(original: string, index: number) {
+    function restrainedGlyph(original: string) {
       context.font = `${sourceSize}px Helvetica, Arial, sans-serif`;
       const width = context.measureText(original).width;
       const pool = Array.from(new Set('farahismailcom')).filter(c => c !== original && Math.abs(context.measureText(c).width-width) < sourceSize*.12);
-      return pool.length ? pool[index%pool.length] : original;
+      return pool.length ? pool[Math.floor(Math.random()*pool.length)] : original;
     }
     const targets = links.flatMap((el,i) => {
       const computed = getComputedStyle(el);
@@ -85,6 +85,17 @@ export default function EntrySplash() {
       return letter;
     });
     logo.replaceChildren(...logoLetters);
+    const palette = ['#EBDD94', '#FFCBCF', '#571531'];
+    const tintSteps = new WeakMap<HTMLElement, number>();
+    function tint(letter: HTMLElement, step: number, settle = false) {
+      if (settle) { letter.style.setProperty('color', '#000', 'important'); letter.style.opacity = '1'; return; }
+      if (tintSteps.get(letter) === step) return;
+      tintSteps.set(letter, step);
+      letter.style.transition = 'color 100ms ease, opacity 100ms ease';
+      letter.style.setProperty('color', palette[Math.floor(Math.random()*palette.length)], 'important');
+      letter.style.opacity = String(.65+Math.random()*.3);
+    }
+    const glyphSteps = new WeakMap<HTMLElement, number>();
     const start = performance.now();
     function tick(now: number) {
       if (cancelled) return;
@@ -95,9 +106,13 @@ export default function EntrySplash() {
         logoLetters.forEach((letter,i) => {
           const local = elapsed-500-i*30;
           const started = local >= 0;
-          const replacement = restrainedGlyph(source[i].c, i);
-          // One quiet substitution per letter instead of repeated flickering.
-          letter.textContent = !started ? source[i].c : replacement;
+          if (!started) return;
+          const step = Math.floor(local/90);
+          if (glyphSteps.get(letter) !== step) {
+            glyphSteps.set(letter, step);
+            letter.textContent = restrainedGlyph(source[i].c);
+          }
+          tint(letter, step);
         });
       } else {
         // Continuous glyph travel: no fading the source out and the targets in.
@@ -117,9 +132,19 @@ export default function EntrySplash() {
           letter.style.fontSize = `${size}px`;
           letter.style.top = `${origin.rect.top-verticalOffset*size}px`;
           letter.style.letterSpacing = target.tracking;
-          const step = Math.floor((elapsed-1000)/180);
+          const step = Math.floor((elapsed-500)/90);
+          // Carry the source tint into flight without a blank or frozen handoff.
+          if (progress === 0) {
+            letter.style.setProperty('color', logoLetters[sourceIndex].style.color, 'important');
+            letter.style.opacity = logoLetters[sourceIndex].style.opacity;
+          } else { tint(letter, step, progress > .8); }
           const lock = .32 + (target.column/target.count)*.12;
-          letter.textContent = progress < .12 ? logoLetters[sourceIndex].textContent : progress < lock ? scrambleGlyph('farahismail', target.pool, progress, i, step) : target.c;
+          if (progress === 0) { letter.textContent = logoLetters[sourceIndex].textContent; }
+          else if (progress >= lock) { letter.textContent = target.c; }
+          else if (glyphSteps.get(letter) !== step) {
+            glyphSteps.set(letter, step);
+            letter.textContent = scrambleGlyph('farahismailcom', target.pool, progress, i, step);
+          }
         });
       }
       if (elapsed >= 1900) { finish(); return; }
