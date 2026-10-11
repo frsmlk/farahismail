@@ -1,8 +1,9 @@
 import Link from 'next/link';
+import EntrySplash from './play/EntrySplash';
 import type { Metadata } from 'next';
 export const metadata: Metadata = { title: 'Farah Ismail', description: 'An archive and playground by Farah Ismail.', alternates: { canonical: '/' } };
 export default function HomePage() {
-  return <main className="worldLanding">
+  return <main className="worldLanding"><EntrySplash />
     <nav aria-label="Explore"><Link href="/about">About</Link><Link href="/bookindex">Book Index</Link><Link href="/play">Play</Link><Link className="worldMood" href="/maps">Maps</Link></nav>
     <footer><div><a href="https://instagram.com/kingfrh" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://substack.com/@bookindex" target="_blank" rel="noopener noreferrer">Substack</a></div><p>farahismail.com</p></footer>
     <style>{`body{margin:0}*{box-sizing:border-box}.view[hidden]{display:none!important}
