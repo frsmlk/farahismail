@@ -24,6 +24,25 @@ export default function PlayPage() {
     try { const response = await fetch('/play/scores', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({nickname,score,runId})}); const data = await response.json(); if (!response.ok) throw new Error(data.error); setSubmitted(true); setScoreMessage('Your score is on the board.'); localStorage.setItem('book-index-snake-nickname',nickname.trim()); await refreshScores(); } catch (error) { setScoreMessage(error instanceof Error ? error.message : 'Please try again.'); } finally { setSaving(false); }
   };
   const [status, setStatus] = useState('Ready');
+  const highScoreSection = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (status === 'Playing') {
+      const root = document.documentElement, body = document.body;
+      const overflow = root.style.overflow, bodyOverflow = body.style.overflow;
+      const blockScroll = (event: Event) => { if (event.cancelable) event.preventDefault(); };
+      root.style.overflow = 'hidden'; body.style.overflow = 'hidden';
+      document.addEventListener('touchmove', blockScroll, {passive:false});
+      document.addEventListener('wheel', blockScroll, {passive:false});
+      return () => { root.style.overflow = overflow; body.style.overflow = bodyOverflow; document.removeEventListener('touchmove', blockScroll); document.removeEventListener('wheel', blockScroll); };
+    }
+    if (status === 'Game over' || status === 'You win') {
+      const frame = requestAnimationFrame(() => {
+        const target = document.getElementById('scoreNickname')?.closest('form') || highScoreSection.current;
+        target?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth',block:'start'});
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+  }, [status]);
   const control = useRef<(action: string) => void>(() => {});
 
   useEffect(() => {
@@ -38,7 +57,7 @@ export default function PlayPage() {
     let snake: Point[] = [];
     let direction = { x: 1, y: 0 }, next = direction;
     let food = { x: 17, y: 5 }, points = 0;
-    let running = false, over = false, turned = false;
+    let running = false, over = false, turned = false, paused = false;
     let touch: Point | null = null;
     const stripeTile = document.createElement('canvas');
     stripeTile.width = 28; stripeTile.height = 14;
@@ -61,7 +80,7 @@ export default function PlayPage() {
     const reset = () => {
       snake = [{x:13,y:5},{x:12,y:5},{x:11,y:5},{x:10,y:5},{x:9,y:5},{x:8,y:5},{x:8,y:6},{x:8,y:7},{x:8,y:8},{x:7,y:8},{x:6,y:8},{x:5,y:8}];
       direction = {x:1,y:0}; next = direction; food = {x:17,y:5}; points = 0;
-      over = false; running = false; turned = false; setRunId(crypto.randomUUID()); setSubmitted(false); setScoreMessage(''); setScore(0); setStatus('Ready'); draw();
+      over = false; running = false; turned = false; paused = false; setRunId(crypto.randomUUID()); setSubmitted(false); setScoreMessage(''); setScore(0); setStatus('Ready'); draw();
     };
     const change = (x: number, y: number) => {
       if (over || turned || (x === -direction.x && y === -direction.y)) return;
@@ -69,7 +88,7 @@ export default function PlayPage() {
     };
     const toggle = () => {
       if (over) { reset(); running = true; setStatus('Playing'); }
-      else { running = !running; setStatus(running ? 'Playing' : 'Paused'); }
+      else { running = !running; paused = !running; setStatus(running ? 'Playing' : 'Paused'); }
     };
     const directions: Record<string, Point> = { up:{x:0,y:-1}, down:{x:0,y:1}, left:{x:-1,y:0}, right:{x:1,y:0} };
     control.current = action => {
@@ -85,7 +104,7 @@ export default function PlayPage() {
     };
     const startTouch = (e: TouchEvent) => { touch = {x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY}; };
     const moveTouch = (e: TouchEvent) => {
-      if (over) return;
+      if (over || paused) return;
       e.preventDefault(); if (!touch) return;
       const dx=e.changedTouches[0].clientX-touch.x,dy=e.changedTouches[0].clientY-touch.y;
       if (Math.max(Math.abs(dx),Math.abs(dy)) < 12) return;
@@ -93,7 +112,7 @@ export default function PlayPage() {
       touch = null;
     };
     const endTouch = () => { touch = null; };
-    const visibility = () => { if (document.hidden && running) {running=false;setStatus('Paused');} };
+    const visibility = () => { if (document.hidden && running) {running=false;paused=true;setStatus('Paused');} };
     reset();
     const timer = window.setInterval(() => {
       if (!running || over) return;
@@ -124,7 +143,7 @@ export default function PlayPage() {
     return () => {surface.removeEventListener('touchend',endTouch);surface.removeEventListener('touchcancel',endTouch);clearInterval(timer);window.removeEventListener('keydown',key);document.removeEventListener('visibilitychange',visibility);surface.removeEventListener('touchstart',startTouch);surface.removeEventListener('touchmove',moveTouch);};
   }, []);
 
-  return <div className={`playSite ${(status === 'Game over' || status === 'You win') ? 'playFinished' : ''}`}>
+  return <div className={`playSite ${(status === 'Game over' || status === 'You win') ? 'playFinished' : status === 'Paused' ? 'playPaused' : status === 'Playing' ? 'playActive' : ''}`}>
 
     <div className="worldPlayHome"><Link href="/" aria-label="Home"><svg className="homeCursorIcon" aria-hidden="true" width="29" height="29" viewBox="0 0 32 32"><path d="M2 2 L2 20 L7 15 L11 23 L15 21 L11 13 L19 13 Z" transform="translate(16 16) rotate(-45) translate(-10 -12)" fill="#571531" stroke="#000000" strokeWidth="1.4" strokeLinejoin="round" /></svg></Link></div>
     <h1 className="playTitle">Play</h1>
@@ -132,13 +151,13 @@ export default function PlayPage() {
     <div className="playLayout"><div className="playGame"><main>
       <div className="playTop"><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
       <canvas ref={canvas} width={columns*cell} height={rows*cell} tabIndex={0} aria-label="Snake game. Use arrow keys or swipe. Avoid the edges and your own tail." />
-      <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
+      <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button className="playPause" onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
     </main>
     </div>
-    <aside className="playHighScores" aria-label="High scores">
+    <aside ref={highScoreSection} className="playHighScores" aria-label="High scores">
       <h2>High Scores</h2>
       {highScores.length ? <ol>{highScores.map((value,index)=><li key={index}><span className="scoreNickname">{index+1}. {value.nickname}</span><span>{String(value.score).padStart(2,'0')}</span></li>)}</ol> : <p>Be the first to set a high score.</p>}
-      {(status === 'Game over' || status === 'You win') && score > 0 && !submitted && <form className="scoreForm" onSubmit={submitScore}>
+      {(status === 'Game over' || status === 'You win') && !submitted && <form className="scoreForm" onSubmit={submitScore}>
         <label htmlFor="scoreNickname">Add your score</label>
         <input id="scoreNickname" value={nickname} onChange={e=>setNickname(e.target.value)} maxLength={24} required placeholder="Your nickname" autoComplete="nickname" disabled={saving} />
         <button type="submit" disabled={saving}>{saving ? 'Saving…' : 'Submit score'}</button>
@@ -155,6 +174,7 @@ html,body {background:#efe4aa;}
       .playSite header { display:flex; justify-content:space-between; gap:16px; padding:28px 5vw; font-size:16px; }
       .playSite a { color:inherit; text-decoration:none; }
       .playLayout {display:flex;align-items:flex-end;gap:5vw;padding:30px 5vw 40px;}
+      .playHighScores,.scoreForm {scroll-margin-top:24px;}
       .playHighScores {flex:1;max-width:320px;padding-bottom:24px;min-width:180px;}
       .playHighScores h2 {color:${accent};font-size:28px;line-height:1;margin:0 0 12px;}
       .playHighScores p {font-size:14px;line-height:1.2;margin:0 0 24px;}
@@ -175,15 +195,16 @@ html,body {background:#efe4aa;}
       .playSite footer div { display:flex; gap:24px; }
       .playSite button { font:inherit; border:0; background:none; color:inherit; cursor:pointer; padding:8px 0; }
       .playSite button:focus-visible,.playSite a:focus-visible,.playSite canvas:focus-visible { outline:2px solid ${accent};outline-offset:4px; }
-      .playFinished canvas {touch-action:pan-y;}
+      .playFinished canvas,.playPaused canvas {touch-action:pan-y;}
       .phoneInstructions { display:none; }
       @media(max-width:1000px) {.playLayout {flex-direction:column;align-items:stretch;} .playGame {width:100%;max-width:720px;} .playHighScores {max-width:720px;padding-top:24px;}}
       @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playLayout {padding-top:45px;} .playTitle,.playScore {font-size:54px;}
         .desktopInstructions {display:none;} .phoneInstructions {display:inline;}
         .playGame {width:calc(100% + 24px);max-width:none;margin-left:-12px;}
         .playSite main {padding:10px;}
+        .playActive .playPause {position:fixed;right:18px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:30;background:#ffcbcf;padding:12px 18px;border-radius:4px;}
         .playSite canvas {touch-action:none;}
-        .playFinished canvas {touch-action:pan-y;}
+        .playFinished canvas,.playPaused canvas {touch-action:pan-y;}
 
       }
     
