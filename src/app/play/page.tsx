@@ -30,6 +30,9 @@ export default function PlayPage() {
     const surface = canvas.current;
     const ctx = surface?.getContext('2d');
     if (!surface || !ctx) return;
+    const phone = window.matchMedia('(max-width:600px)').matches;
+    const columns = phone ? 18 : 24, rows = phone ? 26 : 18;
+    surface.width = columns * cell; surface.height = rows * cell;
     void refreshScores();
     try { setNickname(localStorage.getItem('book-index-snake-nickname') || ''); } catch {}
     let snake: Point[] = [];
@@ -82,13 +85,14 @@ export default function PlayPage() {
     };
     const startTouch = (e: TouchEvent) => { touch = {x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY}; };
     const moveTouch = (e: TouchEvent) => {
-      if (over || window.matchMedia('(max-width:600px)').matches) return;
+      if (over) return;
       e.preventDefault(); if (!touch) return;
       const dx=e.changedTouches[0].clientX-touch.x,dy=e.changedTouches[0].clientY-touch.y;
       if (Math.max(Math.abs(dx),Math.abs(dy)) < 12) return;
       if (Math.abs(dx)>Math.abs(dy)) change(Math.sign(dx),0); else change(0,Math.sign(dy));
       touch = null;
     };
+    const endTouch = () => { touch = null; };
     const visibility = () => { if (document.hidden && running) {running=false;setStatus('Paused');} };
     reset();
     const timer = window.setInterval(() => {
@@ -115,23 +119,21 @@ export default function PlayPage() {
     document.addEventListener('visibilitychange',visibility);
     surface.addEventListener('touchstart',startTouch,{passive:true});
     surface.addEventListener('touchmove',moveTouch,{passive:false});
-    return () => {clearInterval(timer);window.removeEventListener('keydown',key);document.removeEventListener('visibilitychange',visibility);surface.removeEventListener('touchstart',startTouch);surface.removeEventListener('touchmove',moveTouch);};
+    surface.addEventListener('touchend',endTouch);
+    surface.addEventListener('touchcancel',endTouch);
+    return () => {surface.removeEventListener('touchend',endTouch);surface.removeEventListener('touchcancel',endTouch);clearInterval(timer);window.removeEventListener('keydown',key);document.removeEventListener('visibilitychange',visibility);surface.removeEventListener('touchstart',startTouch);surface.removeEventListener('touchmove',moveTouch);};
   }, []);
 
   return <div className={`playSite ${(status === 'Game over' || status === 'You win') ? 'playFinished' : ''}`}>
 
     <div className="worldPlayHome"><Link href="/" aria-label="Home"><svg className="homeCursorIcon" aria-hidden="true" width="29" height="29" viewBox="0 0 32 32"><path d="M2 2 L2 20 L7 15 L11 23 L15 21 L11 13 L19 13 Z" transform="translate(16 16) rotate(-45) translate(-10 -12)" fill="#571531" stroke="#000000" strokeWidth="1.4" strokeLinejoin="round" /></svg></Link></div>
     <h1 className="playTitle">Play</h1>
-    <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Tap the arrows to move</span></p>
+    <p className="playInstructions"><span className="desktopInstructions">Arrow keys or swipe to move</span><span className="phoneInstructions">Swipe on the screen to move</span></p>
     <div className="playLayout"><div className="playGame"><main>
       <div className="playTop"><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
       <canvas ref={canvas} width={columns*cell} height={rows*cell} tabIndex={0} aria-label="Snake game. Use arrow keys or swipe. Avoid the edges and your own tail." />
       <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
     </main>
-      <div className="playPad" role="group" aria-label="Direction controls">
-        {(['up','left','right','down'] as const).map(direction => <button key={direction} className={`pad-${direction}`} aria-label={`Move ${direction}`} onPointerDown={()=>control.current(direction)} onClick={e=>{if(e.detail===0) control.current(direction);}}>{({up:'↑',left:'←',right:'→',down:'↓'})[direction]}</button>)}
-        <span className="pad-center" aria-hidden="true" />
-      </div>
     </div>
     <aside className="playHighScores" aria-label="High scores">
       <h2>High Scores</h2>
@@ -168,21 +170,21 @@ html,body {background:#efe4aa;}
       .playTop { display:flex; justify-content:space-between; align-items:end; margin-bottom:8px; }
       .playTitle,.playScore { font-size:64px; letter-spacing:-.05em; margin:0; line-height:1; color:${accent}; }
       .playInstructions { font-size:14px; line-height:1.15; margin:0 0 25px; }
-      .playSite canvas { width:100%; height:auto; display:block; touch-action:none; }
+      .playSite canvas { width:100%; height:auto; display:block; border:2px solid ${accent}; touch-action:none; }
       .playSite footer { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:24px; font-size:14px; }
       .playSite footer div { display:flex; gap:24px; }
       .playSite button { font:inherit; border:0; background:none; color:inherit; cursor:pointer; padding:8px 0; }
       .playSite button:focus-visible,.playSite a:focus-visible,.playSite canvas:focus-visible { outline:2px solid ${accent};outline-offset:4px; }
       .playFinished canvas {touch-action:pan-y;}
-      .playPad,.phoneInstructions { display:none; }
+      .phoneInstructions { display:none; }
       @media(max-width:1000px) {.playLayout {flex-direction:column;align-items:stretch;} .playGame {width:100%;max-width:720px;} .playHighScores {max-width:720px;padding-top:24px;}}
       @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playLayout {padding-top:45px;} .playTitle,.playScore {font-size:54px;}
         .desktopInstructions {display:none;} .phoneInstructions {display:inline;}
-        .playSite canvas {touch-action:pan-y;}
-        .playPad { display:grid; grid-template-columns:repeat(3,44px); grid-template-rows:repeat(3,44px); justify-content:center; margin:18px auto 0; touch-action:pan-y; user-select:none; }
-        .playPad button {background:${paper};color:${accent};padding:0;font-size:26px;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
-        .playPad button:active {background:#e3ded4;}
-        .pad-up {grid-area:1/2;border-radius:8px 8px 0 0;}.pad-left {grid-area:2/1;border-radius:8px 0 0 8px;}.pad-right {grid-area:2/3;border-radius:0 8px 8px 0;}.pad-down {grid-area:3/2;border-radius:0 0 8px 8px;}.pad-center {grid-area:2/2;background:${paper};}
+        .playGame {width:calc(100% + 24px);max-width:none;margin-left:-12px;}
+        .playSite main {padding:10px;}
+        .playSite canvas {touch-action:none;}
+        .playFinished canvas {touch-action:pan-y;}
+
       }
     
 .bcHero h1,.worldAbout h1,.previewPage h1,.playTitle {font-family:Helvetica,"Helvetica Neue",Arial,sans-serif!important;font-size:clamp(55.44px,10.56vw,126.72px)!important;font-weight:700!important;line-height:.85!important;letter-spacing:-.05em!important;transform:none!important;}
