@@ -151,7 +151,7 @@ export default function PlayPage() {
     <div className="playLayout"><div className="playGame"><main>
       <div className="playTop"><span className="playScore" aria-label={`Score ${score}`}>{String(score).padStart(2,'0')}</span></div>
       <canvas ref={canvas} width={columns*cell} height={rows*cell} tabIndex={0} aria-label="Snake game. Use arrow keys or swipe. Avoid the edges and your own tail." />
-      <footer><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><div><button onClick={()=>control.current('restart')}>Restart</button><button className="playPause" onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
+      <footer><div className="playStatusControls"><span role="status" aria-live="polite">{status === 'Ready' ? '' : status}</span><button onClick={()=>control.current('restart')}>Restart</button></div><div><button className="playPause" onClick={()=>control.current('toggle')}>{status === 'Playing' ? 'Pause' : status === 'Game over' || status === 'You win' ? 'Play again' : status === 'Paused' ? 'Resume' : 'Start'}</button></div></footer>
     </main>
     </div>
     <aside ref={highScoreSection} className="playHighScores" aria-label="High scores">
@@ -192,7 +192,8 @@ html,body {background:#efe4aa;}
       .playInstructions { font-size:14px; line-height:1.15; margin:0 0 25px; }
       .playSite canvas { width:100%; height:auto; display:block; border:0; touch-action:none; }
       .playSite footer { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:24px; font-size:14px; }
-      .playSite footer div { display:flex; gap:24px; }
+      .playSite footer div { display:flex; gap:24px; align-items:center; }
+      .playSite .playPause {background:#c43132;color:#f7f5ef!important;padding:12px 18px;border-radius:4px;}
       .playSite button { font:inherit; border:0; background:none; color:inherit; cursor:pointer; padding:8px 0; }
       .playSite button:focus-visible,.playSite a:focus-visible,.playSite canvas:focus-visible { outline:2px solid ${accent};outline-offset:4px; }
       .playFinished canvas,.playPaused canvas {touch-action:pan-y;}
@@ -202,7 +203,7 @@ html,body {background:#efe4aa;}
         .desktopInstructions {display:none;} .phoneInstructions {display:inline;}
         .playGame {width:calc(100% + 24px);max-width:none;margin-left:-12px;}
         .playSite main {padding:10px;}
-        .playActive .playPause {position:fixed;right:18px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:30;background:#ffcbcf;padding:12px 18px;border-radius:4px;}
+        .playActive .playPause {position:fixed;right:18px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:30;background:#c43132;padding:12px 18px;border-radius:4px;}
         .playSite canvas {touch-action:none;}
         .playFinished canvas,.playPaused canvas {touch-action:pan-y;}
 
