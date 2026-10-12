@@ -225,6 +225,20 @@ html,body {background:#efe4aa;}
 .playInstructions,.playInstructions span {font:400 28.8px/1.15 Helvetica,"Helvetica Neue",Arial,sans-serif;letter-spacing:0;}
 .playInstructions {margin:0 0 40px;}
 @media(max-width:600px){.playSite {padding-top:4.8vh;}.playTitle {margin-bottom:20px;}.playLayout {padding-top:0;}}
+@media(max-width:600px){
+  .playSite {padding:0 12px 24px;padding-top:48px;}
+  .playTitle,.playInstructions {display:none;}
+  .playLayout {padding:0;gap:24px;}
+  .playGame {width:100%;max-width:none;margin:0;}
+  .playSite main {height:calc(100svh - 60px);display:flex;flex-direction:column;padding:10px;}
+  .playTop {flex-shrink:0;margin-bottom:8px;}
+  .playScore {font-size:40px;}
+  .playSite canvas {flex:1;min-height:0;height:0;width:100%;}
+  .playSite footer {flex-shrink:0;margin-top:10px;gap:8px;}
+  .playSite footer div {gap:12px;}
+  .playHighScores {padding-top:0;}
+}
+
 `}</style>
   </div>;
 }
