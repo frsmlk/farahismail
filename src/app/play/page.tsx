@@ -166,11 +166,11 @@ html,body {background:#efe4aa;}
       .scoreForm button {text-align:left;} .scoreForm button:disabled {opacity:.6;}
       .playHighScores input:focus-visible,.playHighScores button:focus-visible {outline:2px solid ${paper};outline-offset:4px;}
       .playGame {width:min(720px,65vw);flex-shrink:0;}
-      .playSite main { width:100%; margin:0; padding:24px; background:${paper}; color:${accent}; }
+      .playSite main { width:100%; margin:0; padding:24px; background:#ffcbcf; color:${accent}; }
       .playTop { display:flex; justify-content:space-between; align-items:end; margin-bottom:8px; }
       .playTitle,.playScore { font-size:64px; letter-spacing:-.05em; margin:0; line-height:1; color:${accent}; }
       .playInstructions { font-size:14px; line-height:1.15; margin:0 0 25px; }
-      .playSite canvas { width:100%; height:auto; display:block; border:2px solid ${accent}; touch-action:none; }
+      .playSite canvas { width:100%; height:auto; display:block; border:0; touch-action:none; }
       .playSite footer { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:24px; font-size:14px; }
       .playSite footer div { display:flex; gap:24px; }
       .playSite button { font:inherit; border:0; background:none; color:inherit; cursor:pointer; padding:8px 0; }
