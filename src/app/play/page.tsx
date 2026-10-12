@@ -203,7 +203,7 @@ html,body {background:#efe4aa;}
         .desktopInstructions {display:none;} .phoneInstructions {display:inline;}
         .playGame {width:calc(100% + 24px);max-width:none;margin-left:-12px;}
         .playSite main {padding:10px;}
-        .playActive .playPause {position:fixed;right:18px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:30;background:#c43132;padding:12px 18px;border-radius:4px;}
+
         .playSite canvas {touch-action:none;}
         .playFinished canvas,.playPaused canvas {touch-action:pan-y;}
 
