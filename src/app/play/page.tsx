@@ -179,8 +179,8 @@ html,body {background:#efe4aa;}
       @media(max-width:600px) { .playSite header {padding:24px;font-size:12px;} .playLayout {padding-top:45px;} .playTitle,.playScore {font-size:54px;}
         .desktopInstructions {display:none;} .phoneInstructions {display:inline;}
         .playSite canvas {touch-action:pan-y;}
-        .playPad { display:grid; grid-template-columns:repeat(3,52px); grid-template-rows:repeat(3,52px); justify-content:center; margin:18px auto 0; touch-action:pan-y; user-select:none; }
-        .playPad button {background:${paper};color:${accent};padding:0;font-size:28px;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
+        .playPad { display:grid; grid-template-columns:repeat(3,44px); grid-template-rows:repeat(3,44px); justify-content:center; margin:18px auto 0; touch-action:pan-y; user-select:none; }
+        .playPad button {background:${paper};color:${accent};padding:0;font-size:26px;line-height:1;touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
         .playPad button:active {background:#e3ded4;}
         .pad-up {grid-area:1/2;border-radius:8px 8px 0 0;}.pad-left {grid-area:2/1;border-radius:8px 0 0 8px;}.pad-right {grid-area:2/3;border-radius:0 8px 8px 0;}.pad-down {grid-area:3/2;border-radius:0 0 8px 8px;}.pad-center {grid-area:2/2;background:${paper};}
       }
