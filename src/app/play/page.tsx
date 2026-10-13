@@ -84,7 +84,7 @@ export default function PlayPage() {
     };
     const change = (x: number, y: number) => {
       if (over || turned || (x === -direction.x && y === -direction.y)) return;
-      next = { x, y }; turned = true; running = true; setStatus('Playing');
+      next = { x, y }; turned = true; running = true; paused = false; setStatus('Playing');
     };
     const toggle = () => {
       if (over) { reset(); running = true; setStatus('Playing'); }
@@ -97,10 +97,10 @@ export default function PlayPage() {
       else toggle();
     };
     const key = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLElement && (e.target.isContentEditable || /^(INPUT|TEXTAREA|BUTTON)$/.test(e.target.tagName))) return;
+      if (e.target instanceof HTMLElement && (e.target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName))) return;
       const directions: Record<string, Point> = { ArrowUp:{x:0,y:-1},ArrowDown:{x:0,y:1},ArrowLeft:{x:-1,y:0},ArrowRight:{x:1,y:0} };
       if (directions[e.key]) { e.preventDefault(); const d = directions[e.key]; change(d.x,d.y); }
-      if (e.code === 'Space') { e.preventDefault(); toggle(); }
+      if (e.code === 'Space' && !(e.target instanceof HTMLButtonElement)) { e.preventDefault(); toggle(); }
     };
     const startTouch = (e: TouchEvent) => { touch = {x:e.changedTouches[0].clientX,y:e.changedTouches[0].clientY}; };
     const moveTouch = (e: TouchEvent) => {
