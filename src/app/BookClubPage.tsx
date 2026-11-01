@@ -194,7 +194,9 @@ function BookCover({ title }: { title: string }) {
   return <div className="bcBookCoverSpace" aria-label="Book cover space">{src ? <img src={src} alt={`${title} book cover`} className="bcModalCover" /> : null}</div>;
 }
 
-const currentReads: string[][] = [];
+const currentReads: string[][] = [
+  ['Book', 'You Glow in the Dark', 'Liliana Colanzi', 'Current read'],
+];
 
 const lentBooks = [
   ['Novel', 'The Vegetarian', 'Han Kang', 'Lent to Shyafika S.'],
@@ -212,7 +214,6 @@ const availableBooks = [
   ['Book', 'The Spirit of Cities', 'Daniel A. Bell & Avner de-Shalit', 'Available'],
   ['Book', 'Design in Conservative Times', 'Joannette van der Veer', 'Available'],
   ['Book', 'Art and Beauty in the Middle Ages', 'Umberto Eco', 'Available'],
-  ['Book', 'You Glow in the Dark', 'Liliana Colanzi', 'Available'],
   ['Magazine', 'Penang Monthly: September Issue', 'Penang Institute', 'Available'],
   ['Magazine', 'Noia Magazine Issue 4: Absurd Rituals', 'Noia Magazine', 'Available'],
   ['Zine', 'Nyampah', 'Emte', 'Available'],
