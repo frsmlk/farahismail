@@ -194,9 +194,7 @@ function BookCover({ title }: { title: string }) {
   return <div className="bcBookCoverSpace" aria-label="Book cover space">{src ? <img src={src} alt={`${title} book cover`} className="bcModalCover" /> : null}</div>;
 }
 
-const currentReads = [
-  ['Memoir', 'I Saw Ramallah', 'Mourid Barghouti', 'Current read'],
-];
+const currentReads: string[][] = [];
 
 const lentBooks = [
   ['Novel', 'The Vegetarian', 'Han Kang', 'Lent to Shyafika S.'],
@@ -206,6 +204,7 @@ const lentBooks = [
 ];
 
 const availableBooks = [
+  ['Memoir', 'I Saw Ramallah', 'Mourid Barghouti', 'Available'],
   ['Essay', 'The Book of Tea', 'Okakura Kakuzō', 'Available'],
   ['Essays', 'Reluctant Capital: Essays on Kuala Lumpur', 'Badrul Hisham Ismail', 'Available'],
   ['Magazine', 'Pop Magazine: September Issue', 'Pop Magazine', 'Available'],
