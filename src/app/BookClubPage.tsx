@@ -398,7 +398,7 @@ export default async function BookClubPage({ searchParams }: BookClubPageProps) 
               </div>
               <div className="bcCardRow bcNoteRow">
                 <span>Note</span>
-                <div className="bcCardValue">Mourid Barghouti&apos;s impeccable writing, heart and rage unravels the emotions of exile and where grief goes when it has no vessel to take place.</div>
+                <div className="bcCardValue" />
               </div>
 
               </div><BookCover title={currentBook[1]} /></div>
