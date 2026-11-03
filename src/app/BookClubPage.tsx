@@ -185,6 +185,7 @@ const bookCoverPhotos: Record<string, string> = {
   "After Accountability: A Critical Genealogy of a Concept": "/book-covers/after-accountability-user.png",
   "Nyampah": "/book-covers/nyampah-user.png",
   "Design in Conservative Times": "/book-covers/design-conservative-user.png",
+  "Cantik Manis": "/book-covers/cantik-manis-user.png",
   "Design After Design": "/book-covers/design-after-design-user.png",
   "I Saw Ramallah": "/book-covers/ramallah-user.png",
   "Ornament and Crime": "/book-covers/ornament-user.png",
@@ -207,6 +208,7 @@ const lentBooks = [
 ];
 
 const availableBooks = [
+  ['Book', 'Cantik Manis', 'Rahel Stephanie', 'Available'],
   ['Essays', 'Design After Design', 'Veronika Valtonen, Ana Elena Chiță, Andriew Budiman, Gemma Copeland & Sara Kaaman', 'Available'],
   ['Memoir', 'I Saw Ramallah', 'Mourid Barghouti', 'Available'],
   ['Essay', 'The Book of Tea', 'Okakura Kakuzō', 'Available'],
