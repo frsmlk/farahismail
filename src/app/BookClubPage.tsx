@@ -187,7 +187,7 @@ const bookCoverPhotos: Record<string, string> = {
   "Design in Conservative Times": "/book-covers/design-conservative-user.png",
   "Serving Suggestion: Issue 03 (2025–26)": "/book-covers/serving-suggestion-03-user.png",
   "Cantik Manis": "/book-covers/cantik-manis-user.png",
-  "Design After Design": "/book-covers/design-after-design-user.png",
+  "Design After Design": "/book-covers/design-after-design-user-v2.png",
   "I Saw Ramallah": "/book-covers/ramallah-user.png",
   "Ornament and Crime": "/book-covers/ornament-user.png",
 };
